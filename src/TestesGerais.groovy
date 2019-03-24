@@ -1,7 +1,6 @@
 import Dominio.Classe
 import Dominio.Configuracoes.ConfiguracaoGeral
 import Dominio.Enums.Ordens
-import Dominio.Enums.Sexo
 import Dominio.Fases.Condicao1
 import Dominio.Fases.LinhaDeBase
 import Dominio.Fases.Teste1
@@ -9,7 +8,9 @@ import Dominio.Fases.Teste2
 import Dominio.Fases.Treino
 import Dominio.Instrucao
 import FIles.Ambiente
+import FIles.Logger
 import Services.ConfiguracaoGeralService
+import Services.LoggerService
 
 import javax.swing.ImageIcon
 import javax.swing.JLabel
@@ -53,7 +54,16 @@ class TestesGerais {
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
         configuracaoGeralService.salvaConfiguracao(configuracaoGeral)
-        ConfiguracaoGeral configuracaoGeralObtidaArquivo = configuracaoGeralService.obtemConfiguracaoDoArquivo(configuracaoGeral.tituloConfiguracao)
+//        ConfiguracaoGeral configuracaoGeralObtidaArquivo = configuracaoGeralService.obtemConfiguracaoDoArquivo(configuracaoGeral.tituloConfiguracao)
         print(configuracaoGeral.toJson())
+
+        Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)
+        logger.log = '''James Strachan falou sobre o desenvolvimento do Groovy pela primeira vez em seu blog em Agosto de 2003.
+ Em Março de 2004, Groovy foi enviado ao Java Community Process(JCP) como JSR 241 e aceito. 
+ Diversas versões foram lançadas entre 2004 e 2006. 
+ Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. 
+ Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.'''
+        LoggerService loggerService = LoggerService.instancia
+        loggerService.salvaResultado(logger)
     }
 }

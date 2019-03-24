@@ -1,30 +1,35 @@
 package FIles
 
+import Dominio.Configuracoes.ConfiguracaoGeral
 import Dominio.Enums.Sexo
 import Dominio.Exceptions.EntradaInvalidaException
-import Dominio.Jsonable
-import groovy.json.JsonOutput
+import Services.LoggerService
 import groovy.transform.CompileStatic
 
-@CompileStatic
-class Logger implements Jsonable {
+import java.text.SimpleDateFormat
 
-    private static String pastaRelatorios = 'Resultados'
+@CompileStatic
+class Logger {
 
     String nomeExperimentador
-
     String nomeParticipante
     Sexo sexoParticipante
     int idadeParticipante
 
-    int id
-    String nomeArquivoResultado
-    private String resultado
+    ConfiguracaoGeral configuracaoUsada
+
+    String log
+
+    private static SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd")
+    private static SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss")
+    private static SimpleDateFormat formatoCompleto = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     private Date inicioExperimento
     private Date fimExperimento
 
-    Logger(String nomeExperimentador, String nomeParticipante, String sexoParticipante, int idadeParticipante) {
-        if (!nomeExperimentador || !nomeParticipante || !sexoParticipante || idadeParticipante <= 0) {
+    private LoggerService loggerService = LoggerService.instancia
+
+    Logger(String nomeExperimentador, String nomeParticipante, String sexoParticipante, int idadeParticipante, ConfiguracaoGeral configuracaoUsada) {
+        if (!nomeExperimentador || !nomeParticipante || !sexoParticipante || !configuracaoUsada || idadeParticipante <= 0) {
             throw new EntradaInvalidaException('Para iniciar o experimento todas as informações devem ser preenchidas de forma válida!')
         }
 
@@ -33,22 +38,42 @@ class Logger implements Jsonable {
             throw new EntradaInvalidaException('Sexo inválido!')
         }
 
-        this.nomeExperimentador = nomeParticipante
+        this.nomeExperimentador = nomeExperimentador
         this.nomeParticipante = nomeParticipante
         this.idadeParticipante = idadeParticipante
+        this.configuracaoUsada = configuracaoUsada
+        this.inicioExperimento = new Date()
     }
 
-    @Override
-    String toJson() {
-        StringBuilder json = new StringBuilder()
+    String criaResultado() {
+        StringBuilder resultado = new StringBuilder()
+        fimExperimento = new Date()
 
-        json.append('{')
-        json.append("\"nomeExperimentador\": \"${nomeExperimentador}\",")
-        json.append("\"nomeParticipante\": \"${nomeParticipante}\",")
-        json.append("\"sexoParticipante\": \"${sexoParticipante.extenso}\",")
-        json.append("\"idadeParticipante\": \"${idadeParticipante}\",")
-        json.append('}')
+        resultado.append("Nome Experimentador: ${nomeExperimentador}\n")
+        resultado.append("Nome Participante: ${nomeParticipante}\n")
+        resultado.append("Sexo Participante: ${sexoParticipante.extenso}\n")
+        resultado.append("Idade Participante: ${idadeParticipante}\n\n")
+        resultado.append("Configuracao Usada:\n${configuracaoUsada.toJson()}\n\n")
+        resultado.append("Inicio Experimento: ${formatoCompleto.format(inicioExperimento)}\n")
+        resultado.append("Fim Experimento: ${formatoCompleto.format(fimExperimento)}\n")
+        formatarLog(resultado)
 
-        return JsonOutput.prettyPrint(json.toString())
+        return resultado.toString()
+    }
+
+    String montaNomeArquivo() {
+        StringBuilder nomeResultado = new StringBuilder()
+        nomeResultado.append(configuracaoUsada.tituloConfiguracao).append('_' + nomeExperimentador).append('_' + nomeParticipante).append('_' + formatoData.format(inicioExperimento))
+        return nomeResultado.toString()
+    }
+
+    private String formatarLog(StringBuilder resultado) {
+        resultado.append('\nResultados:\n')
+
+        List<String> linhas = log.tokenize('\n')
+        for (String linha : linhas) {
+            resultado.append('\t').append(linha).append('\n')
+        }
+        resultado.append('\n')
     }
 }

@@ -15,6 +15,8 @@ class ConfiguracaoGeralService {
 
     Ambiente ambiente = Ambiente.instancia
 
+    private ConfiguracaoGeralService() {}
+
     ConfiguracaoGeral obtemConfiguracaoDoArquivo(String nomeArquivo) {
         String caminhoCompleto = ambiente.getFullPath(pastaConfiguracoes, nomeArquivo) + '.json'
 
@@ -40,9 +42,5 @@ class ConfiguracaoGeralService {
         String caminhoArquivo = ambiente.getFullPath(pastaConfiguracoes, nomeArquivo)
         File arquivo = new File(caminhoArquivo)
         arquivo.write(json)
-    }
-
-    private ConfiguracaoGeralService() {
-
     }
 }

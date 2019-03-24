@@ -1,5 +1,7 @@
 package FIles
 
+import Dominio.Exceptions.EntradaInvalidaException
+
 class Ambiente {
 
     static Ambiente instancia = new Ambiente()
@@ -7,8 +9,7 @@ class Ambiente {
     String rootDirectory = System.getProperty('user.dir')
     String sistemaOperacional = System.getProperty('os.name').toLowerCase()
 
-    private Ambiente() {
-    }
+    private Ambiente() {}
 
     String getFullPath(String nomePasta, String nomeArquivo = null) {
         String fullPath
@@ -29,6 +30,17 @@ class Ambiente {
             fullPath += separadorEndereco + nomeArquivo
         }
         return fullPath
+    }
+
+    List<File> getFilesFolder(String nomePasta) {
+        File pasta
+        try {
+            pasta = new File(getFullPath(nomePasta))
+        } catch(Exception ignored) {
+            throw new EntradaInvalidaException('Essa pasta não existe!')
+        }
+
+        return pasta.listFiles().findAll { File arquivo -> arquivo.isFile() }
     }
 
     boolean isLinux() {
