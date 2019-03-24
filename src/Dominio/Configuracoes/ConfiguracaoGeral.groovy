@@ -58,4 +58,9 @@ class ConfiguracaoGeral implements Jsonable {
 
         return JsonOutput.prettyPrint(json.toString())
     }
+
+    @Override
+    ConfiguracaoGeral fromJson(String json) {
+        return null
+    }
 }

@@ -44,4 +44,9 @@ class Classe implements Jsonable {
 
         return JsonOutput.prettyPrint(json.toString())
     }
+
+    @Override
+    Classe fromJson(String json) {
+        return null
+    }
 }

@@ -10,4 +10,9 @@ class Treino implements Jsonable {
     String toJson() {
         return ''
     }
+
+    @Override
+    Treino fromJson(String json) {
+        return null
+    }
 }

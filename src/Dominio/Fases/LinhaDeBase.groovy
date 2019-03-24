@@ -28,4 +28,9 @@ class LinhaDeBase implements Jsonable {
     String toJson() {
         return ''
     }
+
+    @Override
+    LinhaDeBase fromJson(String json) {
+        return null
+    }
 }
