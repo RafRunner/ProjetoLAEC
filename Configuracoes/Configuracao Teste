@@ -1,0 +1,30 @@
+{
+    "tituloConfiguracao": "Configuracao Teste",
+    "tempoLimite": "50",
+    "classes": [
+        {
+            "palavraComSentido": "Gandalf",
+            "palavraSemSentido": "uaehug",
+            "cor": "vermelho",
+            "imagem": "Gandalf"
+        }
+    ],
+    "repeticoes": "3",
+    "ordem": "Ordem 1",
+    "ordemFases": "[LinhaDeBase, Condicao1, Treino, Teste1, Teste2]",
+    "linhaDeBase": {
+        
+    },
+    "condicao1": {
+        
+    },
+    "treino": {
+        
+    },
+    "teste1": {
+        
+    },
+    "teste2": {
+        
+    }
+}
