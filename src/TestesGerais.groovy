@@ -7,8 +7,8 @@ import Dominio.Fases.Teste1
 import Dominio.Fases.Teste2
 import Dominio.Fases.Treino
 import Dominio.Instrucao
-import FIles.Ambiente
-import FIles.Logger
+import Files.Ambiente
+import Files.Logger
 import Services.ConfiguracaoGeralService
 import Services.LoggerService
 

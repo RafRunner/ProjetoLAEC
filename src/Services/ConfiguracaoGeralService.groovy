@@ -2,7 +2,7 @@ package Services
 
 import Dominio.Configuracoes.ConfiguracaoGeral
 import Dominio.Exceptions.EntradaInvalidaException
-import FIles.Ambiente
+import Files.Ambiente
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 

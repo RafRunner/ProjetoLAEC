@@ -18,7 +18,7 @@ class Classe implements Jsonable {
 
             this.palavraComSentido = palavraComSentido.trim()
             this.palavraSemSentido = palavraSemSentido.trim()
-            setImagem(imagem.trim())
+            this.imagem = new MyImage(imagem, palavraComSentido)
 
             this.cor = CoresDisponiveis.values().find { CoresDisponiveis corDisponiveis -> corDisponiveis.nomeCor == cor.trim() }
 
@@ -29,10 +29,6 @@ class Classe implements Jsonable {
         } else {
             throw new EntradaInvalidaException("A Classe criada deve ter todos os parâmetros!")
         }
-    }
-
-    void setImagem(String caminho) {
-        imagem = new MyImage(caminho, palavraComSentido)
     }
 
     @Override
