@@ -2,7 +2,6 @@ package Dominio.Configuracoes
 
 import Dominio.Classe
 import Dominio.Enums.Ordens
-import Dominio.Enums.Sexo
 import Dominio.Fases.Condicao1
 import Dominio.Fases.LinhaDeBase
 import Dominio.Fases.Teste1
@@ -16,8 +15,6 @@ import groovy.transform.CompileStatic
 class ConfiguracaoGeral implements Jsonable {
 
     String tituloConfiguracao
-
-    //Essas informações tem a ver com um experimento, não com configuração
 
     Integer tempoLimite
     List<Classe> classes
