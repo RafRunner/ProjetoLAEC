@@ -2,6 +2,7 @@ package Dominio
 
 import Dominio.Enums.CoresDisponiveis
 import Dominio.Exceptions.EntradaInvalidaException
+import Files.MyImage
 import groovy.json.JsonOutput
 import groovy.transform.CompileStatic
 

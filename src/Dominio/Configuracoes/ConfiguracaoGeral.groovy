@@ -41,12 +41,12 @@ class ConfiguracaoGeral implements Jsonable {
         this.teste2 = teste2
     }
 
-    ConfiguracaoGeral(Map<String, String> jsonMap) {
-        String tituloConfiguracao = jsonMap.tituloConfiguracao
+    ConfiguracaoGeral(Map jsonMap) {
+        String tituloConfiguracao = jsonMap.tituloConfiguracao.toString()
 
-        Integer tempoLimite = Integer.parseInt(jsonMap.tempoLimite)
+        Integer tempoLimite = Integer.parseInt(jsonMap.tempoLimite.toString())
         List<Classe> classes = (jsonMap.classes as List<Map>).collect { Map mapaClasse -> new Classe(mapaClasse) }
-        Integer repeticoes = Integer.parseInt(jsonMap.repeticoes)
+        Integer repeticoes = Integer.parseInt(jsonMap.repeticoes.toString())
         Ordens ordem = Ordens.values().find { Ordens ordem -> ordem.nomeOrdem == jsonMap.ordem }
 
 //        Condicao1 condicao1 = (jsonMap.condicao1 as Map).collect { Map mapaCondicao1 -> new Condicao1(mapaCondicao1) }

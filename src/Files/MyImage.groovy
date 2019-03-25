@@ -1,7 +1,6 @@
-package Dominio
+package Files
 
 import Dominio.Exceptions.EntradaInvalidaException
-import Files.Ambiente
 import groovy.transform.CompileStatic
 
 import javax.imageio.ImageIO
