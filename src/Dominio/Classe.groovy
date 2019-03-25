@@ -13,12 +13,17 @@ class Classe implements Jsonable {
     CoresDisponiveis cor
     MyImage imagem
 
-    Classe(String palavraComSentido, String palavraSemSentido, String cor, String imagem) throws EntradaInvalidaException {
+    Classe(Map jsonMap) {
+        String palavraComSentido = jsonMap.palavraComSentido.toString()
+        String palavraSemSentido = jsonMap.palavraSemSentido.toString()
+        String cor = jsonMap.cor.toString()
+        String imagem = jsonMap.imagem.toString()
+
         if (palavraComSentido && palavraSemSentido && cor && imagem) {
 
             this.palavraComSentido = palavraComSentido.trim()
             this.palavraSemSentido = palavraSemSentido.trim()
-            this.imagem = new MyImage(imagem, palavraComSentido)
+            this.imagem = new MyImage(imagem)
 
             this.cor = CoresDisponiveis.values().find { CoresDisponiveis corDisponiveis -> corDisponiveis.nomeCor == cor.trim() }
 
@@ -45,8 +50,4 @@ class Classe implements Jsonable {
         return JsonOutput.prettyPrint(json.toString())
     }
 
-    @Override
-    Classe fromJson(String json) {
-        return null
-    }
 }

@@ -26,6 +26,7 @@ class ConfiguracaoGeralService {
 
             JsonSlurper jsonSlurper = new JsonSlurper()
             Map configuracao = jsonSlurper.parseText(json) as Map
+            return new ConfiguracaoGeral(configuracao)
 
         } catch (Exception ignored) {
             throw new EntradaInvalidaException('Arquivo de configuracao não exist ou está na formatação errada!')

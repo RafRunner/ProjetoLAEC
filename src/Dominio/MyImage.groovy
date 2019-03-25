@@ -1,6 +1,7 @@
 package Dominio
 
 import Dominio.Exceptions.EntradaInvalidaException
+import Files.Ambiente
 import groovy.transform.CompileStatic
 
 import javax.imageio.ImageIO
@@ -10,19 +11,26 @@ import java.awt.image.BufferedImage
 @CompileStatic
 class MyImage {
 
+    private static String pastaImagens = 'Imagens'
+    private Ambiente ambiente = Ambiente.instancia
+
     String titulo
     BufferedImage bufferedImage
+    String caminhoImagem
 
-    MyImage(String caminho, String titulo) {
+    MyImage(String titulo) {
+        String caminho = ambiente.getFullPath(pastaImagens, titulo)
+
         try {
             File arquivo = new File(caminho)
-            bufferedImage = ImageIO.read(arquivo)
+
+            this.bufferedImage = ImageIO.read(arquivo)
+            this.titulo = titulo
+            this.caminhoImagem = caminho
 
         } catch (Exception ignored) {
             throw new EntradaInvalidaException('Arquivo de imagem não existe, não pôde ser lido ou não é uma imagem! :' + caminho)
         }
-
-        this.titulo = titulo
     }
 
     void resize(int scaledWidth, int scaledHeight) throws IOException {

@@ -10,9 +10,4 @@ class Teste1 implements Jsonable {
     String toJson() {
         return ''
     }
-
-    @Override
-    Teste1 fromJson(String json) {
-        return null
-    }
 }

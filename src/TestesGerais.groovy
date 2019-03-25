@@ -20,9 +20,7 @@ import javax.swing.JPanel
 class TestesGerais {
 
     static void main(String[] args) {
-        String caminhoImagem = Ambiente.instancia.getFullPath('Imagens', 'WhatsApp Image 2019-02-13 at 15.48.50.jpeg')
-
-        Classe classe = new Classe('Gandalf', 'uaehug', 'vermelho',caminhoImagem)
+        Classe classe = new Classe([palavraComSentido:  'Gandalf', palavraSemSentido:  'uaehug', cor:  'vermelho', imagem: 'WhatsApp Image 2019-02-13 at 15.48.50.jpeg'])
         Instrucao instrucao = new Instrucao("Clique na tela", 20, true)
 
         classe.imagem.resize(300, 300)
@@ -41,20 +39,20 @@ class TestesGerais {
         println(classe.palavraComSentido)
 
         ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral(
-                tituloConfiguracao: 'Configuracao Teste',
-                tempoLimite: 50,
-                classes: [classe],
-                repeticoes: 3,
-                ordem: Ordens.ORDEM1,
-                condicao1: new Condicao1([instrucao], [classe], 3),
-                linhaDeBase: new LinhaDeBase(instrucao, instrucao, [classe]),
-                treino: new Treino(),
-                teste1: new Teste1(),
-                teste2: new Teste2(),)
+                'Configuracao Teste',
+                50,
+                [classe],
+                3,
+                Ordens.ORDEM1,
+                new Condicao1([instrucao], [classe], 3),
+                new LinhaDeBase(instrucao, instrucao, [classe]),
+                new Treino(),
+                new Teste1(),
+                new Teste2())
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
         configuracaoGeralService.salvaConfiguracao(configuracaoGeral)
-//        ConfiguracaoGeral configuracaoGeralObtidaArquivo = configuracaoGeralService.obtemConfiguracaoDoArquivo(configuracaoGeral.tituloConfiguracao)
+        ConfiguracaoGeral configuracaoGeralObtidaArquivo = configuracaoGeralService.obtemConfiguracaoDoArquivo(configuracaoGeral.tituloConfiguracao)
         print(configuracaoGeral.toJson())
 
         Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)

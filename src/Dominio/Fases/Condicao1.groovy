@@ -28,9 +28,4 @@ class Condicao1 implements Jsonable {
     String toJson() {
         return ''
     }
-
-    @Override
-    Condicao1 fromJson(String json) {
-        return null
-    }
 }

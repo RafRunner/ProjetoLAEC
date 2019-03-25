@@ -27,6 +27,35 @@ class ConfiguracaoGeral implements Jsonable {
     Teste1 teste1
     Teste2 teste2
 
+    ConfiguracaoGeral(String tituloConfiguracao, Integer tempoLimite, List<Classe> classes, Integer repeticoes, Ordens ordem,
+                      Condicao1 condicao1, LinhaDeBase linhaDeBase, Treino treino, Teste1 teste1, Teste2 teste2) {
+        this.tituloConfiguracao = tituloConfiguracao
+        this.tempoLimite = tempoLimite
+        this.classes = classes
+        this.repeticoes = repeticoes
+        this.ordem = ordem
+        this.condicao1 = condicao1
+        this.linhaDeBase = linhaDeBase
+        this.treino = treino
+        this.teste1 = teste1
+        this.teste2 = teste2
+    }
+
+    ConfiguracaoGeral(Map<String, String> jsonMap) {
+        String tituloConfiguracao = jsonMap.tituloConfiguracao
+
+        Integer tempoLimite = Integer.parseInt(jsonMap.tempoLimite)
+        List<Classe> classes = (jsonMap.classes as List<Map>).collect { Map mapaClasse -> new Classe(mapaClasse) }
+        Integer repeticoes = Integer.parseInt(jsonMap.repeticoes)
+        Ordens ordem = Ordens.values().find { Ordens ordem -> ordem.nomeOrdem == jsonMap.ordem }
+
+//        Condicao1 condicao1 = (jsonMap.condicao1 as Map).collect { Map mapaCondicao1 -> new Condicao1(mapaCondicao1) }
+//        LinhaDeBase linhaDeBase = (jsonMap.linhaDeBase as Map).collect { Map mapaLinhaDeBase -> new Condicao1(mapaLinhaDeBase) }
+//        Treino treino = (jsonMap.treino as Map).collect { Map mapaTreino -> new Condicao1(mapaTreino) }
+//        Teste1 teste1 = (jsonMap.teste1 as Map).collect { Map mapaTeste1 -> new Condicao1(mapaTeste1) }
+//        Teste2 teste2 = (jsonMap.teste2 as Map).collect { Map mapaTeste2 -> new Condicao1(mapaTeste2) }
+    }
+
     @Override
     String toJson() {
         StringBuilder json = new StringBuilder()
@@ -57,10 +86,5 @@ class ConfiguracaoGeral implements Jsonable {
         json.append('}')
 
         return JsonOutput.prettyPrint(json.toString())
-    }
-
-    @Override
-    ConfiguracaoGeral fromJson(String json) {
-        return null
     }
 }
