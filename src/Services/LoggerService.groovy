@@ -12,7 +12,6 @@ class LoggerService {
     Ambiente ambiente = Ambiente.instancia
 
     static LoggerService instancia = new LoggerService()
-
     private LoggerService(){}
 
     void criarArquivoResultado(Logger logger) {

@@ -51,4 +51,8 @@ class Classe implements Jsonable {
         return JsonOutput.prettyPrint(json.toString())
     }
 
+    @Override
+    String montaNomeArquivo() {
+        return palavraComSentido + "_" + palavraSemSentido + "_" + cor.nomeCor + "_" + imagem.titulo + '.json'
+    }
 }

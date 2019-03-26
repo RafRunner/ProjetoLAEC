@@ -10,4 +10,9 @@ class Teste2 implements Jsonable {
     String toJson() {
         return ''
     }
+
+    @Override
+    String montaNomeArquivo() {
+        return ''
+    }
 }

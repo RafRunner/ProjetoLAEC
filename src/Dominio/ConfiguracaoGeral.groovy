@@ -1,13 +1,11 @@
-package Dominio.Configuracoes
+package Dominio
 
-import Dominio.Classe
 import Dominio.Enums.Ordens
 import Dominio.Fases.Condicao1
 import Dominio.Fases.LinhaDeBase
 import Dominio.Fases.Teste1
 import Dominio.Fases.Teste2
 import Dominio.Fases.Treino
-import Dominio.Jsonable
 import groovy.json.JsonOutput
 import groovy.transform.CompileStatic
 
@@ -86,5 +84,10 @@ class ConfiguracaoGeral implements Jsonable {
         json.append('}')
 
         return JsonOutput.prettyPrint(json.toString())
+    }
+
+    @Override
+    String montaNomeArquivo() {
+        return tituloConfiguracao + '.json'
     }
 }

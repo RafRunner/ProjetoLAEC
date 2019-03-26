@@ -1,5 +1,5 @@
 import Dominio.Classe
-import Dominio.Configuracoes.ConfiguracaoGeral
+import Dominio.ConfiguracaoGeral
 import Dominio.Enums.Ordens
 import Dominio.Fases.Condicao1
 import Dominio.Fases.LinhaDeBase
@@ -51,7 +51,7 @@ class TestesGerais {
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
         configuracaoGeralService.salvaConfiguracao(configuracaoGeral)
-        ConfiguracaoGeral configuracaoGeralObtidaArquivo = configuracaoGeralService.obtemConfiguracaoDoArquivo(configuracaoGeral.tituloConfiguracao)
+        ConfiguracaoGeral configuracaoGeralObtidaArquivo = configuracaoGeralService.obtemConfiguracaoDoArquivo(configuracaoGeral.montaNomeArquivo())
         print(configuracaoGeral.toJson())
 
         Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)

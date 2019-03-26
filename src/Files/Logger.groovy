@@ -1,9 +1,8 @@
 package Files
 
-import Dominio.Configuracoes.ConfiguracaoGeral
+import Dominio.ConfiguracaoGeral
 import Dominio.Enums.Sexo
 import Dominio.Exceptions.EntradaInvalidaException
-import Services.LoggerService
 import groovy.transform.CompileStatic
 
 import java.text.SimpleDateFormat
@@ -17,9 +16,9 @@ class Logger {
     int idadeParticipante
 
     ConfiguracaoGeral configuracaoUsada
+    String nomeArquivo
 
     private StringBuilder log
-    String nomeArquivo
 
     private static SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd")
     private static SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss")
@@ -63,7 +62,7 @@ class Logger {
         return resultado.toString()
     }
 
-    String montaNomeArquivo() {
+    private montaNomeArquivo() {
         StringBuilder nomeResultado = new StringBuilder()
         nomeResultado.append(configuracaoUsada.tituloConfiguracao).append('_' + nomeExperimentador).append('_' + nomeParticipante).append('_' + formatoData.format(inicioExperimento)).append('.txt')
         return nomeResultado.toString()
