@@ -7,7 +7,6 @@ import Dominio.Fases.Teste1
 import Dominio.Fases.Teste2
 import Dominio.Fases.Treino
 import Dominio.Instrucao
-import Files.Ambiente
 import Files.Logger
 import Services.ConfiguracaoGeralService
 import Services.LoggerService
@@ -56,12 +55,13 @@ class TestesGerais {
         print(configuracaoGeral.toJson())
 
         Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)
-        logger.log = '''James Strachan falou sobre o desenvolvimento do Groovy pela primeira vez em seu blog em Agosto de 2003.
- Em Março de 2004, Groovy foi enviado ao Java Community Process(JCP) como JSR 241 e aceito. 
- Diversas versões foram lançadas entre 2004 e 2006. 
- Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. 
- Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.'''
+        logger.log 'James Strachan falou sobre o desenvolvimento do Groovy pela primeira vez em seu blog em Agosto de 2003.'
+        logger.log 'Em Março de 2004, Groovy foi enviado ao Java Community Process(JCP) como JSR 241 e aceito. '
+        logger.log 'Diversas versões foram lançadas entre 2004 e 2006. '
+        logger.log 'Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. '
+        logger.log 'Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.'
         LoggerService loggerService = LoggerService.instancia
-        loggerService.salvaResultado(logger)
+        loggerService.criarArquivoResultado(logger)
+        loggerService.registraLog(logger)
     }
 }

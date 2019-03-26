@@ -31,8 +31,6 @@ class ConfiguracaoGeralService {
         } catch (Exception ignored) {
             throw new EntradaInvalidaException('Arquivo de configuracao não exist ou está na formatação errada!')
         }
-
-        return null
     }
 
     void salvaConfiguracao(ConfiguracaoGeral configuracaoGeral) {

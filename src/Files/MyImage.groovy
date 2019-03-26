@@ -26,7 +26,7 @@ class MyImage {
             this.titulo = titulo
             this.caminhoImagem = caminho
 
-        } catch (Exception ignored) {
+        } catch (IOException ignored) {
             throw new IOException('Arquivo de imagem não existe, não pôde ser lido ou não é uma imagem! :' + caminho)
         }
     }

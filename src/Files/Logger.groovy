@@ -18,15 +18,14 @@ class Logger {
 
     ConfiguracaoGeral configuracaoUsada
 
-    String log
+    private StringBuilder log
+    String nomeArquivo
 
     private static SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd")
     private static SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss")
     private static SimpleDateFormat formatoCompleto = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     private Date inicioExperimento
     private Date fimExperimento
-
-    private LoggerService loggerService = LoggerService.instancia
 
     Logger(String nomeExperimentador, String nomeParticipante, String sexoParticipante, int idadeParticipante, ConfiguracaoGeral configuracaoUsada) {
         if (!nomeExperimentador || !nomeParticipante || !sexoParticipante || !configuracaoUsada || idadeParticipante <= 0) {
@@ -43,9 +42,12 @@ class Logger {
         this.idadeParticipante = idadeParticipante
         this.configuracaoUsada = configuracaoUsada
         this.inicioExperimento = new Date()
+
+        this.log = new StringBuilder()
+        this.nomeArquivo = montaNomeArquivo()
     }
 
-    String criaResultado() {
+    String criaArquivoResultado() {
         StringBuilder resultado = new StringBuilder()
         fimExperimento = new Date()
 
@@ -55,25 +57,28 @@ class Logger {
         resultado.append("Idade Participante: ${idadeParticipante}\n\n")
         resultado.append("Configuracao Usada:\n${configuracaoUsada.toJson()}\n\n")
         resultado.append("Inicio Experimento: ${formatoCompleto.format(inicioExperimento)}\n")
-        resultado.append("Fim Experimento: ${formatoCompleto.format(fimExperimento)}\n")
-        formatarLog(resultado)
+        resultado.append("Fim Experimento: ${formatoCompleto.format(fimExperimento)}\n\n")
+        resultado.append("Resultados:\n")
 
         return resultado.toString()
     }
 
     String montaNomeArquivo() {
         StringBuilder nomeResultado = new StringBuilder()
-        nomeResultado.append(configuracaoUsada.tituloConfiguracao).append('_' + nomeExperimentador).append('_' + nomeParticipante).append('_' + formatoData.format(inicioExperimento))
+        nomeResultado.append(configuracaoUsada.tituloConfiguracao).append('_' + nomeExperimentador).append('_' + nomeParticipante).append('_' + formatoData.format(inicioExperimento)).append('.txt')
         return nomeResultado.toString()
     }
 
-    private String formatarLog(StringBuilder resultado) {
-        resultado.append('\nResultados:\n')
+    String log(String mensagem) {
+        String linhaCompleta = "\t${formatoHora.format(new Date())}: ${mensagem}\n"
+        log.append(linhaCompleta)
+    }
 
-        List<String> linhas = log.tokenize('\n')
-        for (String linha : linhas) {
-            resultado.append('\t').append(linha).append('\n')
-        }
-        resultado.append('\n')
+    void limpaLog() {
+        log = new StringBuilder()
+    }
+
+    String getLog() {
+        return log.toString()
     }
 }
