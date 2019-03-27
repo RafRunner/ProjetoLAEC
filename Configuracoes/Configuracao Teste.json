@@ -9,22 +9,57 @@
             "imagem": "WhatsApp Image 2019-02-13 at 15.48.50.jpeg"
         }
     ],
-    "repeticoes": "3",
     "ordem": "Ordem 1",
     "ordemFases": "[LinhaDeBase, Condicao1, Treino, Teste1, Teste2]",
     "linhaDeBase": {
-        
+        "intrucaoImagem": {
+            "texto": "Clique na tela",
+            "tempo": "20",
+            "podeSerPulada": "true"
+        },
+        "instrucaoPalavra": {
+            "texto": "Clique na tela",
+            "tempo": "20",
+            "podeSerPulada": "true"
+        },
+        "repeticoes": "3",
+        "modoExibicao": "modo ambos"
     },
     "condicao1": {
-        
+        "instrucoes": [
+            {
+                "texto": "Clique na tela",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            }
+        ],
+        "numeroRepeticoes": "3"
     },
     "treino": {
         
     },
     "teste1": {
-        
+        "instrucoes": [
+            {
+                "texto": "Clique na tela",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            }
+        ],
+        "numeroRepeticoes": "3"
     },
     "teste2": {
-        
+        "intrucaoImagem": {
+            "texto": "Clique na tela",
+            "tempo": "20",
+            "podeSerPulada": "true"
+        },
+        "instrucaoPalavra": {
+            "texto": "Clique na tela",
+            "tempo": "20",
+            "podeSerPulada": "true"
+        },
+        "repeticoes": "3",
+        "modoExibicao": "modo ambos"
     }
 }

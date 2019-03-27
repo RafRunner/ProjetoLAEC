@@ -1,5 +1,6 @@
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
+import Dominio.Enums.ModoLinhaDeBase
 import Dominio.Enums.Ordens
 import Dominio.Fases.Condicao1
 import Dominio.Fases.LinhaDeBase
@@ -21,6 +22,9 @@ class TestesGerais {
     static void main(String[] args) {
         Classe classe = new Classe([palavraComSentido:  'Gandalf', palavraSemSentido:  'uaehug', cor:  'vermelho', imagem: 'WhatsApp Image 2019-02-13 at 15.48.50.jpeg'])
         Instrucao instrucao = new Instrucao("Clique na tela", 20, true)
+        Condicao1 condicao1 = new Condicao1([instrucao], [classe], 3)
+        Teste1 teste1 = new Teste1(condicao1)
+        LinhaDeBase linhaDeBase = new LinhaDeBase(instrucao, instrucao, [classe], 3, ModoLinhaDeBase.MODO_AMBOS.nomeModo)
 
         classe.imagem.resize(300, 300)
 
@@ -41,13 +45,12 @@ class TestesGerais {
                 'Configuracao Teste',
                 50,
                 [classe],
-                3,
                 Ordens.ORDEM1,
-                new Condicao1([instrucao], [classe], 3),
-                new LinhaDeBase(instrucao, instrucao, [classe]),
+                condicao1,
+                linhaDeBase,
                 new Treino(),
-                new Teste1(),
-                new Teste2())
+                teste1,
+                new Teste2(linhaDeBase))
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
         configuracaoGeralService.salvaConfiguracao(configuracaoGeral)

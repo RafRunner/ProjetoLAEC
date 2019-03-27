@@ -6,13 +6,19 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Teste2 implements Jsonable {
 
+    LinhaDeBase linhaDeBase
+
+    Teste2(LinhaDeBase linhaDeBase) {
+        this.linhaDeBase = linhaDeBase
+    }
+
     @Override
     String toJson() {
-        return ''
+        return linhaDeBase.toJson()
     }
 
     @Override
     String montaNomeArquivo() {
-        return ''
+        return linhaDeBase.montaNomeArquivo()
     }
 }

@@ -4,7 +4,7 @@ import Dominio.Exceptions.EntradaInvalidaException
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Instrucao {
+class Instrucao implements Jsonable {
 
     String texto
     int tempo
@@ -26,5 +26,23 @@ class Instrucao {
         } else {
             throw new EntradaInvalidaException("Informações incompletas para instrução!")
         }
+    }
+
+    @Override
+    String toJson() {
+        StringBuilder json = new StringBuilder()
+
+        json.append('{')
+        json.append("\"texto\": \"${texto}\",")
+        json.append("\"tempo\": \"${tempo}\",")
+        json.append("\"podeSerPulada\": \"${podeSerPulada}\"")
+        json.append('}')
+
+        return json.toString()
+    }
+
+    @Override
+    String montaNomeArquivo() {
+        return null
     }
 }

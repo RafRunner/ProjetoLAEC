@@ -26,11 +26,24 @@ class Condicao1 implements Jsonable {
 
     @Override
     String toJson() {
-        return ''
+        StringBuilder json = new StringBuilder()
+
+        json.append('{')
+        json.append("\"instrucoes\": [")
+        for (int i = 0; i < instrucoes.size(); i++) {
+            Instrucao instrucao = instrucoes.get(i)
+            json.append(instrucao.toJson())
+            i != instrucoes.size() - 1 ? json.append(',') : json.append('],')
+        }
+
+        json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\"")
+        json.append('}')
+
+        return json.toString()
     }
 
     @Override
     String montaNomeArquivo() {
-        return ''
+        return null
     }
 }

@@ -16,7 +16,6 @@ class ConfiguracaoGeral implements Jsonable {
 
     Integer tempoLimite
     List<Classe> classes
-    Integer repeticoes
     Ordens ordem
 
     Condicao1 condicao1
@@ -25,12 +24,11 @@ class ConfiguracaoGeral implements Jsonable {
     Teste1 teste1
     Teste2 teste2
 
-    ConfiguracaoGeral(String tituloConfiguracao, Integer tempoLimite, List<Classe> classes, Integer repeticoes, Ordens ordem,
+    ConfiguracaoGeral(String tituloConfiguracao, Integer tempoLimite, List<Classe> classes, Ordens ordem,
                       Condicao1 condicao1, LinhaDeBase linhaDeBase, Treino treino, Teste1 teste1, Teste2 teste2) {
         this.tituloConfiguracao = tituloConfiguracao
         this.tempoLimite = tempoLimite
         this.classes = classes
-        this.repeticoes = repeticoes
         this.ordem = ordem
         this.condicao1 = condicao1
         this.linhaDeBase = linhaDeBase
@@ -44,7 +42,6 @@ class ConfiguracaoGeral implements Jsonable {
 
         Integer tempoLimite = Integer.parseInt(jsonMap.tempoLimite.toString())
         List<Classe> classes = (jsonMap.classes as List<Map>).collect { Map mapaClasse -> new Classe(mapaClasse) }
-        Integer repeticoes = Integer.parseInt(jsonMap.repeticoes.toString())
         Ordens ordem = Ordens.values().find { Ordens ordem -> ordem.nomeOrdem == jsonMap.ordem }
 
 //        Condicao1 condicao1 = (jsonMap.condicao1 as Map).collect { Map mapaCondicao1 -> new Condicao1(mapaCondicao1) }
@@ -61,26 +58,21 @@ class ConfiguracaoGeral implements Jsonable {
         json.append('{')
         json.append("\"tituloConfiguracao\": \"${tituloConfiguracao}\",")
         json.append("\"tempoLimite\": \"${tempoLimite}\",")
-        
+
         json.append("\"classes\": [")
         for (int i = 0; i < classes.size(); i++) {
             Classe classe = classes.get(i)
-            if (i == classes.size() - 1) {
-                json.append(classe.toJson())
-            } else {
-                json.append(classe.toJson() + ',')
-            }
+            json.append(classe.toJson())
+            i != classes.size() - 1 ? json.append(',') : json.append('],')
         }
-        json.append('],')
-        
-        json.append("\"repeticoes\": \"${repeticoes}\",")
+
         json.append("\"ordem\": \"${ordem.nomeOrdem}\",")
         json.append("\"ordemFases\": \"${ordem.ordemFases}\",")
-        json.append("\"linhaDeBase\": { ${linhaDeBase.toJson()} },")
-        json.append("\"condicao1\": { ${condicao1.toJson()} },")
+        json.append("\"linhaDeBase\": ${linhaDeBase.toJson()},")
+        json.append("\"condicao1\": ${condicao1.toJson()},")
         json.append("\"treino\": { ${treino.toJson()} },")
-        json.append("\"teste1\": { ${teste1.toJson()} },")
-        json.append("\"teste2\": { ${teste2.toJson()} }")
+        json.append("\"teste1\": ${teste1.toJson()},")
+        json.append("\"teste2\": ${teste2.toJson()}")
         json.append('}')
 
         return JsonOutput.prettyPrint(json.toString())
