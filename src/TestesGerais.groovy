@@ -11,6 +11,7 @@ import Dominio.Instrucao
 import Files.Logger
 import Services.ConfiguracaoGeralService
 import Services.LoggerService
+import Utils.TextUtils
 
 import javax.swing.ImageIcon
 import javax.swing.JLabel
@@ -21,7 +22,7 @@ class TestesGerais {
 
     static void main(String[] args) {
         Classe classe = new Classe([palavraComSentido:  'Gandalf', palavraSemSentido:  'uaehug', cor:  'vermelho', imagem: 'WhatsApp Image 2019-02-13 at 15.48.50.jpeg'])
-        Instrucao instrucao = new Instrucao("Clique na tela", 20, true)
+        Instrucao instrucao = new Instrucao("Clique na tela @#", 20, true)
         Condicao1 condicao1 = new Condicao1([instrucao], [classe], 3)
         Teste1 teste1 = new Teste1(condicao1)
         LinhaDeBase linhaDeBase = new LinhaDeBase(instrucao, instrucao, [classe], 3, ModoLinhaDeBase.MODO_AMBOS.nomeModo)
@@ -63,6 +64,8 @@ class TestesGerais {
         logger.log 'Diversas versões foram lançadas entre 2004 e 2006. '
         logger.log 'Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. '
         logger.log 'Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.'
+        logger.log TextUtils.mapToString(condicao1.instrucoesParaClasses.collectEntries { Map.Entry<Classe, List<Instrucao>> entry -> [entry.key.palavraComSentido, TextUtils.listToString(entry.value.texto as List<String>)] } as Map<String, String>)
+
         LoggerService loggerService = LoggerService.instancia
         loggerService.criarArquivoResultado(logger)
         loggerService.registraLog(logger)

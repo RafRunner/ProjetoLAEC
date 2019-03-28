@@ -13,12 +13,12 @@
     "ordemFases": "[LinhaDeBase, Condicao1, Treino, Teste1, Teste2]",
     "linhaDeBase": {
         "intrucaoImagem": {
-            "texto": "Clique na tela",
+            "texto": "Clique na tela @#",
             "tempo": "20",
             "podeSerPulada": "true"
         },
         "instrucaoPalavra": {
-            "texto": "Clique na tela",
+            "texto": "Clique na tela @#",
             "tempo": "20",
             "podeSerPulada": "true"
         },
@@ -28,7 +28,7 @@
     "condicao1": {
         "instrucoes": [
             {
-                "texto": "Clique na tela",
+                "texto": "Clique na tela @#",
                 "tempo": "20",
                 "podeSerPulada": "true"
             }
@@ -41,7 +41,7 @@
     "teste1": {
         "instrucoes": [
             {
-                "texto": "Clique na tela",
+                "texto": "Clique na tela @#",
                 "tempo": "20",
                 "podeSerPulada": "true"
             }
@@ -50,12 +50,12 @@
     },
     "teste2": {
         "intrucaoImagem": {
-            "texto": "Clique na tela",
+            "texto": "Clique na tela @#",
             "tempo": "20",
             "podeSerPulada": "true"
         },
         "instrucaoPalavra": {
-            "texto": "Clique na tela",
+            "texto": "Clique na tela @#",
             "tempo": "20",
             "podeSerPulada": "true"
         },

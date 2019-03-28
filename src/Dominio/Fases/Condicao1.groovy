@@ -13,6 +13,9 @@ class Condicao1 implements Jsonable {
     List<Classe> classes
     int numeroRepeticoes
 
+    private static String regexLetras = '@'
+    private static String regexNumeros = '#'
+
     Condicao1(List<Instrucao> instrucoes, List<Classe> classes, int numeroRepeticoes) {
         if (instrucoes && classes && numeroRepeticoes > 0) {
             this.instrucoes = instrucoes
@@ -22,6 +25,18 @@ class Condicao1 implements Jsonable {
         } else {
             throw new EntradaInvalidaException("Informações incompletas ou inválidas para Condicao Um!")
         }
+    }
+
+    Map<Classe, List<Instrucao>> getInstrucoesParaClasses() {
+        Map<Classe, List<Instrucao>> instrucoesParaClasses = [:]
+
+        classes.eachWithIndex{ Classe entry, int i ->
+            instrucoes.each { Instrucao instrucao ->
+                instrucao.texto = instrucao.texto.replaceAll(regexNumeros, (i + 1).toString()).replaceAll(regexLetras, ((i + 65) as Character).toString())
+            }
+            instrucoesParaClasses.put(entry, instrucoes)
+        }
+        return instrucoesParaClasses
     }
 
     @Override
