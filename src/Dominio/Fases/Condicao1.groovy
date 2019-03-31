@@ -4,6 +4,7 @@ import Dominio.Classe
 import Dominio.Exceptions.EntradaInvalidaException
 import Dominio.Instrucao
 import Dominio.Jsonable
+import Utils.TextUtils
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -44,13 +45,7 @@ class Condicao1 implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
-        json.append("\"instrucoes\": [")
-        for (int i = 0; i < instrucoes.size(); i++) {
-            Instrucao instrucao = instrucoes.get(i)
-            json.append(instrucao.toJson())
-            i != instrucoes.size() - 1 ? json.append(',') : json.append('],')
-        }
-
+        json.append("\"instrucoes\": ${TextUtils.listToJsonString(instrucoes.collect { it.toJson() })}, ")
         json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\"")
         json.append('}')
 

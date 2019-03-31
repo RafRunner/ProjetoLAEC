@@ -12,7 +12,7 @@
     "ordem": "Ordem 1",
     "ordemFases": "[LinhaDeBase, Condicao1, Treino, Teste1, Teste2]",
     "linhaDeBase": {
-        "intrucaoImagem": {
+        "instrucaoImagem": {
             "texto": "Clique na tela @#",
             "tempo": "20",
             "podeSerPulada": "true"
@@ -49,7 +49,7 @@
         "numeroRepeticoes": "3"
     },
     "teste2": {
-        "intrucaoImagem": {
+        "instrucaoImagem": {
             "texto": "Clique na tela @#",
             "tempo": "20",
             "podeSerPulada": "true"

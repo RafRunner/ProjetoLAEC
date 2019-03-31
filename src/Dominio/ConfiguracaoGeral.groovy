@@ -37,20 +37,6 @@ class ConfiguracaoGeral implements Jsonable {
         this.teste2 = teste2
     }
 
-    ConfiguracaoGeral(Map jsonMap) {
-        String tituloConfiguracao = jsonMap.tituloConfiguracao.toString()
-
-        Integer tempoLimite = Integer.parseInt(jsonMap.tempoLimite.toString())
-        List<Classe> classes = (jsonMap.classes as List<Map>).collect { Map mapaClasse -> new Classe(mapaClasse) }
-        Ordens ordem = Ordens.values().find { Ordens ordem -> ordem.nomeOrdem == jsonMap.ordem }
-
-//        Condicao1 condicao1 = (jsonMap.condicao1 as Map).collect { Map mapaCondicao1 -> new Condicao1(mapaCondicao1) }
-//        LinhaDeBase linhaDeBase = (jsonMap.linhaDeBase as Map).collect { Map mapaLinhaDeBase -> new Condicao1(mapaLinhaDeBase) }
-//        Treino treino = (jsonMap.treino as Map).collect { Map mapaTreino -> new Condicao1(mapaTreino) }
-//        Teste1 teste1 = (jsonMap.teste1 as Map).collect { Map mapaTeste1 -> new Condicao1(mapaTeste1) }
-//        Teste2 teste2 = (jsonMap.teste2 as Map).collect { Map mapaTeste2 -> new Condicao1(mapaTeste2) }
-    }
-
     @Override
     String toJson() {
         StringBuilder json = new StringBuilder()

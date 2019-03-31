@@ -21,10 +21,10 @@ import javax.swing.JPanel
 class TestesGerais {
 
     static void main(String[] args) {
-        Classe classe = new Classe([palavraComSentido:  'Gandalf', palavraSemSentido:  'uaehug', cor:  'vermelho', imagem: 'WhatsApp Image 2019-02-13 at 15.48.50.jpeg'])
+        Classe classe = new Classe('Gandalf', 'uaehug', 'vermelho', 'WhatsApp Image 2019-02-13 at 15.48.50.jpeg')
         Instrucao instrucao = new Instrucao("Clique na tela @#", 20, true)
         Condicao1 condicao1 = new Condicao1([instrucao], [classe], 3)
-        Teste1 teste1 = new Teste1(condicao1)
+        Teste1 teste1 = new Teste1(condicao1, [instrucao])
         LinhaDeBase linhaDeBase = new LinhaDeBase(instrucao, instrucao, [classe], 3, ModoLinhaDeBase.MODO_AMBOS.nomeModo)
 
         classe.imagem.resize(300, 300)
@@ -51,7 +51,7 @@ class TestesGerais {
                 linhaDeBase,
                 new Treino(),
                 teste1,
-                new Teste2(linhaDeBase))
+                new Teste2(linhaDeBase, instrucao, instrucao))
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
         configuracaoGeralService.salvaConfiguracao(configuracaoGeral)
@@ -64,7 +64,7 @@ class TestesGerais {
         logger.log 'Diversas versões foram lançadas entre 2004 e 2006. '
         logger.log 'Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. '
         logger.log 'Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.'
-        logger.log TextUtils.mapToString(condicao1.instrucoesParaClasses.collectEntries { Map.Entry<Classe, List<Instrucao>> entry -> [entry.key.palavraComSentido, TextUtils.listToString(entry.value.texto as List<String>)] } as Map<String, String>)
+        logger.log TextUtils.mapToString(condicao1.instrucoesParaClasses.collectEntries { Map.Entry<Classe, List<Instrucao>> entry -> [entry.key.palavraComSentido, TextUtils.listToJsonString(entry.value.texto as List<String>)] } as Map<String, String>)
 
         LoggerService loggerService = LoggerService.instancia
         loggerService.criarArquivoResultado(logger)

@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class TextUtils {
 
-    static String listToString(List<String> lista) {
+    static String listToJsonString(List<String> lista) {
         StringBuilder listaString = new StringBuilder('[')
 
         for (int i = 0; i < lista.size(); i++) {

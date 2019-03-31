@@ -10,15 +10,15 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class LinhaDeBase implements Jsonable {
 
-    Instrucao intrucaoImagem
+    Instrucao instrucaoImagem
     Instrucao instrucaoPalavra
     int repeticoes
     ModoLinhaDeBase modoExibicao
     List<Classe> classes
 
-    LinhaDeBase(Instrucao intrucaoImagem, Instrucao instrucaoPalavra, List<Classe> classes, Integer repeticoes, String nomeModo) {
-        if (intrucaoImagem && instrucaoPalavra && classes && repeticoes) {
-            this.intrucaoImagem = intrucaoImagem
+    LinhaDeBase(Instrucao instrucaoImagem, Instrucao instrucaoPalavra, List<Classe> classes, Integer repeticoes, String nomeModo) {
+        if (instrucaoImagem && instrucaoPalavra && classes && repeticoes) {
+            this.instrucaoImagem = instrucaoImagem
             this.instrucaoPalavra = instrucaoPalavra
             this.classes = classes
             this.repeticoes = repeticoes
@@ -38,7 +38,7 @@ class LinhaDeBase implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
-        json.append("\"intrucaoImagem\": ${intrucaoImagem.toJson()},")
+        json.append("\"instrucaoImagem\": ${instrucaoImagem.toJson()},")
         json.append("\"instrucaoPalavra\": ${instrucaoPalavra.toJson()},")
         json.append("\"repeticoes\": \"${repeticoes}\",")
         json.append("\"modoExibicao\": \"${modoExibicao.nomeModo}\"")

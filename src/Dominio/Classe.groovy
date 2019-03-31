@@ -14,12 +14,7 @@ class Classe implements Jsonable {
     CoresDisponiveis cor
     MyImage imagem
 
-    Classe(Map jsonMap) {
-        String palavraComSentido = jsonMap.palavraComSentido.toString()
-        String palavraSemSentido = jsonMap.palavraSemSentido.toString()
-        String cor = jsonMap.cor.toString()
-        String imagem = jsonMap.imagem.toString()
-
+    Classe(String palavraComSentido, String palavraSemSentido, String cor, String imagem) {
         if (palavraComSentido && palavraSemSentido && cor && imagem) {
 
             this.palavraComSentido = palavraComSentido.trim()
