@@ -9,10 +9,10 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Teste2Factory {
 
-    static Teste2 fromJsonMap(Map<String, String> jsonMap, List<Classe> classes) {
-        LinhaDeBase linhaDeBase = LinhaDeBaseFactory.fromJsonMap(jsonMap, classes)
-        Instrucao intrucaoImagem = InstrucaoFactory.fromJsonMap((jsonMap.instrucaoImagem as Map<String, String>))
-        Instrucao instrucaoPalavra = InstrucaoFactory.fromJsonMap((jsonMap.instrucaoPalavra as Map<String, String>))
+    static Teste2 fromStringMap(Map<String, String> map, List<Classe> classes) {
+        LinhaDeBase linhaDeBase = LinhaDeBaseFactory.fromStringMap(map, classes)
+        Instrucao intrucaoImagem = InstrucaoFactory.fromStringMap((map.instrucaoImagem as Map<String, String>))
+        Instrucao instrucaoPalavra = InstrucaoFactory.fromStringMap((map.instrucaoPalavra as Map<String, String>))
 
 
         return new Teste2(linhaDeBase, intrucaoImagem, instrucaoPalavra)

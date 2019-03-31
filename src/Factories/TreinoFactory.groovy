@@ -6,7 +6,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class TreinoFactory {
 
-    static Treino fromJsonMap(Map<String, String> jsonMap) {
+    static Treino fromStringMap(Map<String, String> map) {
         return null
     }
 }

@@ -9,9 +9,9 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Teste1Factory {
 
-    static Teste1 fromJsonMap(Map<String, String> jsonMap, List<Classe> classes) {
-        Condicao1 condicao1 = Condicao1Factory.fromJsonMap(jsonMap, classes)
-        List<Instrucao> instrucoes = (jsonMap.instrucoes as List<Map<String, String>>).collect { InstrucaoFactory.fromJsonMap(it) }
+    static Teste1 fromStringMap(Map<String, String> map, List<Classe> classes) {
+        Condicao1 condicao1 = Condicao1Factory.fromStringMap(map, classes)
+        List<Instrucao> instrucoes = (map.instrucoes as List<Map<String, String>>).collect { InstrucaoFactory.fromStringMap(it) }
 
         return new Teste1(condicao1, instrucoes)
     }

@@ -5,7 +5,6 @@ import Dominio.ConfiguracaoGeral
 import Dominio.Exceptions.EntradaInvalidaException
 import Factories.ConfiguracaoGeralFactory
 import Files.Ambiente
-import groovy.json.JsonException
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 
@@ -32,7 +31,7 @@ class ConfiguracaoGeralService {
         JsonSlurper jsonSlurper = new JsonSlurper()
         Map configuracao = jsonSlurper.parseText(json) as Map
 
-        return ConfiguracaoGeralFactory.fromJsonMap(configuracao)
+        return ConfiguracaoGeralFactory.fromStringMap(configuracao)
     }
 
     void salvaConfiguracao(ConfiguracaoGeral configuracaoGeral) {

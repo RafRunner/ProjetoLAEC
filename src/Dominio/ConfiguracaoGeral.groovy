@@ -6,6 +6,7 @@ import Dominio.Fases.LinhaDeBase
 import Dominio.Fases.Teste1
 import Dominio.Fases.Teste2
 import Dominio.Fases.Treino
+import Utils.TextUtils
 import groovy.json.JsonOutput
 import groovy.transform.CompileStatic
 
@@ -45,12 +46,7 @@ class ConfiguracaoGeral implements Jsonable {
         json.append("\"tituloConfiguracao\": \"${tituloConfiguracao}\",")
         json.append("\"tempoLimite\": \"${tempoLimite}\",")
 
-        json.append("\"classes\": [")
-        for (int i = 0; i < classes.size(); i++) {
-            Classe classe = classes.get(i)
-            json.append(classe.toJson())
-            i != classes.size() - 1 ? json.append(',') : json.append('],')
-        }
+        json.append("\"classes\": ${TextUtils.listToJsonString(classes.collect { it.toJson() })},")
 
         json.append("\"ordem\": \"${ordem.nomeOrdem}\",")
         json.append("\"ordemFases\": \"${ordem.ordemFases}\",")

@@ -50,13 +50,14 @@ class Logger {
         StringBuilder resultado = new StringBuilder()
         fimExperimento = new Date()
 
-        resultado.append("Nome Experimentador: ${nomeExperimentador}\n")
+        resultado.append("Nome Experimentador: ${nomeExperimentador}\n\n")
+        resultado.append("Grupo do participante: ${configuracaoUsada.ordem.nomeOrdem}\n")
         resultado.append("Nome Participante: ${nomeParticipante}\n")
         resultado.append("Sexo Participante: ${sexoParticipante.extenso}\n")
         resultado.append("Idade Participante: ${idadeParticipante}\n\n")
-        resultado.append("Configuracao Usada:\n${configuracaoUsada.toJson()}\n\n")
         resultado.append("Inicio Experimento: ${formatoCompleto.format(inicioExperimento)}\n")
         resultado.append("Fim Experimento: ${formatoCompleto.format(fimExperimento)}\n\n")
+        resultado.append("Configuracao Usada:\n${configuracaoUsada.toJson()}\n\n")
         resultado.append("Resultados:\n")
 
         return resultado.toString()

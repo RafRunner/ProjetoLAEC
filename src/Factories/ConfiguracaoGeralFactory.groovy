@@ -13,18 +13,18 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class ConfiguracaoGeralFactory {
     
-    static ConfiguracaoGeral fromJsonMap(Map<String, String> jsonMap) {
-        String tituloConfiguracao = jsonMap.tituloConfiguracao
+    static ConfiguracaoGeral fromStringMap(Map<String, String> map) {
+        String tituloConfiguracao = map.tituloConfiguracao
 
-        Integer tempoLimite = Integer.parseInt(jsonMap.tempoLimite)
-        List<Classe> classes = (jsonMap.classes as List<Map<String, String>>).collect { ClasseFactory.fromJsonMap(it) }
-        Ordens ordem = Ordens.values().find { Ordens ordem -> ordem.nomeOrdem == jsonMap.ordem }
+        Integer tempoLimite = Integer.parseInt(map.tempoLimite)
+        List<Classe> classes = (map.classes as List<Map<String, String>>).collect { ClasseFactory.fromStringMap(it) }
+        Ordens ordem = Ordens.values().find { Ordens ordem -> ordem.nomeOrdem == map.ordem }
 
-        Condicao1 condicao1 = Condicao1Factory.fromJsonMap(jsonMap.condicao1 as Map<String, String>, classes)
-        LinhaDeBase linhaDeBase = LinhaDeBaseFactory.fromJsonMap(jsonMap.linhaDeBase as Map<String, String>, classes)
-        Treino treino = TreinoFactory.fromJsonMap(jsonMap.treino as Map)
-        Teste1 teste1 = Teste1Factory.fromJsonMap(jsonMap.teste1 as Map<String, String>, classes)
-        Teste2 teste2 = Teste2Factory.fromJsonMap(jsonMap.teste2 as Map<String, String>, classes)
+        Condicao1 condicao1 = Condicao1Factory.fromStringMap(map.condicao1 as Map<String, String>, classes)
+        LinhaDeBase linhaDeBase = LinhaDeBaseFactory.fromStringMap(map.linhaDeBase as Map<String, String>, classes)
+        Treino treino = TreinoFactory.fromStringMap(map.treino as Map)
+        Teste1 teste1 = Teste1Factory.fromStringMap(map.teste1 as Map<String, String>, classes)
+        Teste2 teste2 = Teste2Factory.fromStringMap(map.teste2 as Map<String, String>, classes)
 
         return new ConfiguracaoGeral(tituloConfiguracao, tempoLimite, classes, ordem, condicao1, linhaDeBase, treino, teste1, teste2)
     }

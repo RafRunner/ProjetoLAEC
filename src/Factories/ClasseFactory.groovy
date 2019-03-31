@@ -6,11 +6,11 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class ClasseFactory {
 
-    static Classe fromJsonMap(Map<String,String> jsonMap) {
-        String palavraComSentido = jsonMap.palavraComSentido
-        String palavraSemSentido = jsonMap.palavraSemSentido
-        String cor = jsonMap.cor
-        String imagem = jsonMap.imagem
+    static Classe fromStringMap(Map<String,String> map) {
+        String palavraComSentido = map.palavraComSentido
+        String palavraSemSentido = map.palavraSemSentido
+        String cor = map.cor
+        String imagem = map.imagem
 
         return new Classe(palavraComSentido, palavraSemSentido, cor, imagem)
     }
