@@ -49,7 +49,7 @@ class TestesGerais {
                 Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Treino(),
+                new Treino([classe], 100, 10, 10),
                 teste1,
                 new Teste2(linhaDeBase, instrucao, instrucao))
 

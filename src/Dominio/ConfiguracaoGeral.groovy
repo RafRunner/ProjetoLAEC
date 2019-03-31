@@ -52,7 +52,7 @@ class ConfiguracaoGeral implements Jsonable {
         json.append("\"ordemFases\": \"${ordem.ordemFases}\",")
         json.append("\"linhaDeBase\": ${linhaDeBase.toJson()},")
         json.append("\"condicao1\": ${condicao1.toJson()},")
-        json.append("\"treino\": { ${treino.toJson()} },")
+        json.append("\"treino\": ${treino.toJson()},")
         json.append("\"teste1\": ${teste1.toJson()},")
         json.append("\"teste2\": ${teste2.toJson()}")
         json.append('}')

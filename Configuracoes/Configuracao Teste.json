@@ -36,7 +36,9 @@
         "numeroRepeticoes": "3"
     },
     "treino": {
-        
+        "pontuacaoInicial": "100",
+        "pontosPorAcerto": "10",
+        "pontosPorErro": "10"
     },
     "teste1": {
         "instrucoes": [

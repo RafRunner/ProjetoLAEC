@@ -22,7 +22,7 @@ class ConfiguracaoGeralFactory {
 
         Condicao1 condicao1 = Condicao1Factory.fromStringMap(map.condicao1 as Map<String, String>, classes)
         LinhaDeBase linhaDeBase = LinhaDeBaseFactory.fromStringMap(map.linhaDeBase as Map<String, String>, classes)
-        Treino treino = TreinoFactory.fromStringMap(map.treino as Map)
+        Treino treino = TreinoFactory.fromStringMap(map.treino as Map<String, String>, classes)
         Teste1 teste1 = Teste1Factory.fromStringMap(map.teste1 as Map<String, String>, classes)
         Teste2 teste2 = Teste2Factory.fromStringMap(map.teste2 as Map<String, String>, classes)
 

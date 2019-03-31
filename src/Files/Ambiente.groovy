@@ -19,7 +19,7 @@ class Ambiente {
             separadorEndereco = '/'
         }
         else if (isWindows()) {
-            separadorEndereco = '//'
+            separadorEndereco = '\\'
         }
         else {
             throw new Exception('Sistema operacional não suportado!')
