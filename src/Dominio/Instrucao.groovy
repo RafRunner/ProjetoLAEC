@@ -1,6 +1,7 @@
 package Dominio
 
 import Dominio.Exceptions.EntradaInvalidaException
+import groovy.json.JsonOutput
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -38,7 +39,7 @@ class Instrucao implements Jsonable {
         json.append("\"podeSerPulada\": \"${podeSerPulada}\"")
         json.append('}')
 
-        return json.toString()
+        return JsonOutput.prettyPrint(json.toString())
     }
 
     @Override

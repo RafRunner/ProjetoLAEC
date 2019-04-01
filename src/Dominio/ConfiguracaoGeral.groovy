@@ -38,6 +38,16 @@ class ConfiguracaoGeral implements Jsonable {
         this.teste2 = teste2
     }
 
+    List<Instrucao> getTodasAsInstrucoes() {
+        List<Instrucao> todasAsInstrucoes = []
+        todasAsInstrucoes.addAll(condicao1.instrucoes)
+        todasAsInstrucoes.addAll(linhaDeBase.instrucoes)
+        todasAsInstrucoes.addAll(teste1.instrucoes)
+        todasAsInstrucoes.addAll(teste2.instrucoes)
+
+        return todasAsInstrucoes
+    }
+
     @Override
     String toJson() {
         StringBuilder json = new StringBuilder()

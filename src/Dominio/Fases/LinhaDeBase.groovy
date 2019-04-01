@@ -44,6 +44,10 @@ class LinhaDeBase implements Jsonable {
         }
     }
 
+    List<Instrucao> getInstrucoes() {
+        return [instrucaoImagem, instrucaoPalavra]
+    }
+
     @Override
     String toJson() {
         StringBuilder json = new StringBuilder()

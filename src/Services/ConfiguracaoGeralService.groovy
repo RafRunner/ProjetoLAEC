@@ -1,9 +1,7 @@
 package Services
 
-import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Exceptions.EntradaInvalidaException
-import Dominio.Instrucao
 import Factories.ConfiguracaoGeralFactory
 import Files.Ambiente
 import groovy.json.JsonSlurper
@@ -45,6 +43,6 @@ class ConfiguracaoGeralService {
         arquivo.write(json)
 
         classeService.salvarClasses(configuracaoGeral.classes)
-        //instrucaoService.salvarInstrucoes()
+        instrucaoService.salvarInstrucoes(configuracaoGeral.todasAsInstrucoes)
     }
 }

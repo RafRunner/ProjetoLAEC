@@ -46,7 +46,7 @@ class Condicao1 implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
-        json.append("\"instrucoes\": ${TextUtils.listToJsonString(instrucoes.collect { it.toJson() })}, ")
+        json.append("\"instrucoes\": ${TextUtils.listToJsonString(instrucoes.collect { it?.toJson() })}, ")
         json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\"")
         json.append('}')
 

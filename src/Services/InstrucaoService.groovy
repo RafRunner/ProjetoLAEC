@@ -8,7 +8,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class InstrucaoService {
 
-    private static String pastaInstrucoes = 'Intrucoes'
+    private static String pastaInstrucoes = 'Instrucoes'
 
     private Ambiente ambiente = Ambiente.instancia
 
@@ -17,6 +17,11 @@ class InstrucaoService {
 
     void salvarInstrucoes(List<Instrucao> instrucoes) {
         for (Instrucao instrucao : instrucoes) {
+
+            if (!instrucao) {
+                continue
+            }
+
             String nomeArquivo = instrucao.montaNomeArquivo()
 
             if (!instrucaoJaExiste(nomeArquivo)) {

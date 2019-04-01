@@ -69,7 +69,7 @@ class Logger {
         return nomeResultado.toString()
     }
 
-    String log(String mensagem) {
+    void log(String mensagem) {
         String linhaCompleta = "\t${formatoHora.format(new Date())}: ${mensagem}\n"
         log.append(linhaCompleta)
     }
