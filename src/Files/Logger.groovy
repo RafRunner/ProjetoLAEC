@@ -64,9 +64,7 @@ class Logger {
     }
 
     private montaNomeArquivo() {
-        StringBuilder nomeResultado = new StringBuilder()
-        nomeResultado.append(configuracaoUsada.tituloConfiguracao).append('_' + nomeExperimentador).append('_' + nomeParticipante).append('_' + formatoData.format(inicioExperimento)).append('.txt')
-        return nomeResultado.toString()
+        return configuracaoUsada.tituloConfiguracao + '_' + nomeExperimentador + '_' + nomeParticipante + '_' + formatoData.format(inicioExperimento) + '.txt'
     }
 
     void log(String mensagem) {
