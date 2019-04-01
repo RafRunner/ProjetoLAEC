@@ -9,11 +9,19 @@ import groovy.transform.CompileStatic
 class LinhaDeBaseFactory {
 
     static LinhaDeBase fromStringMap(Map<String, String> map, List<Classe> classes) {
-        Instrucao intrucaoImagem = InstrucaoFactory.fromStringMap((map.instrucaoImagem as Map<String, String>))
-        Instrucao instrucaoPalavra = InstrucaoFactory.fromStringMap((map.instrucaoPalavra as Map<String, String>))
+        Instrucao instrucaoImagem = null
+        Instrucao instrucaoPalavra = null
+
+        if (map.instrucaoImagem) {
+            instrucaoImagem = InstrucaoFactory.fromStringMap((map.instrucaoImagem as Map<String, String>))
+        }
+        if (map.instrucaoPalavra) {
+            instrucaoPalavra = InstrucaoFactory.fromStringMap((map.instrucaoPalavra as Map<String, String>))
+        }
+
         Integer repeticoes = Integer.parseInt(map.repeticoes)
         String modoExibicao = map.modoExibicao
 
-        return new LinhaDeBase(intrucaoImagem, instrucaoPalavra, classes, repeticoes, modoExibicao)
+        return new LinhaDeBase(instrucaoImagem, instrucaoPalavra, classes, repeticoes, modoExibicao)
     }
 }

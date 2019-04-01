@@ -27,6 +27,6 @@ class ClasseService {
     }
 
    private  boolean classeJaExiste(String nomeArquivoClasse) {
-        return ambiente.getFilesFolder(pastaClasses).find { File arquivo -> arquivo.name == nomeArquivoClasse }
+        return ambiente.getFiles(pastaClasses).find { File arquivo -> arquivo.name == nomeArquivoClasse }
     }
 }

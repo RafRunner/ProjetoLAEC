@@ -7,18 +7,24 @@
             "palavraSemSentido": "uaehug",
             "cor": "vermelho",
             "imagem": "WhatsApp Image 2019-02-13 at 15.48.50.jpeg"
+        },
+        {
+            "palavraComSentido": "\u00c1lbum",
+            "palavraSemSentido": "mefshwa",
+            "cor": "azul",
+            "imagem": "recomendacao.png"
         }
     ],
     "ordem": "Ordem 1",
     "ordemFases": "[LinhaDeBase, Condicao1, Treino, Teste1, Teste2]",
     "linhaDeBase": {
         "instrucaoImagem": {
-            "texto": "Clique na tela @#",
+            "texto": "Veja essas imagens",
             "tempo": "20",
             "podeSerPulada": "true"
         },
         "instrucaoPalavra": {
-            "texto": "Clique na tela @#",
+            "texto": "Veja essas palavras",
             "tempo": "20",
             "podeSerPulada": "true"
         },
@@ -28,7 +34,17 @@
     "condicao1": {
         "instrucoes": [
             {
-                "texto": "Clique na tela @#",
+                "texto": "Escreva o que voce viu na folha 1@",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            },
+            {
+                "texto": "Escreva o que voce leu na folha 2@",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            },
+            {
+                "texto": "Escreva o que voce pensou na folha 3@",
                 "tempo": "20",
                 "podeSerPulada": "true"
             }
@@ -43,7 +59,12 @@
     "teste1": {
         "instrucoes": [
             {
-                "texto": "Clique na tela @#",
+                "texto": "Escreva o que voce leu na folha 4@",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            },
+            {
+                "texto": "Escreva o que voce pensou na folha 5@",
                 "tempo": "20",
                 "podeSerPulada": "true"
             }
@@ -52,16 +73,12 @@
     },
     "teste2": {
         "instrucaoImagem": {
-            "texto": "Clique na tela @#",
+            "texto": "Veja essas imagens, com novo significado",
             "tempo": "20",
             "podeSerPulada": "true"
         },
-        "instrucaoPalavra": {
-            "texto": "Clique na tela @#",
-            "tempo": "20",
-            "podeSerPulada": "true"
-        },
+        "instrucaoPalavra": null,
         "repeticoes": "3",
-        "modoExibicao": "modo ambos"
+        "modoExibicao": "modo imagem"
     }
 }

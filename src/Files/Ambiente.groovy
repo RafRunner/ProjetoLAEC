@@ -6,14 +6,13 @@ class Ambiente {
 
     static Ambiente instancia = new Ambiente()
 
-    String rootDirectory = System.getProperty('user.dir')
-    String sistemaOperacional = System.getProperty('os.name').toLowerCase()
+    private String rootDirectory
+    private String sistemaOperacional
+    private String separadorEndereco
 
-    private Ambiente() {}
-
-    String getFullPath(String nomePasta, String nomeArquivo = null) {
-        String fullPath
-        String separadorEndereco
+    private Ambiente() {
+        rootDirectory = System.getProperty('user.dir')
+        sistemaOperacional = System.getProperty('os.name').toLowerCase()
 
         if (isLinux() || isOsx()) {
             separadorEndereco = '/'
@@ -24,6 +23,10 @@ class Ambiente {
         else {
             throw new Exception('Sistema operacional não suportado!')
         }
+    }
+
+    String getFullPath(String nomePasta, String nomeArquivo = null) {
+        String fullPath
 
         fullPath = rootDirectory + separadorEndereco + nomePasta
         if (nomeArquivo) {
@@ -32,7 +35,7 @@ class Ambiente {
         return fullPath
     }
 
-    List<File> getFilesFolder(String nomePasta) {
+    List<File> getFiles(String nomePasta) {
         File pasta
         try {
             pasta = new File(getFullPath(nomePasta))

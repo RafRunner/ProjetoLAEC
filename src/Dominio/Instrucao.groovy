@@ -43,6 +43,6 @@ class Instrucao implements Jsonable {
 
     @Override
     String montaNomeArquivo() {
-        return null
+        return texto + '_' + tempo + '_' + podeSerPulada + '.json'
     }
 }

@@ -32,10 +32,11 @@ class Condicao1 implements Jsonable {
         Map<Classe, List<Instrucao>> instrucoesParaClasses = [:]
 
         classes.eachWithIndex{ Classe entry, int i ->
-            instrucoes.each { Instrucao instrucao ->
-                instrucao.texto = instrucao.texto.replaceAll(regexNumeros, (i + 1).toString()).replaceAll(regexLetras, ((i + 65) as Character).toString())
+            List<Instrucao> instrucoesTextoAtualizado = instrucoes.collect { Instrucao instrucao ->
+                String textoAtualizado = instrucao.texto.replaceAll(regexNumeros, (i + 1).toString()).replaceAll(regexLetras, ((i + 65) as Character).toString())
+                return new Instrucao(textoAtualizado, instrucao.tempo, instrucao.podeSerPulada)
             }
-            instrucoesParaClasses.put(entry, instrucoes)
+            instrucoesParaClasses.put(entry, instrucoesTextoAtualizado)
         }
         return instrucoesParaClasses
     }

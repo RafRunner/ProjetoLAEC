@@ -21,37 +21,52 @@ import javax.swing.JPanel
 class TestesGerais {
 
     static void main(String[] args) {
-        Classe classe = new Classe('Gandalf', 'uaehug', 'vermelho', 'WhatsApp Image 2019-02-13 at 15.48.50.jpeg')
-        Instrucao instrucao = new Instrucao("Clique na tela @#", 20, true)
-        Condicao1 condicao1 = new Condicao1([instrucao], [classe], 3)
-        Teste1 teste1 = new Teste1(condicao1, [instrucao])
-        LinhaDeBase linhaDeBase = new LinhaDeBase(instrucao, instrucao, [classe], 3, ModoLinhaDeBase.MODO_AMBOS.nomeModo)
+        Classe classe1 = new Classe('Gandalf', 'uaehug', 'vermelho', 'WhatsApp Image 2019-02-13 at 15.48.50.jpeg')
+        Classe classe2 = new Classe('Álbum', 'mefshwa', 'azul', 'recomendacao.png')
 
-        classe.imagem.resize(300, 300)
+        Instrucao instrucaoCondicao11 = new Instrucao("Escreva o que voce viu na folha 1@", 20, true)
+        Instrucao instrucaoCondicao12 = new Instrucao("Escreva o que voce leu na folha 2@", 20, true)
+        Instrucao instrucaoCondicao13 = new Instrucao("Escreva o que voce pensou na folha 3@", 20, true)
 
-        ImageIcon icon = new ImageIcon(classe.imagem.bufferedImage)
+        Instrucao instrucinstrucaoLinhaDeBasePalavra = new Instrucao("Veja essas palavras", 20, true)
+        Instrucao instrucinstrucaoLinhaDeBaseImagem = new Instrucao("Veja essas imagens", 20, true)
+
+        Instrucao instrucinstrucaoTeste11 = new Instrucao("Escreva o que voce leu na folha 4@", 20, true)
+        Instrucao instrucinstrucaoTeste12 = new Instrucao("Escreva o que voce pensou na folha 5@", 20, true)
+
+        Instrucao instrucinstrucaoTeste2Palavra = new Instrucao("Veja essas palavras, com novo significado", 20, true)
+        Instrucao instrucinstrucaoTeste2Imagem = new Instrucao("Veja essas imagens, com novo significado", 20, true)
+
+
+        Condicao1 condicao1 = new Condicao1([instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], [classe1, classe2], 3)
+        Teste1 teste1 = new Teste1([instrucinstrucaoTeste11, instrucinstrucaoTeste12], [classe1, classe2], 3)
+        LinhaDeBase linhaDeBase = new LinhaDeBase(instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, [classe1, classe2], 3, ModoLinhaDeBase.MODO_AMBOS.nomeModo)
+
+        classe1.imagem.resize(300, 300)
+
+        ImageIcon icon = new ImageIcon(classe2.imagem.bufferedImage)
 
         JPanel panel = new JPanel()
         panel.setSize(1000, 1000)
-        panel.setBackground(classe.cor.color)
+        panel.setBackground(classe2.cor.color)
         JLabel imagem = new JLabel(icon)
         panel.add(imagem)
         panel.setVisible(true)
 
         JOptionPane.showMessageDialog(null, panel, 'Imagem', JOptionPane.PLAIN_MESSAGE)
 
-        println(classe.palavraComSentido)
+        println(classe1.palavraComSentido)
 
         ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral(
                 'Configuracao Teste',
                 50,
-                [classe],
+                [classe1, classe2],
                 Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Treino([classe], 100, 10, 10),
+                new Treino([classe1, classe2], 100, 10, 10),
                 teste1,
-                new Teste2(linhaDeBase, instrucao, instrucao))
+                new Teste2(instrucinstrucaoTeste2Imagem, null, [classe1, classe2], 3, 'modo imagem'))
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
         configuracaoGeralService.salvaConfiguracao(configuracaoGeral)

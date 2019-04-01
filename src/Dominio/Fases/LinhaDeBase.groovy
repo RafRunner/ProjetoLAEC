@@ -16,20 +16,31 @@ class LinhaDeBase implements Jsonable {
     ModoLinhaDeBase modoExibicao
     List<Classe> classes
 
-    LinhaDeBase(Instrucao instrucaoImagem, Instrucao instrucaoPalavra, List<Classe> classes, Integer repeticoes, String nomeModo) {
-        if (instrucaoImagem && instrucaoPalavra && classes && repeticoes) {
-            this.instrucaoImagem = instrucaoImagem
-            this.instrucaoPalavra = instrucaoPalavra
-            this.classes = classes
-            this.repeticoes = repeticoes
-            this.modoExibicao = ModoLinhaDeBase.values().find { ModoLinhaDeBase modo -> modo.nomeModo == nomeModo }
+    LinhaDeBase(Instrucao instrucaoImagem, Instrucao instrucaoPalavra, List<Classe> classes, int repeticoes, String nomeModo) {
+        if (!classes || repeticoes <= 0) {
+            throw new EntradaInvalidaException("Informações incompletas ou inválidas para Linha de Base!")
+        }
 
-            if (!nomeModo) {
-                throw new EntradaInvalidaException("Modo de Apresentação Linha de Base não reconhecido!!")
-            }
+        this.instrucaoImagem = instrucaoImagem
+        this.instrucaoPalavra = instrucaoPalavra
+        this.classes = classes
+        this.repeticoes = repeticoes
+        this.modoExibicao = ModoLinhaDeBase.values().find { ModoLinhaDeBase modo -> modo.nomeModo == nomeModo }
 
-        } else {
-            throw new EntradaInvalidaException("Informações incompletas ou inválidas para Condicao Um!")
+        if (!modoExibicao) {
+            throw new EntradaInvalidaException("Modo de Apresentação Linha de Base não reconhecido!!")
+        }
+
+        if (!instrucaoPalavra && !instrucaoImagem) {
+            throw new EntradaInvalidaException('Linha de Base necessita pelo menos uma instrução!')
+        }
+
+        if (modoExibicao == ModoLinhaDeBase.MODO_IMAGEM && !instrucaoImagem) {
+            throw new EntradaInvalidaException('Linha de Base no modo imagem necessita de instrução imagem!!')
+        }
+
+        if (modoExibicao == ModoLinhaDeBase.MODO_PALAVRA && !instrucaoPalavra) {
+            throw new EntradaInvalidaException('Linha de Base no modo palavra necessita de instrução palavra!!')
         }
     }
 
@@ -38,8 +49,8 @@ class LinhaDeBase implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
-        json.append("\"instrucaoImagem\": ${instrucaoImagem.toJson()},")
-        json.append("\"instrucaoPalavra\": ${instrucaoPalavra.toJson()},")
+        json.append("\"instrucaoImagem\": ${instrucaoImagem?.toJson()},")
+        json.append("\"instrucaoPalavra\": ${instrucaoPalavra?.toJson()},")
         json.append("\"repeticoes\": \"${repeticoes}\",")
         json.append("\"modoExibicao\": \"${modoExibicao.nomeModo}\"")
         json.append('}')
