@@ -1,5 +1,6 @@
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
+import Dominio.Enums.CoresDisponiveis
 import Dominio.Enums.ModoLinhaDeBase
 import Dominio.Enums.Ordens
 import Dominio.Fases.Condicao1
@@ -12,8 +13,10 @@ import Files.Logger
 import Services.ConfiguracaoGeralService
 import Services.LoggerService
 import Utils.TextUtils
+import View.LinhaDeBaseView
 
 import javax.swing.ImageIcon
+import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.JOptionPane
 import javax.swing.JPanel
@@ -84,5 +87,13 @@ class TestesGerais {
         LoggerService loggerService = LoggerService.instancia
         loggerService.criarArquivoResultado(logger)
         loggerService.registraLog(logger)
+
+        JFrame janela = new JFrame()
+        janela.setVisible(true)
+        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+        janela.setLocationRelativeTo(null)
+        janela.setExtendedState(JFrame.MAXIMIZED_BOTH)
+
+        janela.add(new LinhaDeBaseView(classe1.palavraSemSentido, classe1.cor.color))
     }
 }

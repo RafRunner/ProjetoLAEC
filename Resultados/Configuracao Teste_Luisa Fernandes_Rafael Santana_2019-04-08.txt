@@ -1,0 +1,104 @@
+Nome Experimentador: Luisa Fernandes
+
+Grupo do participante: Ordem 1
+Nome Participante: Rafael Santana
+Sexo Participante: masculino
+Idade Participante: 21
+
+Inicio Experimento: 2019-04-08 12:00:16
+Fim Experimento: 2019-04-08 12:00:16
+
+Configuracao Usada:
+{
+    "tituloConfiguracao": "Configuracao Teste",
+    "tempoLimite": "50",
+    "classes": [
+        {
+            "palavraComSentido": "Gandalf",
+            "palavraSemSentido": "uaehug",
+            "cor": "vermelho",
+            "imagem": "WhatsApp Image 2019-02-13 at 15.48.50.jpeg"
+        },
+        {
+            "palavraComSentido": "\u00c1lbum",
+            "palavraSemSentido": "mefshwa",
+            "cor": "azul",
+            "imagem": "recomendacao.png"
+        }
+    ],
+    "ordem": "Ordem 1",
+    "ordemFases": "[LinhaDeBase, Condicao1, Treino, Teste1, Teste2]",
+    "linhaDeBase": {
+        "instrucaoImagem": {
+            "texto": "Veja essas imagens",
+            "tempo": "20",
+            "podeSerPulada": "true"
+        },
+        "instrucaoPalavra": {
+            "texto": "Veja essas palavras",
+            "tempo": "20",
+            "podeSerPulada": "true"
+        },
+        "repeticoes": "3",
+        "modoExibicao": "modo ambos"
+    },
+    "condicao1": {
+        "instrucoes": [
+            {
+                "texto": "Escreva o que voce viu na folha 1@",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            },
+            {
+                "texto": "Escreva o que voce leu na folha 2@",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            },
+            {
+                "texto": "Escreva o que voce pensou na folha 3@",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            }
+        ],
+        "numeroRepeticoes": "3"
+    },
+    "treino": {
+        "pontuacaoInicial": "100",
+        "pontosPorAcerto": "10",
+        "pontosPorErro": "10"
+    },
+    "teste1": {
+        "instrucoes": [
+            {
+                "texto": "Escreva o que voce leu na folha 4@",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            },
+            {
+                "texto": "Escreva o que voce pensou na folha 5@",
+                "tempo": "20",
+                "podeSerPulada": "true"
+            }
+        ],
+        "numeroRepeticoes": "3"
+    },
+    "teste2": {
+        "instrucaoImagem": {
+            "texto": "Veja essas imagens, com novo significado",
+            "tempo": "20",
+            "podeSerPulada": "true"
+        },
+        "instrucaoPalavra": null,
+        "repeticoes": "3",
+        "modoExibicao": "modo imagem"
+    }
+}
+
+Resultados:
+	12:00:16: James Strachan falou sobre o desenvolvimento do Groovy pela primeira vez em seu blog em Agosto de 2003.
+	12:00:16: Em Março de 2004, Groovy foi enviado ao Java Community Process(JCP) como JSR 241 e aceito. 
+	12:00:16: Diversas versões foram lançadas entre 2004 e 2006. 
+	12:00:16: Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. 
+	12:00:16: Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.
+	12:00:16: Gandalf: [Escreva o que voce viu na folha 1A, Escreva o que voce leu na folha 2A, Escreva o que voce pensou na folha 3A]
+Álbum: [Escreva o que voce viu na folha 1B, Escreva o que voce leu na folha 2B, Escreva o que voce pensou na folha 3B]
