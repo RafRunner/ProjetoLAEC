@@ -1,10 +1,15 @@
 package View
 
+import groovy.transform.CompileStatic
+
 import javax.swing.JLabel
 import javax.swing.JPanel
 import java.awt.Color
 import java.awt.Font
+import java.awt.GridBagConstraints
+import java.awt.GridBagLayout
 
+@CompileStatic
 class LinhaDeBaseView extends JPanel {
 
     JLabel palvra
@@ -14,7 +19,6 @@ class LinhaDeBaseView extends JPanel {
     private static final int TAMANHO_FONTE = 50
 
     LinhaDeBaseView(String palavra, Color cor) {
-        this.setVisible(true)
 
         this.palvra = new JLabel(palavra)
         this.palvra.setBackground(FUNDO_PALAVRA)
@@ -24,7 +28,42 @@ class LinhaDeBaseView extends JPanel {
 
         this.cor = cor
         this.setBackground(cor)
+        this.setLayout(new GridBagLayout())
 
-        this.add(this.palvra)
+        GridBagConstraints gb = new GridBagConstraints()
+
+        gb.fill = GridBagConstraints.HORIZONTAL
+        gb.weightx = 1
+        gb.weighty = 1
+
+        JLabel[] espacos = new JLabel[4]
+        for (int i = 0; i < espacos.length; i++) {
+            espacos[i] = new JLabel('')
+        }
+
+        int i = 0, j = 0, k = 0
+
+        this.add(espacos[i], gb)
+        gb.gridx = ++j
+        i++
+
+        this.add(espacos[i], gb)
+        gb.gridx = ++j
+        i++
+
+        this.add(espacos[i], gb)
+        gb.gridx = --j
+        gb.gridy = ++k
+        i++
+
+        gb.fill = GridBagConstraints.NONE
+        this.add(this.palvra, gb)
+        gb.gridy = ++k
+        gb.fill = GridBagConstraints.HORIZONTAL
+
+        this.add(espacos[i], gb)
+        this.setVisible(true)
+        this.revalidate()
+        this.repaint()
     }
 }

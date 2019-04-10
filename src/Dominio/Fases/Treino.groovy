@@ -12,6 +12,8 @@ class Treino implements Jsonable {
     Integer pontuacaoInicial
     Integer pontosPorAcerto
     Integer pontosPorErro
+    Integer condicaoParadaAcerto
+    Integer condicaoParadaErro
     List<Classe> classes
 
     Treino(List<Classe> classes, Integer pontuacaoInicial, Integer pontosPorAcerto, Integer pontosPorErro) {
