@@ -16,8 +16,8 @@ class Treino implements Jsonable {
     Integer condicaoParadaErro
     List<Classe> classes
 
-    Treino(List<Classe> classes, Integer pontuacaoInicial, Integer pontosPorAcerto, Integer pontosPorErro) {
-        if (!classes || !pontuacaoInicial || !pontosPorAcerto || !pontosPorErro) {
+    Treino(List<Classe> classes, Integer pontuacaoInicial, Integer pontosPorAcerto, Integer pontosPorErro, Integer condicaoParadaAcerto, Integer condicaoParadaErro) {
+        if (!classes || !pontuacaoInicial || !pontosPorAcerto || !pontosPorErro || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0) {
             throw new EntradaInvalidaException('Treino não posso ser criado sem todos os parâmetros não nulos!')
         }
         
@@ -26,6 +26,8 @@ class Treino implements Jsonable {
         this.pontuacaoInicial = pontuacaoInicial
         this.pontosPorAcerto = pontosPorAcerto
         this.pontosPorErro = pontosPorErro
+        this.condicaoParadaAcerto = condicaoParadaAcerto
+        this.condicaoParadaErro = condicaoParadaErro
     }
 
     @Override
@@ -36,6 +38,8 @@ class Treino implements Jsonable {
         json.append("\"pontuacaoInicial\": \"${pontuacaoInicial}\",")
         json.append("\"pontosPorAcerto\": \"${pontosPorAcerto}\",")
         json.append("\"pontosPorErro\": \"${pontosPorErro}\"")
+        json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\"")
+        json.append("\"condicaoParadaErro\": \"${condicaoParadaErro}\"")
         json.append('}')
 
         return json.toString()

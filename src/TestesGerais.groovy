@@ -67,7 +67,7 @@ class TestesGerais {
                 Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Treino([classe1, classe2], 100, 10, 10),
+                new Treino([classe1, classe2], 100, 10, 10, 30, 3),
                 teste1,
                 new Teste2(instrucinstrucaoTeste2Imagem, null, [classe1, classe2], 3, 'modo imagem'))
 

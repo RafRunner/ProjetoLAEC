@@ -11,7 +11,9 @@ class TreinoFactory {
         Integer pontuacaoInicial = Integer.parseInt(map.pontuacaoInicial)
         Integer pontosPorAcerto = Integer.parseInt(map.pontosPorAcerto)
         Integer pontosPorErro = Integer.parseInt(map.pontosPorErro)
+        Integer condicaoParadaAcerto = Integer.parseInt(map.condicaoParadaAcerto)
+        Integer condicaoParadaErro = Integer.parseInt(map.condicaoParadaErro)
 
-        return new Treino(classes, pontuacaoInicial, pontosPorAcerto, pontosPorErro)
+        return new Treino(classes, pontuacaoInicial, pontosPorAcerto, pontosPorErro, condicaoParadaAcerto, condicaoParadaErro)
     }
 }

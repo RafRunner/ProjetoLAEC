@@ -8,7 +8,7 @@ import Dominio.Fases.Teste1
 import Dominio.Fases.Teste2
 import Dominio.Fases.Treino
 import Dominio.Instrucao
-import View.Condicao1View
+import View.TreinoView
 import View.LinhaDeBaseView
 import groovy.transform.CompileStatic
 
@@ -52,7 +52,7 @@ class TestesGui {
                 Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Treino([classe1, classe2], 100, 10, 10),
+                new Treino([classe1, classe2], 100, 10, 10, 30, 3),
                 teste1,
                 new Teste2(instrucinstrucaoTeste2Imagem, null, [classe1, classe2], 3, 'modo imagem'))
 
@@ -62,9 +62,9 @@ class TestesGui {
         janela.setExtendedState(JFrame.MAXIMIZED_BOTH)
 
         LinhaDeBaseView linhaDeBaseView = new LinhaDeBaseView(classe1.palavraSemSentido, classe1.cor.color)
-        Condicao1View condicao1View = new Condicao1View([classe1, classe2].collect { it.palavraSemSentido }, classe2.cor.color, classe2.imagem)
+        TreinoView condicao1View = new TreinoView([classe1, classe2].collect { it.palavraSemSentido }, classe2.cor.color, classe2.imagem)
 
-        janela.add(condicao1View)
+        janela.add(linhaDeBaseView)
         janela.setVisible(true)
         janela.revalidate()
         janela.repaint()
