@@ -54,7 +54,9 @@
     "treino": {
         "pontuacaoInicial": "100",
         "pontosPorAcerto": "10",
-        "pontosPorErro": "10"
+        "pontosPorErro": "10",
+        "condicaoParadaAcerto": "30",
+        "condicaoParadaErro": "3"
     },
     "teste1": {
         "instrucoes": [

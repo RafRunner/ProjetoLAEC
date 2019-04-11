@@ -37,8 +37,8 @@ class Treino implements Jsonable {
         json.append('{')
         json.append("\"pontuacaoInicial\": \"${pontuacaoInicial}\",")
         json.append("\"pontosPorAcerto\": \"${pontosPorAcerto}\",")
-        json.append("\"pontosPorErro\": \"${pontosPorErro}\"")
-        json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\"")
+        json.append("\"pontosPorErro\": \"${pontosPorErro}\",")
+        json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\",")
         json.append("\"condicaoParadaErro\": \"${condicaoParadaErro}\"")
         json.append('}')
 
