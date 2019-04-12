@@ -16,23 +16,20 @@ class InstrucaoService {
     private InstrucaoService() {}
 
     void salvarInstrucoes(List<Instrucao> instrucoes) {
-        for (Instrucao instrucao : instrucoes) {
+        List<File> instrucoesExistentes = ambiente.getFiles(pastaInstrucoes)
 
+        for (Instrucao instrucao : instrucoes) {
             if (!instrucao) {
                 continue
             }
 
             String nomeArquivo = instrucao.montaNomeArquivo()
 
-            if (!instrucaoJaExiste(nomeArquivo)) {
+            if (!instrucoesExistentes.find { it.name == nomeArquivo }) {
                 String caminhoArquivo = ambiente.getFullPath(pastaInstrucoes, nomeArquivo)
                 File arquivo = new File(caminhoArquivo)
                 arquivo.write(instrucao.toJson())
             }
         }
-    }
-
-    private  boolean instrucaoJaExiste(String nomeArquivoInstrucao) {
-        return ambiente.getFiles(pastaInstrucoes).find { File arquivo -> arquivo.name == nomeArquivoInstrucao }
     }
 }

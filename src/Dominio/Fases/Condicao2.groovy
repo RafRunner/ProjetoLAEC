@@ -6,7 +6,7 @@ import Dominio.Jsonable
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Treino implements Jsonable {
+class Condicao2 implements Jsonable {
 
     Integer pontos
     Integer pontuacaoInicial
@@ -16,9 +16,9 @@ class Treino implements Jsonable {
     Integer condicaoParadaErro
     List<Classe> classes
 
-    Treino(List<Classe> classes, Integer pontuacaoInicial, Integer pontosPorAcerto, Integer pontosPorErro, Integer condicaoParadaAcerto, Integer condicaoParadaErro) {
+    Condicao2(List<Classe> classes, Integer pontuacaoInicial, Integer pontosPorAcerto, Integer pontosPorErro, Integer condicaoParadaAcerto, Integer condicaoParadaErro) {
         if (!classes || !pontuacaoInicial || !pontosPorAcerto || !pontosPorErro || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0) {
-            throw new EntradaInvalidaException('Treino não posso ser criado sem todos os parâmetros não nulos!')
+            throw new EntradaInvalidaException('Condicao2 não posso ser criado sem todos os parâmetros não nulos!')
         }
         
         this.classes = classes

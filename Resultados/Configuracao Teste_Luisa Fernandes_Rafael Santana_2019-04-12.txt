@@ -1,3 +1,14 @@
+Nome Experimentador: Luisa Fernandes
+
+Grupo do participante: Grupo 1
+Nome Participante: Rafael Santana
+Sexo Participante: masculino
+Idade Participante: 21
+
+Inicio Experimento: 2019-04-12 11:44:11
+Fim Experimento: 2019-04-12 11:44:11
+
+Configuracao Usada:
 {
     "tituloConfiguracao": "Configuracao Teste",
     "classes": [
@@ -75,3 +86,12 @@
         "numeroRepeticoes": "3"
     }
 }
+
+Resultados:
+	11:44:11: James Strachan falou sobre o desenvolvimento do Groovy pela primeira vez em seu blog em Agosto de 2003.
+	11:44:11: Em Março de 2004, Groovy foi enviado ao Java Community Process(JCP) como JSR 241 e aceito. 
+	11:44:11: Diversas versões foram lançadas entre 2004 e 2006. 
+	11:44:11: Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. 
+	11:44:11: Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.
+	11:44:11: Gandalf: [Escreva o que voce viu na folha 1A, Escreva o que voce leu na folha 2A, Escreva o que voce pensou na folha 3A]
+Álbum: [Escreva o que voce viu na folha 1B, Escreva o que voce leu na folha 2B, Escreva o que voce pensou na folha 3B]

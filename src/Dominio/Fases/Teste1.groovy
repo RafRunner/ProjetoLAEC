@@ -5,9 +5,9 @@ import Dominio.Instrucao
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Teste1 extends Condicao1 {
+class Teste1 extends LinhaDeBase {
 
-    Teste1(List<Instrucao> instrucoes, List<Classe> classes, int numeroRepeticoes) {
-        super(instrucoes, classes, numeroRepeticoes)
+    Teste1(Instrucao instrucaoImagem, Instrucao instrucaoPalavra, List<Classe> classes, int repeticoes, String nomeModo) {
+        super(instrucaoImagem, instrucaoPalavra, classes, repeticoes, nomeModo)
     }
 }

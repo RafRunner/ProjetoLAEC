@@ -15,17 +15,32 @@ class ViewUtils {
 
         gb.anchor = GridBagConstraints.CENTER
         gb.fill = GridBagConstraints.NONE
-        gb.weightx = 0.1
-        gb.weighty = 0.1
+        gb.gridx = 0
+        gb.gridy = 0
+        gb.weightx = 1
+        gb.weighty = 1
 
         return gb
     }
 
     static void modificaLabel(JLabel label, Color corBackground, Color corFonte, int tamanhoFonte) {
-        label.setBackground(corBackground)
-        label.setForeground(corFonte)
-        label.setOpaque(true)
+        if (corBackground) {
+            label.setBackground(corBackground)
+            label.setOpaque(true)
+        }
+        if (corFonte) {
+            label.setForeground(corFonte)
+            label.setOpaque(true)
+        }
         Font fonte = label.font
         label.setFont(new Font(fonte.getName(), Font.PLAIN, tamanhoFonte))
+    }
+
+    static JLabel[] criaEspacos(int quantidade) {
+        JLabel[] espacos = new JLabel[quantidade]
+        for (int i = 0; i < quantidade; i++) {
+            espacos[i] = new JLabel('')
+        }
+        return espacos
     }
 }

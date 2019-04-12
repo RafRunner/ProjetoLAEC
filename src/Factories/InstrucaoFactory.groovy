@@ -9,9 +9,7 @@ class InstrucaoFactory {
 
     static Instrucao fromStringMap(Map<String, String> map) {
         String texto = map.texto
-        Integer tempo = Integer.parseInt(map.tempo)
-        Boolean podeSerPulada = Boolean.valueOf(map.podeSerPulada)
 
-        return new Instrucao(texto, tempo, podeSerPulada)
+        return new Instrucao(texto)
     }
 }

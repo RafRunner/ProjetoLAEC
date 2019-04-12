@@ -2,9 +2,8 @@ package Dominio.Enums
 
 enum ModoLinhaDeBase {
 
-    MODO_IMAGEM('modo imagem'),
-    MODO_PALAVRA('modo palavra'),
-    MODO_AMBOS('modo ambos')
+    PRIMEIRO_IMAGEM('primeiro imagem'),
+    PRIMEIRO_PALAVRA('primeiro palavra')
 
     String nomeModo
 

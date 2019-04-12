@@ -34,7 +34,7 @@ class Condicao1 implements Jsonable {
         classes.eachWithIndex{ Classe entry, int i ->
             List<Instrucao> instrucoesTextoAtualizado = instrucoes.collect { Instrucao instrucao ->
                 String textoAtualizado = instrucao.texto.replaceAll(regexNumeros, (i + 1).toString()).replaceAll(regexLetras, ((i + 65) as Character).toString())
-                return new Instrucao(textoAtualizado, instrucao.tempo, instrucao.podeSerPulada)
+                return new Instrucao(textoAtualizado)
             }
             instrucoesParaClasses.put(entry, instrucoesTextoAtualizado)
         }

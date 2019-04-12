@@ -51,7 +51,7 @@ class Logger {
         fimExperimento = new Date()
 
         resultado.append("Nome Experimentador: ${nomeExperimentador}\n\n")
-        resultado.append("Grupo do participante: ${configuracaoUsada.ordem.nomeOrdem}\n")
+        resultado.append("Grupo do participante: ${configuracaoUsada.ordem.nomeGrupo}\n")
         resultado.append("Nome Participante: ${nomeParticipante}\n")
         resultado.append("Sexo Participante: ${sexoParticipante.extenso}\n")
         resultado.append("Idade Participante: ${idadeParticipante}\n\n")

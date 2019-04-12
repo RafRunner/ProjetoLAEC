@@ -9,20 +9,9 @@ import groovy.transform.CompileStatic
 class Teste2Factory {
 
     static Teste2 fromStringMap(Map<String, String> map, List<Classe> classes) {
-        Instrucao instrucaoImagem = null
-        Instrucao instrucaoPalavra = null
+        Integer numeroRepeticoes = Integer.parseInt(map.numeroRepeticoes)
+        List<Instrucao> instrucoes = (map.instrucoes as List<Map<String, String>>).collect { InstrucaoFactory.fromStringMap(it) }
 
-        if (map.instrucaoImagem) {
-            instrucaoImagem = InstrucaoFactory.fromStringMap((map.instrucaoImagem as Map<String, String>))
-        }
-        if (map.instrucaoPalavra) {
-            instrucaoPalavra = InstrucaoFactory.fromStringMap((map.instrucaoPalavra as Map<String, String>))
-        }
-
-        Integer repeticoes = Integer.parseInt(map.repeticoes)
-        String modoExibicao = map.modoExibicao
-
-
-        return new Teste2(instrucaoImagem, instrucaoPalavra, classes, repeticoes, modoExibicao)
+        return new Teste2(instrucoes, classes, numeroRepeticoes)
     }
 }

@@ -7,20 +7,23 @@ import javax.swing.JPanel
 import java.awt.Color
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
+import java.awt.event.MouseEvent
+import java.awt.event.MouseListener
 
 @CompileStatic
-class LinhaDeBaseView extends JPanel {
+class LinhaDeBaseView extends JPanel implements MouseListener {
 
     JLabel palavra
     Color cor
 
     private static final Color FUNDO_PALAVRA = Color.WHITE
-    private static final int TAMANHO_FONTE = 50
+    private static final int TAMANHO_FONTE = 200
 
     LinhaDeBaseView(String palavra, Color cor) {
 
         this.palavra = new JLabel(palavra)
         ViewUtils.modificaLabel(this.palavra, FUNDO_PALAVRA, Color.BLACK, TAMANHO_FONTE)
+        this.palavra.addMouseListener(this)
 
         this.cor = cor
         this.setBackground(cor)
@@ -28,10 +31,7 @@ class LinhaDeBaseView extends JPanel {
 
         GridBagConstraints gb = ViewUtils.getGb()
 
-        JLabel[] espacos = new JLabel[4]
-        for (int i = 0; i < espacos.length; i++) {
-            espacos[i] = new JLabel('')
-        }
+        JLabel[] espacos = ViewUtils.criaEspacos(4)
 
         int i = 0, j = 0, k = 0
 
@@ -57,5 +57,23 @@ class LinhaDeBaseView extends JPanel {
         this.setVisible(true)
         this.revalidate()
         this.repaint()
+        this.addMouseListener(this)
     }
+
+    @Override
+    void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    void mouseClicked(MouseEvent mouseEvent) {}
+
+    @Override
+    void mouseReleased(MouseEvent mouseEvent) {}
+
+    @Override
+    void mouseEntered(MouseEvent mouseEvent) {}
+
+    @Override
+    void mouseExited(MouseEvent mouseEvent) {}
 }

@@ -15,18 +15,16 @@ class ClasseService {
     private ClasseService() {}
 
     void salvarClasses(List<Classe> classes) {
+        List<File> classesExistentes = ambiente.getFiles(pastaClasses)
+
         for (Classe classe : classes) {
             String nomeArquivo = classe.montaNomeArquivo()
 
-            if (!classeJaExiste(nomeArquivo)) {
+            if (!classesExistentes.find { it.name == nomeArquivo }) {
                 String caminhoArquivo = ambiente.getFullPath(pastaClasses, nomeArquivo)
                 File arquivo = new File(caminhoArquivo)
                 arquivo.write(classe.toJson())
             }
         }
-    }
-
-   private  boolean classeJaExiste(String nomeArquivoClasse) {
-        return ambiente.getFiles(pastaClasses).find { File arquivo -> arquivo.name == nomeArquivoClasse }
     }
 }
