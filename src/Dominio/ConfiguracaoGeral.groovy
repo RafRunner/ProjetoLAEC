@@ -20,18 +20,18 @@ class ConfiguracaoGeral implements Jsonable {
 
     Condicao1 condicao1
     LinhaDeBase linhaDeBase
-    Condicao2 treino
+    Condicao2 condicao2
     Teste2 teste2
     Teste1 teste1
 
     ConfiguracaoGeral(String tituloConfiguracao, List<Classe> classes, Ordens ordem,
-                      Condicao1 condicao1, LinhaDeBase linhaDeBase, Condicao2 treino, Teste1 teste1, Teste2 teste2) {
+                      Condicao1 condicao1, LinhaDeBase linhaDeBase, Condicao2 condicao2, Teste1 teste1, Teste2 teste2) {
         this.tituloConfiguracao = tituloConfiguracao
         this.classes = classes
         this.ordem = ordem
         this.condicao1 = condicao1
         this.linhaDeBase = linhaDeBase
-        this.treino = treino
+        this.condicao2 = condicao2
         this.teste1 = teste1
         this.teste2 = teste2
     }
@@ -59,7 +59,7 @@ class ConfiguracaoGeral implements Jsonable {
         json.append("\"ordemFases\": \"${ordem.ordemFases}\",")
         json.append("\"linhaDeBase\": ${linhaDeBase.toJson()},")
         json.append("\"condicao1\": ${condicao1.toJson()},")
-        json.append("\"treino\": ${treino.toJson()},")
+        json.append("\"condicao2\": ${condicao2.toJson()},")
         json.append("\"teste1\": ${teste1.toJson()},")
         json.append("\"teste2\": ${teste2.toJson()}")
         json.append('}')

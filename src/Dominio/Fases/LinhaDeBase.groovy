@@ -1,42 +1,45 @@
 package Dominio.Fases
 
 import Dominio.Classe
-import Dominio.Enums.ModoLinhaDeBase
 import Dominio.Exceptions.EntradaInvalidaException
 import Dominio.Instrucao
 import Dominio.Jsonable
+import Utils.TextUtils
 import groovy.transform.CompileStatic
 
 @CompileStatic
 class LinhaDeBase implements Jsonable {
 
-    Instrucao instrucaoImagem
-    Instrucao instrucaoPalavra
-    int repeticoes
-    ModoLinhaDeBase modoExibicao
+    List<Instrucao> instrucoes
     List<Classe> classes
     int tempoLimite
+    int numeroRepeticoes
 
-    LinhaDeBase(Instrucao instrucaoImagem, Instrucao instrucaoPalavra, List<Classe> classes, int repeticoes, String nomeModo, int tempoLimite) {
-        if (!classes || repeticoes <= 0 || !instrucaoPalavra || !instrucaoImagem || tempoLimite <= 0) {
+    private static String regexLetras = '@'
+    private static String regexNumeros = '#'
+
+    LinhaDeBase(List<Classe> classes, List<Instrucao> instrucoes, int repeticoes, int tempoLimite) {
+        if (!classes || repeticoes <= 0 || !instrucoes || tempoLimite <= 0) {
             throw new EntradaInvalidaException("Informações incompletas ou inválidas para Linha de Base!")
         }
 
-        this.modoExibicao = ModoLinhaDeBase.values().find { ModoLinhaDeBase modo -> modo.nomeModo == nomeModo }
-
-        if (!modoExibicao) {
-            throw new EntradaInvalidaException("Modo de Apresentação Linha de Base não reconhecido!!")
-        }
-
-        this.instrucaoImagem = instrucaoImagem
-        this.instrucaoPalavra = instrucaoPalavra
         this.classes = classes
-        this.repeticoes = repeticoes
+        this.instrucoes = instrucoes
+        this.numeroRepeticoes = repeticoes
         this.tempoLimite = tempoLimite
     }
 
-    List<Instrucao> getInstrucoes() {
-        return [instrucaoImagem, instrucaoPalavra]
+    Map<Classe, List<Instrucao>> getInstrucoesParaClasses() {
+        Map<Classe, List<Instrucao>> instrucoesParaClasses = [:]
+
+        classes.eachWithIndex{ Classe entry, int i ->
+            List<Instrucao> instrucoesTextoAtualizado = instrucoes.collect { Instrucao instrucao ->
+                String textoAtualizado = instrucao.texto.replaceAll(regexNumeros, (i + 1).toString()).replaceAll(regexLetras, ((i + 65) as Character).toString())
+                return new Instrucao(textoAtualizado)
+            }
+            instrucoesParaClasses.put(entry, instrucoesTextoAtualizado)
+        }
+        return instrucoesParaClasses
     }
 
     @Override
@@ -44,10 +47,8 @@ class LinhaDeBase implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
-        json.append("\"instrucaoImagem\": ${instrucaoImagem?.toJson()},")
-        json.append("\"instrucaoPalavra\": ${instrucaoPalavra?.toJson()},")
-        json.append("\"repeticoes\": \"${repeticoes}\",")
-        json.append("\"modoExibicao\": \"${modoExibicao.nomeModo}\",")
+        json.append("\"instrucoes\": ${TextUtils.listToJsonString(instrucoes.collect { it?.toJson() })}, ")
+        json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\",")
         json.append("\"tempoLimite\": \"${tempoLimite}\"")
         json.append('}')
 

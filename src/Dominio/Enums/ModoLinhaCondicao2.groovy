@@ -1,13 +1,13 @@
 package Dominio.Enums
 
-enum ModoLinhaDeBase {
+enum ModoLinhaCondicao2 {
 
     PRIMEIRO_IMAGEM('primeiro imagem'),
     PRIMEIRO_PALAVRA('primeiro palavra')
 
     String nomeModo
 
-    ModoLinhaDeBase(String nomeModo) {
+    ModoLinhaCondicao2(String nomeModo) {
         this.nomeModo = nomeModo
     }
 }

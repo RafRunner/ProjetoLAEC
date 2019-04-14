@@ -1,6 +1,6 @@
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
-import Dominio.Enums.ModoLinhaDeBase
+import Dominio.Enums.ModoLinhaCondicao2
 import Dominio.Enums.Ordens
 import Dominio.Fases.Condicao1
 import Dominio.Fases.LinhaDeBase
@@ -12,11 +12,6 @@ import Files.Logger
 import Services.ConfiguracaoGeralService
 import Services.LoggerService
 import Utils.TextUtils
-
-import javax.swing.ImageIcon
-import javax.swing.JLabel
-import javax.swing.JOptionPane
-import javax.swing.JPanel
 
 class TestesGerais {
 
@@ -40,9 +35,9 @@ class TestesGerais {
 
         int tempoLimite = 50
 
-        Condicao1 condicao1 = new Condicao1([instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], [classe1, classe2], 3, tempoLimite)
-        Teste2 teste2 = new Teste2([instrucinstrucaoTeste11, instrucinstrucaoTeste12], [classe1, classe2], 3, tempoLimite)
-        LinhaDeBase linhaDeBase = new LinhaDeBase(instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, [classe1, classe2], 3, ModoLinhaDeBase.PRIMEIRO_IMAGEM.nomeModo, tempoLimite)
+        Condicao1 condicao1 = new Condicao1([classe1, classe2, classe3], [instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], 3, tempoLimite)
+        Teste2 teste2 = new Teste2([classe1, classe2, classe3], [instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], 3, tempoLimite)
+        LinhaDeBase linhaDeBase = new LinhaDeBase([classe1, classe2, classe3], [instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], 3, tempoLimite)
 
         classe1.imagem.resize(300, 300)
 
@@ -52,8 +47,8 @@ class TestesGerais {
                 Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Condicao2([classe1, classe2], 3, 3, tempoLimite),
-                new Teste1(instrucinstrucaoTeste1Imagem, instrucinstrucaoTeste1Palavra, [classe1, classe2], 3, 'primeiro imagem', tempoLimite),
+                new Condicao2([classe1, classe2, classe3], instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, ModoLinhaCondicao2.PRIMEIRO_IMAGEM.nomeModo, 3, 3, 3, tempoLimite),
+                new Teste1([classe1, classe2, classe3], [instrucinstrucaoTeste11, instrucinstrucaoTeste12], 3, tempoLimite),
                 teste2)
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia

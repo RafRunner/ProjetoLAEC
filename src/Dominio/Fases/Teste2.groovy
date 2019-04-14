@@ -7,7 +7,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Teste2 extends Condicao1 {
 
-    Teste2(List<Instrucao> instrucoes, List<Classe> classes, int numeroRepeticoes, int tempoLimite) {
-        super(instrucoes, classes, numeroRepeticoes, tempoLimite)
+    Teste2(List<Classe> classes, List<Instrucao> instrucoes, int numeroRepeticoes, int tempoLimite) {
+        super(classes, instrucoes, numeroRepeticoes, tempoLimite)
     }
 }

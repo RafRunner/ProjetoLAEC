@@ -23,7 +23,7 @@ class JanelaPrincipalController {
         this.configuracaoGeral = configuracaoGeral
         this.ordem = configuracaoGeral.ordem
         this.logger = logger
-        this.indiceFaseAtual = 0
+        this.indiceFaseAtual = -1
 
         janela = new JFrame()
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
@@ -47,7 +47,6 @@ class JanelaPrincipalController {
     
     void passarParaProximaFase() {
         indiceFaseAtual++
-
         Class<? extends ControllerFase> classeProximoControler = ordem.ordemControllers[indiceFaseAtual]
         ControllerFase proximoControler = classeProximoControler.newInstance(this, configuracaoGeral, logger)
         proximoControler.iniciar()

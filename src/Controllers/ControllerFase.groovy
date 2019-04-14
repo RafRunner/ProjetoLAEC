@@ -2,6 +2,7 @@ package Controllers
 
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
+import Dominio.Instrucao
 import Files.Logger
 import groovy.transform.CompileStatic
 
@@ -12,6 +13,7 @@ class ControllerFase {
     ConfiguracaoGeral configuracaoGeral
     Logger logger
     List<Classe> classes
+    ArrayList<Instrucao> instrucoes
 
     long tempo
 

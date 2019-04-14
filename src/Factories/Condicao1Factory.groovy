@@ -13,6 +13,6 @@ class Condicao1Factory {
         int numeroRepeticoes = Integer.parseInt(map.numeroRepeticoes)
         int tempoLimite = Integer.parseInt(map.tempoLimite)
 
-        return new Condicao1(instrucoes, classes, numeroRepeticoes, tempoLimite)
+        return new Condicao1(classes, instrucoes, numeroRepeticoes, tempoLimite)
     }
 }

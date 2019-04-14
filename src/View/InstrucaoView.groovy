@@ -4,7 +4,6 @@ import groovy.transform.CompileStatic
 
 import javax.swing.JLabel
 import javax.swing.JPanel
-import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -17,7 +16,11 @@ class InstrucaoView extends JPanel implements MouseListener {
     private static final Color FUNDO = Color.WHITE
     private static final int TAMANHO_FONTE = 70
 
-    InstrucaoView(String instrucao) {
+    private final Object lock
+
+    InstrucaoView(String instrucao, Object lock) {
+        this.lock = lock
+
         JLabel labelInstrucao = new JLabel(instrucao)
         ViewUtils.modificaLabel(labelInstrucao, null, null, TAMANHO_FONTE)
 
@@ -40,7 +43,9 @@ class InstrucaoView extends JPanel implements MouseListener {
 
     @Override
     void mousePressed(MouseEvent mouseEvent) {
-
+        synchronized (lock) {
+            lock.notifyAll()
+        }
     }
 
     @Override

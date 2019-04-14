@@ -1,10 +1,12 @@
 package View
 
+import Controllers.LinhaDeBaseController
 import groovy.transform.CompileStatic
 
 import javax.swing.JLabel
 import javax.swing.JPanel
 import java.awt.Color
+import java.awt.Component
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.event.MouseEvent
@@ -16,10 +18,14 @@ class LinhaDeBaseView extends JPanel implements MouseListener {
     JLabel palavra
     Color cor
 
+    private final LinhaDeBaseController controller
+    boolean tocouNaPalavra
+
     private static final Color FUNDO_PALAVRA = Color.WHITE
     private static final int TAMANHO_FONTE = 200
 
-    LinhaDeBaseView(String palavra, Color cor) {
+    LinhaDeBaseView(String palavra, Color cor, LinhaDeBaseController controller) {
+        this.controller = controller
 
         this.palavra = new JLabel(palavra)
         ViewUtils.modificaLabel(this.palavra, FUNDO_PALAVRA, Color.BLACK, TAMANHO_FONTE)
@@ -62,7 +68,11 @@ class LinhaDeBaseView extends JPanel implements MouseListener {
 
     @Override
     void mousePressed(MouseEvent mouseEvent) {
-
+        synchronized (controller) {
+            Component componeteTocado = (Component) mouseEvent.getSource()
+            tocouNaPalavra = componeteTocado instanceof JLabel
+            controller.notify()
+        }
     }
 
     @Override

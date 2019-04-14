@@ -7,39 +7,53 @@ import Dominio.Instrucao
 import Files.Logger
 import Services.LoggerService
 import View.Condicao1View
+import View.InstrucaoView
 import groovy.transform.CompileStatic
 
 @CompileStatic
 class Condicao1Controller extends ControllerFase {
 
     Condicao1 condicao1
+    ArrayList<Instrucao> instrucoes
 
     Condicao1View condicao1ViewAtual
-    int indiceClasseAtual
+    int indiceClasseAtual = 0
+    int repeticaoAtual = 0
 
     LoggerService loggerService = LoggerService.instancia
 
     Condicao1Controller(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
         super(janalePrincipalController1, configuracaoGeral, logger)
         this.condicao1 = configuracaoGeral.condicao1
+        this.instrucoes = (ArrayList) condicao1.instrucoes
+        indiceClasseAtual = -1
     }
 
     @Override
     void iniciar() {
-        Classe primeiraClasse = classes[0]
-        ArrayList<Instrucao> instrucoes = (ArrayList) condicao1.instrucoes
-
-        condicao1ViewAtual = new Condicao1View(classes.palavraSemSentido, primeiraClasse.cor.color, this)
-        indiceClasseAtual = 0
         logger.log("Inicio da Condicao 1!\n", '\n')
-        logger.log("Classe associada a primeira tela: $primeiraClasse.palavraComSentido", '\t')
-        logger.log("Cor da primeira tela: $primeiraClasse.cor.nomeCor\n", '\t')
+
+        for (Instrucao instrucao : instrucoes) {
+            final Object lock = new Object()
+
+            InstrucaoView instrucaoView = new InstrucaoView(instrucao.texto, lock)
+            janelePrincipalController.mudarPainel(instrucaoView)
+
+            logger.log("Mostrando a instrução: $instrucao.texto", '\t')
+            loggerService.registraLog(logger)
+
+            synchronized (lock) {
+                lock.wait()
+            }
+        }
+
+        logger.log("Iniciando a primeira repetição", '\n\t')
         loggerService.registraLog(logger)
 
-        janelePrincipalController.mudarPainel(condicao1ViewAtual)
+        passarParaProximaTela()
     }
 
-    void tocou(String palavraTocada) {
+    void toqueEstimulo(String palavraTocada) {
         if (palavraTocada == null) {
             logger.log("Toque fora de qualquer estímulo", '\t')
             loggerService.registraLog(logger)
@@ -63,6 +77,20 @@ class Condicao1Controller extends ControllerFase {
 
     void passarParaProximaTela() {
         indiceClasseAtual++
+
+        if (indiceClasseAtual >= classes.size()) {
+            logger.log("Iniciando a repitição de número ${repeticaoAtual + 1}", '\n\t')
+            loggerService.registraLog(logger)
+            repeticaoAtual++
+            indiceClasseAtual = 0
+        }
+        if (repeticaoAtual >= condicao1.numeroRepeticoes) {
+            logger.log("Fim da Condição 1!", '\n')
+            loggerService.registraLog(logger)
+            janelePrincipalController.passarParaProximaFase()
+            return
+        }
+
         Classe classeAtual = classes[indiceClasseAtual]
 
         condicao1ViewAtual = new Condicao1View(classes.palavraSemSentido, classeAtual.cor.color, this)

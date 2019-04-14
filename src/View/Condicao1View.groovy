@@ -86,7 +86,7 @@ class Condicao1View extends JPanel implements MouseListener {
             palavraTocada = componeteTocado.getText()
         }
 
-        condicao1Controller.tocou(palavraTocada)
+        condicao1Controller.toqueEstimulo(palavraTocada)
     }
 
     @Override
