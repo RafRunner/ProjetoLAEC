@@ -38,25 +38,13 @@ class TestesGerais {
         Instrucao instrucinstrucaoTeste1Palavra = new Instrucao("Veja essas palavras, com novo significado")
         Instrucao instrucinstrucaoTeste1Imagem = new Instrucao("Veja essas imagens, com novo significado")
 
+        int tempoLimite = 50
 
-        Condicao1 condicao1 = new Condicao1([instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], [classe1, classe2], 3)
-        Teste2 teste2 = new Teste2([instrucinstrucaoTeste11, instrucinstrucaoTeste12], [classe1, classe2], 3)
-        LinhaDeBase linhaDeBase = new LinhaDeBase(instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, [classe1, classe2], 3, ModoLinhaDeBase.PRIMEIRO_IMAGEM.nomeModo)
+        Condicao1 condicao1 = new Condicao1([instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], [classe1, classe2], 3, tempoLimite)
+        Teste2 teste2 = new Teste2([instrucinstrucaoTeste11, instrucinstrucaoTeste12], [classe1, classe2], 3, tempoLimite)
+        LinhaDeBase linhaDeBase = new LinhaDeBase(instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, [classe1, classe2], 3, ModoLinhaDeBase.PRIMEIRO_IMAGEM.nomeModo, tempoLimite)
 
         classe1.imagem.resize(300, 300)
-
-        ImageIcon icon = new ImageIcon(classe2.imagem.bufferedImage)
-
-        JPanel panel = new JPanel()
-        panel.setSize(1000, 1000)
-        panel.setBackground(classe2.cor.color)
-        JLabel imagem = new JLabel(icon)
-        panel.add(imagem)
-        panel.setVisible(true)
-
-        JOptionPane.showMessageDialog(null, panel, 'Imagem', JOptionPane.PLAIN_MESSAGE)
-
-        println(classe1.palavraComSentido)
 
         ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral(
                 'Configuracao Teste',
@@ -64,8 +52,8 @@ class TestesGerais {
                 Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Condicao2([classe1, classe2], 100, 10, 10, 30, 3),
-                new Teste1(instrucinstrucaoTeste1Imagem, instrucinstrucaoTeste1Palavra, [classe1, classe2], 3, 'primeiro imagem'),
+                new Condicao2([classe1, classe2], 3, 3, tempoLimite),
+                new Teste1(instrucinstrucaoTeste1Imagem, instrucinstrucaoTeste1Palavra, [classe1, classe2], 3, 'primeiro imagem', tempoLimite),
                 teste2)
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia

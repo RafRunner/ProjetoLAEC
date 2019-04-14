@@ -1,11 +1,13 @@
 package View
 
+import Controllers.Condicao1Controller
 import groovy.transform.CompileStatic
 
 import javax.swing.BoxLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
 import java.awt.Color
+import java.awt.Component
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.event.MouseEvent
@@ -19,7 +21,11 @@ class Condicao1View extends JPanel implements MouseListener {
     private static final Color FUNDO_PALAVRA = Color.WHITE
     private static final int TAMANHO_FONTE = 90
 
-    Condicao1View(List<String> palavras, Color cor) {
+    Condicao1Controller condicao1Controller
+
+    Condicao1View(List<String> palavras, Color cor, Condicao1Controller condicao1Controller1) {
+
+        this.condicao1Controller = condicao1Controller1
 
         palavras.sort { Math.random() }
         for (String palavra : palavras) {
@@ -73,7 +79,14 @@ class Condicao1View extends JPanel implements MouseListener {
 
     @Override
     void mousePressed(MouseEvent mouseEvent) {
+        Component componeteTocado = (Component) mouseEvent.getSource()
+        String palavraTocada
 
+        if (componeteTocado instanceof JLabel) {
+            palavraTocada = componeteTocado.getText()
+        }
+
+        condicao1Controller.tocou(palavraTocada)
     }
 
     @Override

@@ -25,7 +25,7 @@ class InstrucaoService {
 
             String nomeArquivo = instrucao.montaNomeArquivo()
 
-            if (!instrucoesExistentes.find { it.name == nomeArquivo }) {
+            if (!(nomeArquivo in instrucoesExistentes.name)) {
                 String caminhoArquivo = ambiente.getFullPath(pastaInstrucoes, nomeArquivo)
                 File arquivo = new File(caminhoArquivo)
                 arquivo.write(instrucao.toJson())

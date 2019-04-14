@@ -15,9 +15,10 @@ class LinhaDeBase implements Jsonable {
     int repeticoes
     ModoLinhaDeBase modoExibicao
     List<Classe> classes
+    int tempoLimite
 
-    LinhaDeBase(Instrucao instrucaoImagem, Instrucao instrucaoPalavra, List<Classe> classes, int repeticoes, String nomeModo) {
-        if (!classes || repeticoes <= 0 || !instrucaoPalavra || !instrucaoImagem) {
+    LinhaDeBase(Instrucao instrucaoImagem, Instrucao instrucaoPalavra, List<Classe> classes, int repeticoes, String nomeModo, int tempoLimite) {
+        if (!classes || repeticoes <= 0 || !instrucaoPalavra || !instrucaoImagem || tempoLimite <= 0) {
             throw new EntradaInvalidaException("Informações incompletas ou inválidas para Linha de Base!")
         }
 
@@ -31,6 +32,7 @@ class LinhaDeBase implements Jsonable {
         this.instrucaoPalavra = instrucaoPalavra
         this.classes = classes
         this.repeticoes = repeticoes
+        this.tempoLimite = tempoLimite
     }
 
     List<Instrucao> getInstrucoes() {
@@ -45,7 +47,8 @@ class LinhaDeBase implements Jsonable {
         json.append("\"instrucaoImagem\": ${instrucaoImagem?.toJson()},")
         json.append("\"instrucaoPalavra\": ${instrucaoPalavra?.toJson()},")
         json.append("\"repeticoes\": \"${repeticoes}\",")
-        json.append("\"modoExibicao\": \"${modoExibicao.nomeModo}\"")
+        json.append("\"modoExibicao\": \"${modoExibicao.nomeModo}\",")
+        json.append("\"tempoLimite\": \"${tempoLimite}\"")
         json.append('}')
 
         return json.toString()

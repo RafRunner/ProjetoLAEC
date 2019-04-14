@@ -30,7 +30,8 @@
             "texto": "Veja essas palavras"
         },
         "repeticoes": "3",
-        "modoExibicao": "primeiro imagem"
+        "modoExibicao": "primeiro imagem",
+        "tempoLimite": "50"
     },
     "condicao1": {
         "instrucoes": [
@@ -44,14 +45,13 @@
                 "texto": "Escreva o que voce pensou na folha 3@"
             }
         ],
-        "numeroRepeticoes": "3"
+        "numeroRepeticoes": "3",
+        "tempoLimite": "50"
     },
     "treino": {
-        "pontuacaoInicial": "100",
-        "pontosPorAcerto": "10",
-        "pontosPorErro": "10",
-        "condicaoParadaAcerto": "30",
-        "condicaoParadaErro": "3"
+        "condicaoParadaAcerto": "3",
+        "condicaoParadaErro": "3",
+        "tempoLimite": "50"
     },
     "teste1": {
         "instrucaoImagem": {
@@ -61,7 +61,8 @@
             "texto": "Veja essas palavras, com novo significado"
         },
         "repeticoes": "3",
-        "modoExibicao": "primeiro imagem"
+        "modoExibicao": "primeiro imagem",
+        "tempoLimite": "50"
     },
     "teste2": {
         "instrucoes": [
@@ -72,6 +73,7 @@
                 "texto": "Escreva o que voce pensou na folha 5@"
             }
         ],
-        "numeroRepeticoes": "3"
+        "numeroRepeticoes": "3",
+        "tempoLimite": "50"
     }
 }

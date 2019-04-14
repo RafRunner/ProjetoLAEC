@@ -3,6 +3,7 @@ package Files
 import Dominio.ConfiguracaoGeral
 import Dominio.Enums.Sexo
 import Dominio.Exceptions.EntradaInvalidaException
+import Services.LoggerService
 import groovy.transform.CompileStatic
 
 import java.text.SimpleDateFormat
@@ -26,6 +27,8 @@ class Logger {
     private Date inicioExperimento
     private Date fimExperimento
 
+    private LoggerService loggerService = LoggerService.instancia
+
     Logger(String nomeExperimentador, String nomeParticipante, String sexoParticipante, int idadeParticipante, ConfiguracaoGeral configuracaoUsada) {
         if (!nomeExperimentador || !nomeParticipante || !sexoParticipante || !configuracaoUsada || idadeParticipante <= 0) {
             throw new EntradaInvalidaException('Para iniciar o experimento todas as informações devem ser preenchidas de forma válida!')
@@ -44,6 +47,7 @@ class Logger {
 
         this.log = new StringBuilder()
         this.nomeArquivo = montaNomeArquivo()
+        loggerService.atualizaNomeArquivoCasoJaExista(this)
     }
 
     String criaArquivoResultado() {
@@ -67,8 +71,11 @@ class Logger {
         return configuracaoUsada.tituloConfiguracao + '_' + nomeExperimentador + '_' + nomeParticipante + '_' + formatoData.format(inicioExperimento) + '.txt'
     }
 
-    void log(String mensagem) {
+    void log(String mensagem, String prefixos = null) {
         String linhaCompleta = "\t${formatoHora.format(new Date())}: ${mensagem}\n"
+        if (prefixos) {
+            linhaCompleta = prefixos + linhaCompleta
+        }
         log.append(linhaCompleta)
     }
 

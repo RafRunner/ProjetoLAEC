@@ -10,8 +10,9 @@ class Condicao1Factory {
 
     static Condicao1 fromStringMap(Map<String, String> map, List<Classe> classes) {
         List<Instrucao> instrucoes = (map.instrucoes as List<Map<String, String>>).collect { InstrucaoFactory.fromStringMap(it) }
-        Integer numeroRepeticoes = Integer.parseInt(map.numeroRepeticoes)
+        int numeroRepeticoes = Integer.parseInt(map.numeroRepeticoes)
+        int tempoLimite = Integer.parseInt(map.tempoLimite)
 
-        return new Condicao1(instrucoes, classes, numeroRepeticoes)
+        return new Condicao1(instrucoes, classes, numeroRepeticoes, tempoLimite)
     }
 }

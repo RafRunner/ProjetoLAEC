@@ -5,8 +5,8 @@ Nome Participante: Rafael Santana
 Sexo Participante: masculino
 Idade Participante: 21
 
-Inicio Experimento: 2019-04-12 11:44:11
-Fim Experimento: 2019-04-12 11:44:11
+Inicio Experimento: 2019-04-13 23:54:55
+Fim Experimento: 2019-04-13 23:54:55
 
 Configuracao Usada:
 {
@@ -14,13 +14,13 @@ Configuracao Usada:
     "classes": [
         {
             "palavraComSentido": "Gandalf",
-            "palavraSemSentido": "uaehug",
+            "palavraSemSentido": "uaehug1",
             "cor": "vermelho",
             "imagem": "WhatsApp Image 2019-02-13 at 15.48.50.jpeg"
         },
         {
             "palavraComSentido": "\u00c1lbum",
-            "palavraSemSentido": "mefshwa",
+            "palavraSemSentido": "mefshwa2",
             "cor": "azul",
             "imagem": "recomendacao.png"
         },
@@ -41,7 +41,8 @@ Configuracao Usada:
             "texto": "Veja essas palavras"
         },
         "repeticoes": "3",
-        "modoExibicao": "primeiro imagem"
+        "modoExibicao": "primeiro imagem",
+        "tempoLimite": "50"
     },
     "condicao1": {
         "instrucoes": [
@@ -55,14 +56,13 @@ Configuracao Usada:
                 "texto": "Escreva o que voce pensou na folha 3@"
             }
         ],
-        "numeroRepeticoes": "3"
+        "numeroRepeticoes": "3",
+        "tempoLimite": "50"
     },
     "treino": {
-        "pontuacaoInicial": "100",
-        "pontosPorAcerto": "10",
-        "pontosPorErro": "10",
-        "condicaoParadaAcerto": "30",
-        "condicaoParadaErro": "3"
+        "condicaoParadaAcerto": "3",
+        "condicaoParadaErro": "3",
+        "tempoLimite": "50"
     },
     "teste1": {
         "instrucaoImagem": {
@@ -72,7 +72,8 @@ Configuracao Usada:
             "texto": "Veja essas palavras, com novo significado"
         },
         "repeticoes": "3",
-        "modoExibicao": "primeiro imagem"
+        "modoExibicao": "primeiro imagem",
+        "tempoLimite": "50"
     },
     "teste2": {
         "instrucoes": [
@@ -83,15 +84,30 @@ Configuracao Usada:
                 "texto": "Escreva o que voce pensou na folha 5@"
             }
         ],
-        "numeroRepeticoes": "3"
+        "numeroRepeticoes": "3",
+        "tempoLimite": "50"
     }
 }
 
 Resultados:
-	11:44:11: James Strachan falou sobre o desenvolvimento do Groovy pela primeira vez em seu blog em Agosto de 2003.
-	11:44:11: Em Março de 2004, Groovy foi enviado ao Java Community Process(JCP) como JSR 241 e aceito. 
-	11:44:11: Diversas versões foram lançadas entre 2004 e 2006. 
-	11:44:11: Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. 
-	11:44:11: Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.
-	11:44:11: Gandalf: [Escreva o que voce viu na folha 1A, Escreva o que voce leu na folha 2A, Escreva o que voce pensou na folha 3A]
-Álbum: [Escreva o que voce viu na folha 1B, Escreva o que voce leu na folha 2B, Escreva o que voce pensou na folha 3B]
+
+	23:54:57: Inicio da Condicao 1!
+
+		23:54:57: Classe associada a primeira tela: Gandalf
+		23:54:57: Cor da primeira tela: vermelho
+
+		23:54:58: Toque fora de qualquer estímulo
+		23:54:58: Toque fora de qualquer estímulo
+		23:54:59: Toque fora de qualquer estímulo
+		23:54:59: O participante clicou no estímulo uaehug1, que era o estilo associado a tela
+
+		23:54:59: Passando para tela associada a classe Álbum
+		23:54:59: Cor da tela: azul
+
+		23:55:00: O participante clicou no estímulo huaheu3, que não era o estilo associado a tela
+
+		23:55:00: Passando para tela associada a classe Luigi
+		23:55:00: Cor da tela: verde
+
+		23:55:01: O participante clicou no estímulo mefshwa2, que não era o estilo associado a tela
+		23:55:02: Toque fora de qualquer estímulo

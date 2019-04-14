@@ -14,9 +14,8 @@ class LoggerService {
     static LoggerService instancia = new LoggerService()
     private LoggerService(){}
 
-    void criarArquivoResultado(Logger logger) {
-        String caminhoArquivo = criaCaminhoArquivo(logger.nomeArquivo)
-        String resultado = logger.criaArquivoResultado()
+    void atualizaNomeArquivoCasoJaExista(Logger logger) {
+        String caminhoArquivo = montaCaminhoArquivo(logger)
 
         File arquivo = new File(caminhoArquivo)
         int numeroArquivo = 1
@@ -27,11 +26,19 @@ class LoggerService {
         }
 
         logger.nomeArquivo = arquivo.name
+    }
+
+    void criarArquivoResultado(Logger logger) {
+        String caminhoArquivo = montaCaminhoArquivo(logger)
+        String resultado = logger.criaArquivoResultado()
+
+        File arquivo = new File(caminhoArquivo)
+
         arquivo.write(resultado)
     }
 
     void registraLog(Logger logger) {
-        String caminhoArquivo = criaCaminhoArquivo(logger.nomeArquivo)
+        String caminhoArquivo = montaCaminhoArquivo(logger)
         String logARegistrar = logger.log
 
         File arquivo = new File(caminhoArquivo)
@@ -44,7 +51,7 @@ class LoggerService {
         logger.limpaLog()
     }
 
-    private String criaCaminhoArquivo(String nomeArquivo) {
-        return ambiente.getFullPath(pastaResultados, nomeArquivo)
+    private String montaCaminhoArquivo(Logger logger) {
+        return ambiente.getFullPath(pastaResultados, logger.nomeArquivo)
     }
 }

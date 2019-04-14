@@ -1,3 +1,5 @@
+import Controllers.Condicao1Controller
+import Controllers.JanelaPrincipalController
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Enums.ModoLinhaDeBase
@@ -8,13 +10,14 @@ import Dominio.Fases.Teste2
 import Dominio.Fases.Teste1
 import Dominio.Fases.Condicao2
 import Dominio.Instrucao
-import View.Condicao1View
+import Files.Logger
+import Services.LoggerService
 import View.InstrucaoView
 import View.Condicao2View
 import View.LinhaDeBaseView
 import groovy.transform.CompileStatic
 
-import javax.swing.JFrame
+import javax.swing.JPanel
 
 @CompileStatic
 class TestesGui {
@@ -38,10 +41,11 @@ class TestesGui {
         Instrucao instrucinstrucaoTeste1Palavra = new Instrucao("Veja essas palavras, com novo significado")
         Instrucao instrucinstrucaoTeste1Imagem = new Instrucao("Veja essas imagens, com novo significado")
 
+        int tempoLimite = 50
 
-        Condicao1 condicao1 = new Condicao1([instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], [classe1, classe2], 3)
-        Teste2 teste2 = new Teste2([instrucinstrucaoTeste11, instrucinstrucaoTeste12], [classe1, classe2], 3)
-        LinhaDeBase linhaDeBase = new LinhaDeBase(instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, [classe1, classe2], 3, ModoLinhaDeBase.PRIMEIRO_IMAGEM.nomeModo)
+        Condicao1 condicao1 = new Condicao1([instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], [classe1, classe2, classe3], 3, tempoLimite)
+        Teste2 teste2 = new Teste2([instrucinstrucaoTeste11, instrucinstrucaoTeste12], [classe1, classe2, classe3], 3, tempoLimite)
+        LinhaDeBase linhaDeBase = new LinhaDeBase(instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, [classe1, classe2, classe3], 3, ModoLinhaDeBase.PRIMEIRO_IMAGEM.nomeModo, tempoLimite)
 
         classe1.imagem.resize(500, 500)
         classe2.imagem.resize(500, 500)
@@ -50,27 +54,23 @@ class TestesGui {
 
         ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral(
                 'Configuracao Teste',
-                [classe1, classe2],
+                [classe1, classe2, classe3],
                 Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Condicao2([classe1, classe2], 100, 10, 10, 30, 3),
-                new Teste1(instrucinstrucaoTeste1Imagem, instrucinstrucaoTeste1Palavra, [classe1, classe2], 3, 'primeiro imagem'),
+                new Condicao2([classe1, classe2, classe3], 3, 3, tempoLimite),
+                new Teste1(instrucinstrucaoTeste1Imagem, instrucinstrucaoTeste1Palavra, [classe1, classe2, classe3], 3, 'primeiro imagem', tempoLimite),
                 teste2)
 
-        JFrame janela = new JFrame()
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-        janela.setLocationRelativeTo(null)
-        janela.setExtendedState(JFrame.MAXIMIZED_BOTH)
+        Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)
+        LoggerService.instancia.criarArquivoResultado(logger)
 
         LinhaDeBaseView linhaDeBaseView = new LinhaDeBaseView(classe1.palavraSemSentido, classe1.cor.color)
         Condicao2View condicao2View = new Condicao2View([classe1, classe2, classe3].collect { it.palavraSemSentido }, classe2.cor.color, classe2.imagem)
-        Condicao1View condicao1View = new Condicao1View([classe1, classe2, classe3].collect { it.palavraSemSentido }, classe3.cor.color)
         InstrucaoView instrucaoView = new InstrucaoView(instrucinstrucaoLinhaDeBasePalavra.texto)
 
-        janela.add(instrucaoView)
-        janela.setVisible(true)
-        janela.revalidate()
-        janela.repaint()
+        JanelaPrincipalController janelaPrincipalController = new JanelaPrincipalController(configuracaoGeral, logger, new JPanel())
+        Condicao1Controller condicao1Controller = new Condicao1Controller(janelaPrincipalController, configuracaoGeral, logger)
+        condicao1Controller.iniciar()
     }
 }

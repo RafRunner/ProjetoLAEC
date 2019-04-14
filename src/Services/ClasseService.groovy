@@ -20,7 +20,7 @@ class ClasseService {
         for (Classe classe : classes) {
             String nomeArquivo = classe.montaNomeArquivo()
 
-            if (!classesExistentes.find { it.name == nomeArquivo }) {
+            if (!(nomeArquivo in classesExistentes.name)) {
                 String caminhoArquivo = ambiente.getFullPath(pastaClasses, nomeArquivo)
                 File arquivo = new File(caminhoArquivo)
                 arquivo.write(classe.toJson())

@@ -8,26 +8,24 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Condicao2 implements Jsonable {
 
-    Integer pontos
-    Integer pontuacaoInicial
-    Integer pontosPorAcerto
-    Integer pontosPorErro
-    Integer condicaoParadaAcerto
-    Integer condicaoParadaErro
+    int acertos
+    int erros
+    int tempoLimite
+    int condicaoParadaAcerto
+    int condicaoParadaErro
     List<Classe> classes
 
-    Condicao2(List<Classe> classes, Integer pontuacaoInicial, Integer pontosPorAcerto, Integer pontosPorErro, Integer condicaoParadaAcerto, Integer condicaoParadaErro) {
-        if (!classes || !pontuacaoInicial || !pontosPorAcerto || !pontosPorErro || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0) {
+    Condicao2(List<Classe> classes, int condicaoParadaAcerto, int condicaoParadaErro, int tempoLimite) {
+        if (!classes || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite <= 0) {
             throw new EntradaInvalidaException('Condicao2 não posso ser criado sem todos os parâmetros não nulos!')
         }
         
         this.classes = classes
-        this.pontos = pontuacaoInicial
-        this.pontuacaoInicial = pontuacaoInicial
-        this.pontosPorAcerto = pontosPorAcerto
-        this.pontosPorErro = pontosPorErro
         this.condicaoParadaAcerto = condicaoParadaAcerto
         this.condicaoParadaErro = condicaoParadaErro
+        this.tempoLimite = tempoLimite
+        this.acertos = 0
+        this.erros = 0
     }
 
     @Override
@@ -35,11 +33,9 @@ class Condicao2 implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
-        json.append("\"pontuacaoInicial\": \"${pontuacaoInicial}\",")
-        json.append("\"pontosPorAcerto\": \"${pontosPorAcerto}\",")
-        json.append("\"pontosPorErro\": \"${pontosPorErro}\",")
         json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\",")
-        json.append("\"condicaoParadaErro\": \"${condicaoParadaErro}\"")
+        json.append("\"condicaoParadaErro\": \"${condicaoParadaErro}\",")
+        json.append("\"tempoLimite\": \"${tempoLimite}\"")
         json.append('}')
 
         return json.toString()

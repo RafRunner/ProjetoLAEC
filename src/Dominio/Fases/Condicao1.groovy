@@ -13,15 +13,17 @@ class Condicao1 implements Jsonable {
     List<Instrucao> instrucoes
     List<Classe> classes
     int numeroRepeticoes
+    int tempoLimite
 
     private static String regexLetras = '@'
     private static String regexNumeros = '#'
 
-    Condicao1(List<Instrucao> instrucoes, List<Classe> classes, int numeroRepeticoes) {
-        if (instrucoes && classes && numeroRepeticoes > 0) {
+    Condicao1(List<Instrucao> instrucoes, List<Classe> classes, int numeroRepeticoes, int tempoLimite) {
+        if (instrucoes && classes && numeroRepeticoes > 0 && tempoLimite > 0) {
             this.instrucoes = instrucoes
             this.classes = classes
             this.numeroRepeticoes = numeroRepeticoes
+            this.tempoLimite = tempoLimite
 
         } else {
             throw new EntradaInvalidaException("Informações incompletas ou inválidas para Condicao Um!")
@@ -47,7 +49,8 @@ class Condicao1 implements Jsonable {
 
         json.append('{')
         json.append("\"instrucoes\": ${TextUtils.listToJsonString(instrucoes.collect { it?.toJson() })}, ")
-        json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\"")
+        json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\",")
+        json.append("\"tempoLimite\": \"${tempoLimite}\"")
         json.append('}')
 
         return json.toString()
