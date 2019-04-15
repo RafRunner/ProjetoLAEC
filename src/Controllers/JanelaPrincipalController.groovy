@@ -6,7 +6,10 @@ import Files.Logger
 import groovy.transform.CompileStatic
 
 import javax.swing.JFrame
+import javax.swing.JLabel
 import javax.swing.JPanel
+import java.awt.Component
+import java.awt.Toolkit
 
 @CompileStatic
 class JanelaPrincipalController {
@@ -19,6 +22,11 @@ class JanelaPrincipalController {
     Ordens ordem
     int indiceFaseAtual
 
+    private final static String html = "<html><body style='width: %1spx'>%1s"
+    private final static int offSet = 500
+
+    private static int larguraTela = (int) Toolkit.defaultToolkit.screenSize.width
+
     JanelaPrincipalController(ConfiguracaoGeral configuracaoGeral, Logger logger, JPanel painelInical) {
         this.configuracaoGeral = configuracaoGeral
         this.ordem = configuracaoGeral.ordem
@@ -29,6 +37,7 @@ class JanelaPrincipalController {
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
         janela.setLocationRelativeTo(null)
         janela.setExtendedState(JFrame.MAXIMIZED_BOTH)
+        janela.setResizable(false)
 
         painelAtual = painelInical
         janela.add(painelInical)
@@ -42,6 +51,15 @@ class JanelaPrincipalController {
         painelAtual = painel
         janela.add(painel)
         janela.revalidate()
+        janela.repaint()
+
+        for (Component component : painel.components) {
+            if (component instanceof JLabel && component.width > larguraTela - offSet) {
+                String textoAntigo = component.text
+                component.setText(String.format(html, larguraTela - offSet, textoAntigo))
+            }
+        }
+
         janela.repaint()
     }
     

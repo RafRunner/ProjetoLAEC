@@ -1,7 +1,7 @@
 package Dominio.Fases
 
 import Dominio.Classe
-import Dominio.Enums.ModoLinhaCondicao2
+import Dominio.Enums.ModoCondicao2
 import Dominio.Exceptions.EntradaInvalidaException
 import Dominio.Instrucao
 import Dominio.Jsonable
@@ -20,14 +20,14 @@ class Condicao2 implements Jsonable {
     Instrucao instrucaoImagem
     Instrucao instrucaoPalavra
     int numeroRepeticoes
-    ModoLinhaCondicao2 modoExibicao
+    ModoCondicao2 modoExibicao
 
     Condicao2(List<Classe> classes, Instrucao instrucaoImagem, Instrucao instrucaoPalavra, String nomeModo, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite) {
         if (!classes || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite <= 0) {
             throw new EntradaInvalidaException('Parâmetros inválidos para criação de Condicao2!')
         }
 
-        this.modoExibicao = ModoLinhaCondicao2.values().find { ModoLinhaCondicao2 modo -> modo.nomeModo == nomeModo }
+        this.modoExibicao = ModoCondicao2.values().find { ModoCondicao2 modo -> modo.nomeModo == nomeModo }
 
         if (!modoExibicao) {
             throw new EntradaInvalidaException("Modo de Apresentação Condição 2 não reconhecido!!")

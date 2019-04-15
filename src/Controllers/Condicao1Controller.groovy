@@ -33,8 +33,8 @@ class Condicao1Controller extends ControllerFase {
     void iniciar() {
         logger.log("Inicio da Condicao 1!\n", '\n')
 
+        final Object lock = new Object()
         for (Instrucao instrucao : instrucoes) {
-            final Object lock = new Object()
 
             InstrucaoView instrucaoView = new InstrucaoView(instrucao.texto, lock)
             janelePrincipalController.mudarPainel(instrucaoView)

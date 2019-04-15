@@ -27,12 +27,24 @@ class LinhaDeBaseController extends ControllerFase {
 
     @Override
     void iniciar() {
-        logger.log("Inicio da Linha de base!\n", '\n')
+        logger.log("Inicio da Linha de base!", '\n')
+
+        final Object lock = new Object()
 
         Map<Classe, List<Instrucao>> instrucoesParaClasses = linhaDeBase.getInstrucoesParaClasses()
+        Instrucao instrucaoInicial = linhaDeBase.instrucaoInicial
+
+        InstrucaoView instrucaoInicialView = new InstrucaoView(instrucaoInicial.texto, lock)
+        janelePrincipalController.mudarPainel(instrucaoInicialView)
+
+        logger.log("Mostrando a instrução inicial: $instrucaoInicial.texto", '\t')
+        loggerService.registraLog(logger)
+
+        synchronized (lock) {
+            lock.wait()
+        }
 
         for (Classe classe : classes) {
-            final Object lock = new Object()
 
             LinhaDeBaseView linhaDeBaseView = new LinhaDeBaseView(classe.palavraSemSentido, classe.cor.color, this)
             janelePrincipalController.mudarPainel(linhaDeBaseView)
@@ -45,9 +57,9 @@ class LinhaDeBaseController extends ControllerFase {
             }
 
             if (tocouNaPalavra) {
-                logger.log("Participante tocou no estímulo!\n", '\t')
+                logger.log("Participante tocou no estímulo!\n", '\n\t')
             } else {
-                logger.log("Participante tocou fora do estímulo!\n", '\t')
+                logger.log("Participante tocou fora do estímulo!\n", '\n\t')
             }
 
             loggerService.registraLog(logger)
@@ -67,7 +79,7 @@ class LinhaDeBaseController extends ControllerFase {
                 }
             }
         }
-        logger.log("Fim da Linha de Base!")
+        logger.log("Fim da Linha de Base!", '\n')
         loggerService.registraLog(logger)
         janelePrincipalController.passarParaProximaFase()
     }

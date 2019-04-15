@@ -1,6 +1,6 @@
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
-import Dominio.Enums.ModoLinhaCondicao2
+import Dominio.Enums.ModoCondicao2
 import Dominio.Enums.Ordens
 import Dominio.Fases.Condicao1
 import Dominio.Fases.LinhaDeBase
@@ -47,7 +47,7 @@ class TestesGerais {
                 Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Condicao2([classe1, classe2, classe3], instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, ModoLinhaCondicao2.PRIMEIRO_IMAGEM.nomeModo, 3, 3, 3, tempoLimite),
+                new Condicao2([classe1, classe2, classe3], instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, ModoCondicao2.PRIMEIRO_IMAGEM.nomeModo, 3, 3, 3, tempoLimite),
                 new Teste1([classe1, classe2, classe3], [instrucinstrucaoTeste11, instrucinstrucaoTeste12], 3, tempoLimite),
                 teste2)
 

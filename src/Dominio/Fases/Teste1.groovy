@@ -7,7 +7,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Teste1 extends LinhaDeBase {
 
-    Teste1(List<Classe> classes, List<Instrucao> instrucoes, int repeticoes, int tempoLimite) {
-        super(classes, instrucoes, repeticoes, tempoLimite)
+    Teste1(List<Classe> classes, Instrucao instrucaoInicial, List<Instrucao> instrucoes, int repeticoes, int tempoLimite) {
+        super(classes, instrucaoInicial, instrucoes, repeticoes, tempoLimite)
     }
 }

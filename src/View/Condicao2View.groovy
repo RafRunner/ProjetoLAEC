@@ -20,12 +20,10 @@ class Condicao2View extends JPanel implements MouseListener {
 
     List<JLabel> palavras
     Color cor
-    MyImage imagem
 
-    JLabel labelImagem
+    JLabel labelImagemOuPalavra
     JPanel painelPontos
 
-    int pontuacao = 0
     private int acertos = 0
     private int erros = 0
 
@@ -34,8 +32,7 @@ class Condicao2View extends JPanel implements MouseListener {
     private static final int TAMANHO_FONTE_CLASSES = 70
     private static final int TAMANHO_FONTE_PONTUACAO = 30
 
-    Condicao2View(List<String> palavras, Color cor, MyImage imagem) {
-        this.imagem = imagem
+    Condicao2View(List<String> palavras, Color cor, Object imagemOuPalavra) {
         this.cor = cor
 
         this.palavras = palavras.collect { new JLabel(it, SwingConstants.CENTER) }
@@ -79,17 +76,27 @@ class Condicao2View extends JPanel implements MouseListener {
         JPanel painelImagem = new JPanel()
         painelImagem.setLayout(new GridBagLayout())
 
-        imagem.resize(TAMANHO_IMAGEM, TAMANHO_IMAGEM)
-        ImageIcon icon = new ImageIcon(imagem.bufferedImage)
-        JLabel labelImagem = new JLabel(icon)
-        this.labelImagem = labelImagem
-        labelImagem.addMouseListener(this)
+
+        JLabel labelImagemOuPalavra = new JLabel()
+
+        if (imagemOuPalavra instanceof MyImage) {
+            imagemOuPalavra.resize(TAMANHO_IMAGEM, TAMANHO_IMAGEM)
+            ImageIcon icon = new ImageIcon(imagemOuPalavra.bufferedImage)
+            labelImagemOuPalavra = new JLabel(icon)
+        }
+        else {
+            labelImagemOuPalavra = new JLabel(imagemOuPalavra.toString())
+            ViewUtils.modificaLabel(labelImagemOuPalavra, FUNDO_PALAVRA, null, TAMANHO_FONTE_CLASSES + 30)
+        }
+
+        this.labelImagemOuPalavra = labelImagemOuPalavra
+        labelImagemOuPalavra.addMouseListener(this)
 
         gb.fill = GridBagConstraints.HORIZONTAL
         painelImagem.add(espacos[i], gb); i++; gb.gridx = ++j
         painelImagem.add(painelAcertos, gb); gb.gridx = ++j
         painelImagem.add(espacos[i], gb); i++; gb.gridx = ++j
-        painelImagem.add(labelImagem, gb); gb.gridx = ++j
+        painelImagem.add(labelImagemOuPalavra, gb); gb.gridx = ++j
         painelImagem.add(espacos[i], gb); i++; gb.gridx = ++j
         painelImagem.add(painelErros, gb); gb.gridx = ++j
         painelImagem.add(espacos[i], gb); i++; gb.gridx = ++j
@@ -125,6 +132,14 @@ class Condicao2View extends JPanel implements MouseListener {
         this.setVisible(true)
         this.repaint()
         this.addMouseListener(this)
+    }
+
+    int getAcertos() {
+        return acertos
+    }
+
+    int getErros() {
+        return erros
     }
 
     @Override
