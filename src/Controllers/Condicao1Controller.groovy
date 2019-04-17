@@ -79,16 +79,18 @@ class Condicao1Controller extends ControllerFase {
         indiceClasseAtual++
 
         if (indiceClasseAtual >= classes.size()) {
+            repeticaoAtual++
+
+            if (repeticaoAtual >= condicao1.numeroRepeticoes) {
+                logger.log("Fim da Condição 1!", '\n')
+                loggerService.registraLog(logger)
+                janelePrincipalController.passarParaProximaFase()
+                return
+            }
+
             logger.log("Iniciando a repitição de número ${repeticaoAtual + 1}", '\n\t')
             loggerService.registraLog(logger)
-            repeticaoAtual++
             indiceClasseAtual = 0
-        }
-        if (repeticaoAtual >= condicao1.numeroRepeticoes) {
-            logger.log("Fim da Condição 1!", '\n')
-            loggerService.registraLog(logger)
-            janelePrincipalController.passarParaProximaFase()
-            return
         }
 
         Classe classeAtual = classes[indiceClasseAtual]
