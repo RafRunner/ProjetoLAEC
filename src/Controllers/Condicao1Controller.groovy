@@ -41,6 +41,10 @@ class Condicao1Controller extends ControllerFase {
 
             logger.log("Mostrando a instrução: $instrucao.texto", '\t')
             loggerService.registraLog(logger)
+
+            synchronized (lock) {
+                lock.wait()
+            }
         }
 
         logger.log("Iniciando a primeira repetição", '\n\t')

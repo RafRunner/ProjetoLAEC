@@ -56,7 +56,6 @@ class Condicao2Controller extends ControllerFase {
     }
 
     private void jogar(Classe classe, Object imagemOuPalavra) {
-
         new Thread() {
             void run() {
                 final Object lock = new Object()
@@ -74,8 +73,9 @@ class Condicao2Controller extends ControllerFase {
                         String message
 
                         switch (estimuloClicado) {
-                            case 'acertos': message = "Participante tocou no painel de acertos!"; break
-                            case 'erros': message = "Participante tocou no painel de erros!"; break
+                            case null               : message = "Participante clicou no fundo!"; break
+                            case 'acertos'          : message = "Participante tocou no painel de acertos!"; break
+                            case 'erros'            : message = "Participante tocou no painel de erros!"; break
                             case 'imagem ou palavra': message = "Participante tocou na imagem ou palavra estímulo!"; break
                             default:
                                 message = "Participante tocou na palavra $estimuloClicado!"

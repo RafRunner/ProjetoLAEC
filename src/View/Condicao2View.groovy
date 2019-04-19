@@ -173,8 +173,10 @@ class Condicao2View extends JPanel implements MouseListener {
             Component componenteClicado = (Component) mouseEvent.getSource()
 
             if (componenteClicado instanceof JLabel) {
-                if (componenteClicado.getText() == labelImagemOuPalavra.getText()) {
+                if (componenteClicado == labelImagemOuPalavra) {
                     estimuloClicado = 'imagem ou palavra'
+                    lock.notifyAll()
+                    return
                 }
 
                 estimuloClicado = componenteClicado.getText()
