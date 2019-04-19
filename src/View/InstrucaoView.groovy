@@ -4,6 +4,7 @@ import groovy.transform.CompileStatic
 
 import javax.swing.JLabel
 import javax.swing.JPanel
+import javax.swing.SwingConstants
 import java.awt.Color
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -21,7 +22,7 @@ class InstrucaoView extends JPanel implements MouseListener {
     InstrucaoView(String instrucao, Object lock) {
         this.lock = lock
 
-        JLabel labelInstrucao = new JLabel(instrucao)
+        JLabel labelInstrucao = new JLabel("<html><div style='text-align: center;'>" + instrucao + "</div></html>", SwingConstants.CENTER)
         ViewUtils.modificaLabel(labelInstrucao, null, null, TAMANHO_FONTE)
 
         JLabel labelInformacao = new JLabel('Toque na tela para continuar')
@@ -31,7 +32,9 @@ class InstrucaoView extends JPanel implements MouseListener {
 
         GridBagConstraints gb = ViewUtils.getGb()
 
+        gb.fill = GridBagConstraints.HORIZONTAL
         this.add(labelInstrucao, gb); gb.gridy = ++gb.gridy; gb.weighty = 0.2
+        gb.fill = GridBagConstraints.NONE
         this.add(labelInformacao, gb)
 
         this.setBackground(FUNDO)

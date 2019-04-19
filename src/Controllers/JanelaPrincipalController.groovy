@@ -6,9 +6,9 @@ import Files.Logger
 import groovy.transform.CompileStatic
 
 import javax.swing.JFrame
-import javax.swing.JLabel
 import javax.swing.JPanel
-import java.awt.Component
+import javax.swing.JRootPane
+import java.awt.Dimension
 import java.awt.Toolkit
 
 @CompileStatic
@@ -22,10 +22,7 @@ class JanelaPrincipalController {
     Ordens ordem
     int indiceFaseAtual
 
-    private final static String html = "<html><body style='width: %1spx'>%1s"
-    private final static int offSet = 500
-
-    private static int larguraTela = (int) Toolkit.defaultToolkit.screenSize.width
+    private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
 
     JanelaPrincipalController(ConfiguracaoGeral configuracaoGeral, Logger logger, JPanel painelInical) {
         this.configuracaoGeral = configuracaoGeral
@@ -36,7 +33,9 @@ class JanelaPrincipalController {
         janela = new JFrame()
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
         janela.setLocationRelativeTo(null)
-        janela.setExtendedState(JFrame.MAXIMIZED_BOTH)
+        janela.setSize(tamanhoTela)
+        janela.setUndecorated(true)
+        janela.getRootPane().setWindowDecorationStyle(JRootPane.NONE)
         janela.setResizable(false)
 
         painelAtual = painelInical
@@ -51,15 +50,6 @@ class JanelaPrincipalController {
         painelAtual = painel
         janela.add(painel)
         janela.revalidate()
-        janela.repaint()
-
-        for (Component component : painel.components) {
-            if (component instanceof JLabel && component.width > larguraTela - offSet) {
-                String textoAntigo = component.text
-                component.setText(String.format(html, larguraTela - offSet, textoAntigo))
-            }
-        }
-
         janela.repaint()
     }
     
