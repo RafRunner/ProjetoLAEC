@@ -54,9 +54,14 @@ class JanelaPrincipalController {
     }
     
     void passarParaProximaFase() {
-        indiceFaseAtual++
-        Class<? extends ControllerFase> classeProximoControler = ordem.ordemControllers[indiceFaseAtual]
-        ControllerFase proximoControler = classeProximoControler.newInstance(this, configuracaoGeral, logger)
-        proximoControler.iniciar()
+        JanelaPrincipalController self = this
+        new Thread() {
+            void run() {
+                indiceFaseAtual++
+                Class<? extends ControllerFase> classeProximoControler = ordem.ordemControllers[indiceFaseAtual]
+                ControllerFase proximoControler = classeProximoControler.newInstance(self, configuracaoGeral, logger)
+                proximoControler.iniciar()
+            }
+        }.start()
     }
 }
