@@ -39,7 +39,6 @@ class InstrucaoView extends JPanel implements MouseListener {
 
         this.setBackground(FUNDO)
         this.validate()
-        this.setVisible(true)
         this.repaint()
         this.addMouseListener(this)
     }

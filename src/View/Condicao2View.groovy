@@ -1,5 +1,6 @@
 package View
 
+import Controllers.Condicao2Controller
 import Files.MyImage
 import groovy.transform.CompileStatic
 
@@ -24,15 +25,28 @@ class Condicao2View extends JPanel implements MouseListener {
     JLabel labelImagemOuPalavra
     JPanel painelPontos
 
+    String estimuloClicado
+
     private int acertos = 0
     private int erros = 0
+
+    JPanel painelErros
+    JLabel labelErros
+    JPanel painelAcertos
+    JLabel labelAcertos
+
+    Object imagemOuPalavra
 
     private static final int TAMANHO_IMAGEM = 500
     private static final Color FUNDO_PALAVRA = Color.WHITE
     private static final int TAMANHO_FONTE_CLASSES = 70
     private static final int TAMANHO_FONTE_PONTUACAO = 30
 
-    Condicao2View(List<String> palavras, Color cor, Object imagemOuPalavra) {
+    private final Object lock
+
+    Condicao2View(List<String> palavras, Color cor, Object imagemOuPalavra, Object lock) {
+        this.lock = lock
+        this.imagemOuPalavra = imagemOuPalavra
         this.cor = cor
 
         this.palavras = palavras.collect { new JLabel(it, SwingConstants.CENTER) }
@@ -40,7 +54,7 @@ class Condicao2View extends JPanel implements MouseListener {
 
         GridBagConstraints gb = ViewUtils.getGb()
 
-        JPanel painelAcertos = new JPanel()
+        painelAcertos = new JPanel()
         this.painelPontos = painelAcertos
         painelAcertos.setBackground(Color.WHITE)
         painelAcertos.setLayout(new GridBagLayout())
@@ -48,13 +62,13 @@ class Condicao2View extends JPanel implements MouseListener {
 
         JLabel tituloAcertos = new JLabel('ACERTOS:')
         ViewUtils.modificaLabel(tituloAcertos, FUNDO_PALAVRA, null, TAMANHO_FONTE_PONTUACAO)
-        JLabel acertos = new JLabel(acertos.toString())
-        ViewUtils.modificaLabel(acertos, FUNDO_PALAVRA, null, TAMANHO_FONTE_PONTUACAO)
+        labelAcertos = new JLabel(acertos.toString())
+        ViewUtils.modificaLabel(labelAcertos, FUNDO_PALAVRA, null, TAMANHO_FONTE_PONTUACAO)
 
         painelAcertos.add(tituloAcertos, gb); gb.gridy = ++gb.gridy
-        painelAcertos.add(acertos, gb)
+        painelAcertos.add(labelAcertos, gb)
 
-        JPanel painelErros = new JPanel()
+        painelErros = new JPanel()
         this.painelPontos = painelErros
         painelErros.setBackground(Color.WHITE)
         painelErros.setLayout(new GridBagLayout())
@@ -62,11 +76,11 @@ class Condicao2View extends JPanel implements MouseListener {
 
         JLabel tituloErros = new JLabel('ERROS:')
         ViewUtils.modificaLabel(tituloErros, FUNDO_PALAVRA, null, TAMANHO_FONTE_PONTUACAO)
-        JLabel erros = new JLabel(erros.toString())
-        ViewUtils.modificaLabel(erros, FUNDO_PALAVRA, null, TAMANHO_FONTE_PONTUACAO)
+        labelErros = new JLabel(erros.toString())
+        ViewUtils.modificaLabel(labelErros, FUNDO_PALAVRA, null, TAMANHO_FONTE_PONTUACAO)
 
         painelErros.add(tituloErros, gb); gb.gridy = ++gb.gridy
-        painelErros.add(erros, gb)
+        painelErros.add(labelErros, gb)
 
         gb = ViewUtils.getGb()
 
@@ -77,7 +91,7 @@ class Condicao2View extends JPanel implements MouseListener {
         painelImagem.setLayout(new GridBagLayout())
 
 
-        JLabel labelImagemOuPalavra = new JLabel()
+        JLabel labelImagemOuPalavra
 
         if (imagemOuPalavra instanceof MyImage) {
             imagemOuPalavra.resize(TAMANHO_IMAGEM, TAMANHO_IMAGEM)
@@ -129,7 +143,6 @@ class Condicao2View extends JPanel implements MouseListener {
         this.add(painelPalavras)
 
         this.validate()
-        this.setVisible(true)
         this.repaint()
         this.addMouseListener(this)
     }
@@ -142,13 +155,41 @@ class Condicao2View extends JPanel implements MouseListener {
         return erros
     }
 
+    void acerto() {
+        acertos++
+        labelAcertos.setText(acertos.toString())
+        repaint()
+    }
+
+    void erro() {
+        erros++
+        labelErros.setText(erros.toString())
+        repaint()
+    }
+
     @Override
     void mousePressed(MouseEvent mouseEvent) {
-        Component componenteCLicado = (Component) mouseEvent.getSource()
-        if (componenteCLicado instanceof JLabel)
-            println(componenteCLicado.getText())
-        else
-            println(componenteCLicado)
+        synchronized (lock) {
+            Component componenteClicado = (Component) mouseEvent.getSource()
+
+            if (componenteClicado instanceof JLabel) {
+                if (componenteClicado.getText() == labelImagemOuPalavra.getText()) {
+                    estimuloClicado = 'imagem ou palavra'
+                }
+
+                estimuloClicado = componenteClicado.getText()
+            }
+            else if (componenteClicado == painelAcertos) {
+                estimuloClicado = 'acertos'
+            }
+            else if (componenteClicado == painelErros) {
+                estimuloClicado = 'erros'
+            }
+            else {
+                estimuloClicado = null
+            }
+            lock.notifyAll()
+        }
     }
 
     @Override

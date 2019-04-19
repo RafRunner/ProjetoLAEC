@@ -4,6 +4,7 @@ import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Instrucao
 import Files.Logger
+import Services.LoggerService
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -14,6 +15,8 @@ class ControllerFase {
     Logger logger
     List<Classe> classes
     ArrayList<Instrucao> instrucoes
+
+    protected LoggerService loggerService = LoggerService.instancia
 
     long tempo
 

@@ -41,10 +41,6 @@ class Condicao1Controller extends ControllerFase {
 
             logger.log("Mostrando a instrução: $instrucao.texto", '\t')
             loggerService.registraLog(logger)
-
-            synchronized (lock) {
-                lock.wait()
-            }
         }
 
         logger.log("Iniciando a primeira repetição", '\n\t')
@@ -82,7 +78,7 @@ class Condicao1Controller extends ControllerFase {
             repeticaoAtual++
 
             if (repeticaoAtual >= condicao1.numeroRepeticoes) {
-                logger.log("Fim da Condição 1!", '\n')
+                logger.log("Fim da Condição 1!\n\n", '\n')
                 loggerService.registraLog(logger)
                 janelePrincipalController.passarParaProximaFase()
                 return
@@ -96,8 +92,7 @@ class Condicao1Controller extends ControllerFase {
         Classe classeAtual = classes[indiceClasseAtual]
 
         condicao1ViewAtual = new Condicao1View(classes.palavraSemSentido, classeAtual.cor.color, this)
-        logger.log("Passando para tela associada a classe $classeAtual.palavraComSentido", '\n\t')
-        logger.log("Cor da tela: $classeAtual.cor.nomeCor\n", '\t')
+        logger.log("Passando para tela associada a classe $classeAtual.palavraComSentido, Cor da tela: $classeAtual.cor.nomeCor\n", '\n\t')
         loggerService.registraLog(logger)
 
         janelePrincipalController.mudarPainel(condicao1ViewAtual)

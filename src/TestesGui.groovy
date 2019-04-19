@@ -59,8 +59,6 @@ class TestesGui {
         Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)
         LoggerService.instancia.criarArquivoResultado(logger)
 
-        Condicao2View condicao2View = new Condicao2View([classe1, classe2, classe3].collect { it.palavraSemSentido }, classe2.cor.color, classe2.imagem)
-
         JanelaPrincipalController janelaPrincipalController = new JanelaPrincipalController(configuracaoGeral, logger, new JPanel())
         janelaPrincipalController.passarParaProximaFase()
     }

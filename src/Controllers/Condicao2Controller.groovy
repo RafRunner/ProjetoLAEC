@@ -22,6 +22,9 @@ class Condicao2Controller extends ControllerFase {
 
     @Override
     void iniciar() {
+        logger.log('Inicio da Condição2!\n')
+        loggerService.registraLog(logger)
+
         for (int i = 0; i < condicao2.numeroRepeticoes; i++) {
 
             if (modoCondicao2 == ModoCondicao2.PRIMEIRO_IMAGEM) {
@@ -38,27 +41,58 @@ class Condicao2Controller extends ControllerFase {
 
     private void apresentarImagem() {
         for (Classe classeAtual : classes) {
-            Condicao2View condicao2View = new Condicao2View(classes.palavraSemSentido, classeAtual.cor.color, classeAtual.imagem)
-            janelePrincipalController.mudarPainel(condicao2View)
-            jogar(classeAtual, condicao2View)
+            logger.log("Apresentando a imagem associada a classe $classeAtual.palavraComSentido")
+            loggerService.registraLog(logger)
+            jogar(classeAtual, classeAtual.imagem)
         }
     }
 
     private void apresentarPalavra() {
         for (Classe classeAtual : classes) {
-            Condicao2View condicao2View = new Condicao2View(classes.palavraComSentido, classeAtual.cor.color, classeAtual.palavraSemSentido)
-            janelePrincipalController.mudarPainel(condicao2View)
-            jogar(classeAtual, condicao2View)
+            logger.log("Apresentando a palavra sem sentido associada a classe $classeAtual.palavraComSentido")
+            loggerService.registraLog(logger)
+            jogar(classeAtual, classeAtual.palavraSemSentido)
         }
     }
 
-    private void jogar(Classe classe, Condicao2View condicao2View) {
-        final Object lock = new Object()
+    private void jogar(Classe classe, Object imagemOuPalavra) {
 
-        int acertos = condicao2View.acertos
-        int erros = condicao2View.erros
+        new Thread() {
+            void run() {
+                final Object lock = new Object()
+                synchronized (lock) {
+                    Condicao2View condicao2View = new Condicao2View(classes.palavraComSentido, classe.cor.color, imagemOuPalavra, lock)
+                    janelePrincipalController.mudarPainel(condicao2View)
 
-        int condicaoParadaAcerto = condicao2.condicaoParadaAcerto
-        int condicaoParadaErro = condicao2.condicaoParadaErro
+                    String estimuloAssociado = classe.palavraComSentido
+                    boolean acabou
+
+                    while (!acabou) {
+                        lock.wait()
+
+                        String estimuloClicado = condicao2View.estimuloClicado
+                        String message
+
+                        switch (estimuloClicado) {
+                            case 'acertos': message = "Participante tocou no painel de acertos!"; break
+                            case 'erros': message = "Participante tocou no painel de erros!"; break
+                            case 'imagem ou palavra': message = "Participante tocou na imagem ou palavra estímulo!"; break
+                            default:
+                                message = "Participante tocou na palavra $estimuloClicado!"
+                                if (estimuloClicado == estimuloAssociado) {
+                                    message += "Que era o estímulo associado a tela!"
+                                    condicao2View.acerto()
+                                } else {
+                                    message += "Que não era o estímulo associado a tela!"
+                                    condicao2View.erro()
+                                }
+                        }
+
+                        logger.log(message, '\t')
+                        loggerService.registraLog(logger)
+                    }
+                }
+                }
+        }.start()
     }
 }
