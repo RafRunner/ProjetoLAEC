@@ -14,6 +14,8 @@ class Condicao2Controller extends ControllerFase {
     private Condicao2 condicao2
     private ModoCondicao2 modoCondicao2
 
+    private int indiceAtual = 0
+
     Condicao2Controller(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
         super(janalePrincipalController1, configuracaoGeral, logger)
         this.condicao2 = configuracaoGeral.condicao2
@@ -27,32 +29,36 @@ class Condicao2Controller extends ControllerFase {
 
         for (int i = 0; i < condicao2.numeroRepeticoes; i++) {
 
+            Classe classeAtual = classes[0]
+
             if (modoCondicao2 == ModoCondicao2.PRIMEIRO_IMAGEM) {
-                apresentarImagem()
-                apresentarPalavra()
+                apresentarImagem(classeAtual)
+                apresentarPalavra(classeAtual)
             }
             else {
-                apresentarPalavra()
-                apresentarImagem()
+                apresentarPalavra(classeAtual)
+                apresentarImagem(classeAtual)
             }
         }
         janelePrincipalController.passarParaProximaFase()
     }
 
-    private void apresentarImagem() {
-        for (Classe classeAtual : classes) {
-            logger.log("Apresentando a imagem associada a classe $classeAtual.palavraComSentido")
-            loggerService.registraLog(logger)
-            jogar(classeAtual, classeAtual.imagem)
-        }
+    private void apresentarImagem(Classe classeAtual) {
+        logger.log("Apresentando a imagem associada a classe $classeAtual.palavraComSentido")
+        loggerService.registraLog(logger)
+        jogar(classeAtual, classeAtual.imagem)
+
     }
 
-    private void apresentarPalavra() {
-        for (Classe classeAtual : classes) {
-            logger.log("Apresentando a palavra sem sentido associada a classe $classeAtual.palavraComSentido")
-            loggerService.registraLog(logger)
-            jogar(classeAtual, classeAtual.palavraSemSentido)
-        }
+    private void apresentarPalavra(Classe classeAtual) {
+        logger.log("Apresentando a palavra sem sentido associada a classe $classeAtual.palavraComSentido")
+        loggerService.registraLog(logger)
+        jogar(classeAtual, classeAtual.palavraSemSentido)
+    }
+
+    private Classe obtemProximaClasse() {
+        indiceAtual++
+        return classes[indiceAtual]
     }
 
     private void jogar(Classe classe, Object imagemOuPalavra) {
@@ -90,6 +96,13 @@ class Condicao2Controller extends ControllerFase {
 
                         logger.log(message, '\t')
                         loggerService.registraLog(logger)
+                    }
+
+                    Classe proximaClasse = obtemProximaClasse()
+                    if (imagemOuPalavra instanceof String) {
+                        apresentarPalavra(proximaClasse)
+                    } else {
+                        apresentarImagem(proximaClasse)
                     }
                 }
                 }
