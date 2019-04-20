@@ -1,4 +1,4 @@
-import Controllers.JanelaPrincipalController
+import Controllers.MenuIniciar
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Enums.ModoCondicao2
@@ -9,12 +9,9 @@ import Dominio.Fases.Teste2
 import Dominio.Fases.Teste1
 import Dominio.Fases.Condicao2
 import Dominio.Instrucao
-import Files.Logger
-import Services.LoggerService
-import View.Condicao2View
 import groovy.transform.CompileStatic
 
-import javax.swing.JPanel
+import javax.swing.JOptionPane
 
 @CompileStatic
 class TestesGui {
@@ -38,7 +35,7 @@ class TestesGui {
 
         Instrucao instrucaoCondicao1 = new Instrucao("Aparecerão três palavras na tela. Você deverá escolher uma entre as três palavras e tocá-la. Caso tenha alguma dúvida chame à experimentadora")
 
-        int tempoLimite = 1
+        int tempoLimite = 120
 
         Condicao1 condicao1 = new Condicao1([classe1, classe2, classe3], [instrucaoCondicao1], 3, tempoLimite)
         Teste2 teste2 = new Teste2([classe1, classe2, classe3], [instrucaoLinhaDeBase1, instrucaoLinhaDeBase2, instrucaoLinhaDeBase3], 3, tempoLimite)
@@ -49,17 +46,19 @@ class TestesGui {
         ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral(
                 'Configuracao Teste',
                 [classe1, classe2, classe3],
-                Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Condicao2([classe1, classe2, classe3], instrucinstrucaoCondicao2Imagem, instrucinstrucaoCondicao2Palavra, ModoCondicao2.PRIMEIRO_IMAGEM.nomeModo, 3, 3, 3, tempoLimite),
-                new Teste1([classe1, classe2, classe3], instrucaoInicialLinhaDeBase, [instrucinstrucaoTeste11, instrucinstrucaoTeste12], 3, tempoLimite),
+                new Condicao2([classe1, classe2, classe3], instrucinstrucaoCondicao2Imagem, instrucinstrucaoCondicao2Palavra, ModoCondicao2.PRIMEIRO_IMAGEM.nomeModo, 3, 3, 1, tempoLimite),
+                new Teste1([classe1, classe2, classe3], instrucaoInicialLinhaDeBase, [instrucinstrucaoTeste11, instrucinstrucaoTeste12], 1, tempoLimite),
                 teste2)
 
-        Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)
-        LoggerService.instancia.criarArquivoResultado(logger)
+        new MenuIniciar()
 
-        JanelaPrincipalController janelaPrincipalController = new JanelaPrincipalController(configuracaoGeral, logger, new JPanel())
-        janelaPrincipalController.passarParaProximaFase()
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            void uncaughtException(Thread t, Throwable e) {
+                String mensagemErro = e.toString().find(/(?<=.EntradaInvalidaException: ).+!/)
+                JOptionPane.showMessageDialog(null, mensagemErro, 'Erro!', JOptionPane.ERROR_MESSAGE)
+            }
+        })
     }
 }

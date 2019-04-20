@@ -26,7 +26,7 @@ class Teste1Controller extends ControllerFase {
 
     @Override
     void iniciar() {
-        logger.log("Inicio do Teste 1!", '\n')
+        logger.log("Inicio do Teste 1!\n")
 
         final Object lock = new Object()
 
@@ -78,7 +78,7 @@ class Teste1Controller extends ControllerFase {
                 }
             }
         }
-        logger.log("Fim da Linha de Base!", '\n')
+        logger.log("Fim do Teste 1!\n", '\n')
         loggerService.registraLog(logger)
         janelePrincipalController.passarParaProximaFase()
     }

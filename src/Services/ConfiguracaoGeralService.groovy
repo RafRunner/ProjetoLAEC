@@ -12,26 +12,53 @@ class ConfiguracaoGeralService {
 
     private static String pastaConfiguracoes = 'Configuracoes'
 
-    Ambiente ambiente = Ambiente.instancia
-    ClasseService classeService = ClasseService.instancia
-    InstrucaoService instrucaoService = InstrucaoService.instancia
+    private Ambiente ambiente = Ambiente.instancia
+    private ClasseService classeService = ClasseService.instancia
+    private InstrucaoService instrucaoService = InstrucaoService.instancia
 
     static ConfiguracaoGeralService instancia = new ConfiguracaoGeralService()
+
     private ConfiguracaoGeralService() {}
 
-    ConfiguracaoGeral obtemConfiguracaoDoArquivo(String nomeArquivo) {
-        String caminhoCompleto = ambiente.getFullPath(pastaConfiguracoes, nomeArquivo)
-        File arquivo = new File(caminhoCompleto)
+    List<ConfiguracaoGeral> obtemTodasAsConfiguracoes() {
+        List<File> arquivosConfiguracao = ambiente.getFiles(pastaConfiguracoes)
 
-        if (!arquivo.exists()) {
-            throw new EntradaInvalidaException('Arquivo de configuracao não existe! Caminho do suposto arquivo: ' + caminhoCompleto)
+        return arquivosConfiguracao.collect {
+            if (ehArquivoConfiguracao(it)) {
+                return obtemConfiguracaoDoArquivo(it)
+            }
         }
+    }
 
+    ConfiguracaoGeral obtemConfiguracaoDoArquivo(File arquivo) {
         String json = arquivo.getText()
         JsonSlurper jsonSlurper = new JsonSlurper()
         Map configuracao = jsonSlurper.parseText(json) as Map
 
         return ConfiguracaoGeralFactory.fromStringMap(configuracao)
+    }
+
+    ConfiguracaoGeral obtemConfiguracaoDoArquivo(String nomeArquivo) {
+        String caminhoCompleto = ambiente.getFullPath(pastaConfiguracoes, nomeArquivo)
+        File arquivo = new File(caminhoCompleto)
+        if (!arquivo.exists()) {
+            throw new EntradaInvalidaException('Arquivo de configuracao não existe! Caminho do suposto arquivo: ' + caminhoCompleto)
+        }
+
+        return obtemConfiguracaoDoArquivo(arquivo)
+    }
+
+    private boolean ehArquivoConfiguracao(File arquivo) {
+        try {
+            String json = arquivo.getText()
+            JsonSlurper jsonSlurper = new JsonSlurper()
+            Map configuracao = jsonSlurper.parseText(json) as Map
+
+            return ConfiguracaoGeralFactory.fromStringMap(configuracao)
+        } catch(Exception e) {
+            e.printStackTrace()
+            return false
+        }
     }
 
     void salvaConfiguracao(ConfiguracaoGeral configuracaoGeral) {

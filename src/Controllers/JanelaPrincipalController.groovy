@@ -35,7 +35,7 @@ class JanelaPrincipalController {
         this.indiceFaseAtual = -1
 
         janela = new JFrame()
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+        janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE)
         janela.setLocationRelativeTo(null)
         janela.setSize(tamanhoTela)
         janela.setUndecorated(true)

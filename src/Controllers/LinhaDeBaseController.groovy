@@ -80,7 +80,7 @@ class LinhaDeBaseController extends ControllerFase {
                 }
             }
         }
-        logger.log("Fim da Linha de Base!", '\n')
+        logger.log("Fim da Linha de Base!\n", '\n')
         loggerService.registraLog(logger)
         janelePrincipalController.passarParaProximaFase()
     }

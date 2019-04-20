@@ -20,52 +20,44 @@ class TestesGerais {
         Classe classe2 = new Classe('Álbum', 'mefshwa', 'azul', 'recomendacao.png')
         Classe classe3 = new Classe('Luigi', 'huaheu3', 'verde', 'luigi.jpeg')
 
-        Instrucao instrucaoCondicao11 = new Instrucao("Escreva o que voce viu na folha 1@")
-        Instrucao instrucaoCondicao12 = new Instrucao("Escreva o que voce leu na folha 2@")
-        Instrucao instrucaoCondicao13 = new Instrucao("Escreva o que voce pensou na folha 3@")
+        Instrucao instrucaoInicialLinhaDeBase = new Instrucao("Aparecerão algumas palavras na tela, você irá lê-las e em seguida aparecerão instruções sobre o que deverá fazer. Se for pedido para escrever, escreva, se for pedido para desenhar, desenhe. Você pode fazer da forma que achar melhor, não tem resposta certa ou errada. Caso tenha alguma dúvida, chame à experimentadora.")
 
-        Instrucao instrucinstrucaoLinhaDeBasePalavra = new Instrucao("Veja essas palavras")
-        Instrucao instrucinstrucaoLinhaDeBaseImagem = new Instrucao("Veja essas imagens")
+        Instrucao instrucaoLinhaDeBase1 = new Instrucao("Escreva o que voce viu na folha 1@")
+        Instrucao instrucaoLinhaDeBase2 = new Instrucao("Escreva o que voce leu na folha 2@")
+        Instrucao instrucaoLinhaDeBase3 = new Instrucao("Escreva o que voce pensou na folha 3@")
+
+        Instrucao instrucinstrucaoCondicao2Palavra = new Instrucao("Veja essas palavras")
+        Instrucao instrucinstrucaoCondicao2Imagem = new Instrucao("Veja essas imagens")
 
         Instrucao instrucinstrucaoTeste11 = new Instrucao("Escreva o que voce leu na folha 4@")
         Instrucao instrucinstrucaoTeste12 = new Instrucao("Escreva o que voce pensou na folha 5@")
 
-        Instrucao instrucinstrucaoTeste1Palavra = new Instrucao("Veja essas palavras, com novo significado")
-        Instrucao instrucinstrucaoTeste1Imagem = new Instrucao("Veja essas imagens, com novo significado")
+        Instrucao instrucaoCondicao1 = new Instrucao("Aparecerão três palavras na tela. Você deverá escolher uma entre as três palavras e tocá-la. Caso tenha alguma dúvida chame à experimentadora")
 
-        int tempoLimite = 50
+        int tempoLimite = 120
 
-        Condicao1 condicao1 = new Condicao1([classe1, classe2, classe3], [instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], 3, tempoLimite)
-        Teste2 teste2 = new Teste2([classe1, classe2, classe3], [instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], 3, tempoLimite)
-        LinhaDeBase linhaDeBase = new LinhaDeBase([classe1, classe2, classe3], [instrucaoCondicao11, instrucaoCondicao12, instrucaoCondicao13], 3, tempoLimite)
+        Condicao1 condicao1 = new Condicao1([classe1, classe2, classe3], [instrucaoCondicao1], 1, tempoLimite)
+        Teste2 teste2 = new Teste2([classe1, classe2, classe3], [instrucaoLinhaDeBase1, instrucaoLinhaDeBase2, instrucaoLinhaDeBase3], 1, tempoLimite)
+        LinhaDeBase linhaDeBase = new LinhaDeBase([classe1, classe2, classe3], instrucaoInicialLinhaDeBase, [instrucaoLinhaDeBase1, instrucaoLinhaDeBase2, instrucaoLinhaDeBase3], 1, tempoLimite)
 
         classe1.imagem.resize(300, 300)
 
         ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral(
                 'Configuracao Teste',
                 [classe1, classe2, classe3],
-                Ordens.ORDEM1,
                 condicao1,
                 linhaDeBase,
-                new Condicao2([classe1, classe2, classe3], instrucinstrucaoLinhaDeBaseImagem, instrucinstrucaoLinhaDeBasePalavra, ModoCondicao2.PRIMEIRO_IMAGEM.nomeModo, 3, 3, 3, tempoLimite),
-                new Teste1([classe1, classe2, classe3], [instrucinstrucaoTeste11, instrucinstrucaoTeste12], 3, tempoLimite),
+                new Condicao2([classe1, classe2, classe3], instrucinstrucaoCondicao2Imagem, instrucinstrucaoCondicao2Palavra, ModoCondicao2.PRIMEIRO_IMAGEM.nomeModo, 3, 3, 1, tempoLimite),
+                new Teste1([classe1, classe2, classe3], instrucaoInicialLinhaDeBase, [instrucinstrucaoTeste11, instrucinstrucaoTeste12], 1, tempoLimite),
                 teste2)
+        configuracaoGeral.ordem = Ordens.ORDEM1
+
+        Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)
+        LoggerService.instancia.criarArquivoResultado(logger)
 
         ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
         configuracaoGeralService.salvaConfiguracao(configuracaoGeral)
         ConfiguracaoGeral configuracaoGeralObtidaArquivo = configuracaoGeralService.obtemConfiguracaoDoArquivo(configuracaoGeral.montaNomeArquivo())
         print(configuracaoGeral.toJson())
-
-        Logger logger = new Logger('Luisa Fernandes', 'Rafael Santana', 'm', 21, configuracaoGeral)
-        logger.log 'James Strachan falou sobre o desenvolvimento do Groovy pela primeira vez em seu blog em Agosto de 2003.'
-        logger.log 'Em Março de 2004, Groovy foi enviado ao Java Community Process(JCP) como JSR 241 e aceito. '
-        logger.log 'Diversas versões foram lançadas entre 2004 e 2006. '
-        logger.log 'Depois que o processo de padronização atráves do JCP começou, a numeração de versão mudou, e uma versão chamada "1.0" foi lançada em 2 de Janeiro de 2007. '
-        logger.log 'Depois de vários betas numerados como 1.1, em 7 de Dezembro de 2007, Groovy 1.1 Final foi lançado e imediatamente renumerado como Groovy 1.5 para refletir as várias mudanças que foram feitas.'
-        logger.log TextUtils.mapToString(condicao1.instrucoesParaClasses.collectEntries { Map.Entry<Classe, List<Instrucao>> entry -> [entry.key.palavraComSentido, TextUtils.listToJsonString(entry.value.texto as List<String>)] } as Map<String, String>)
-
-        LoggerService loggerService = LoggerService.instancia
-        loggerService.criarArquivoResultado(logger)
-        loggerService.registraLog(logger)
     }
 }

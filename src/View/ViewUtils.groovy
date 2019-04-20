@@ -30,7 +30,6 @@ class ViewUtils {
         }
         if (corFonte) {
             label.setForeground(corFonte)
-            label.setOpaque(true)
         }
         Font fonte = label.font
         label.setFont(new Font(fonte.getName(), Font.PLAIN, tamanhoFonte))

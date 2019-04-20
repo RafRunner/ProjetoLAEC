@@ -26,7 +26,7 @@ class Condicao2Controller extends ControllerFase {
 
     @Override
     void iniciar() {
-        logger.log('Inicio da Condição2!\n')
+        logger.log('Inicio da Condição2!')
         loggerService.registraLog(logger)
 
         for (int i = 0; i < condicao2.numeroRepeticoes; i++) {
@@ -52,7 +52,7 @@ class Condicao2Controller extends ControllerFase {
         InstrucaoView instrucaoImagem = new InstrucaoView(condicao2.instrucaoImagem.texto, lock)
 
         synchronized (lock) {
-            logger.log("Mostrando a instrução: $condicao2.instrucaoImagem.texto", '\t')
+            logger.log("\nMostrando a instrução: $condicao2.instrucaoImagem.texto", '\t')
             janelePrincipalController.mudarPainel(instrucaoImagem)
             lock.wait()
         }
@@ -69,7 +69,7 @@ class Condicao2Controller extends ControllerFase {
         InstrucaoView instrucaoPalavra = new InstrucaoView(condicao2.instrucaoPalavra.texto, lock)
 
         synchronized (lock) {
-            logger.log("Mostrando a instrução: $condicao2.instrucaoImagem.texto", '\t')
+            logger.log("\nMostrando a instrução: $condicao2.instrucaoImagem.texto", '\t')
             janelePrincipalController.mudarPainel(instrucaoPalavra)
             lock.wait()
         }

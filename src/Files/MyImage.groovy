@@ -1,5 +1,6 @@
 package Files
 
+import Dominio.Exceptions.EntradaInvalidaException
 import groovy.transform.CompileStatic
 
 import javax.imageio.ImageIO
@@ -27,7 +28,7 @@ class MyImage {
             this.caminhoImagem = caminho
 
         } catch (IOException ignored) {
-            throw new IOException('Arquivo de imagem não existe, não pôde ser lido ou não é uma imagem! :' + caminho)
+            throw new EntradaInvalidaException('Arquivo de imagem não existe, não pôde ser lido ou não é uma imagem! :' + caminho)
         }
     }
 

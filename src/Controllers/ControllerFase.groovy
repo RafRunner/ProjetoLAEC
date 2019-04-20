@@ -41,7 +41,7 @@ abstract class ControllerFase {
                         sleep(1000)
                         tempo++
                     }
-                    logger.log("\nTempo máximo estourado ($tempoLimite s)! Passando para a próxima fase...", '\n')
+                    logger.log("Tempo máximo estourado ($tempoLimite s)! Passando para a próxima fase...\n", '\n')
                     loggerService.registraLog(logger)
                     janelePrincipalController.passarParaProximaFase()
                 }

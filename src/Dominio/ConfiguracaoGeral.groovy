@@ -24,11 +24,9 @@ class ConfiguracaoGeral implements Jsonable {
     Teste2 teste2
     Teste1 teste1
 
-    ConfiguracaoGeral(String tituloConfiguracao, List<Classe> classes, Ordens ordem,
-                      Condicao1 condicao1, LinhaDeBase linhaDeBase, Condicao2 condicao2, Teste1 teste1, Teste2 teste2) {
+    ConfiguracaoGeral(String tituloConfiguracao, List<Classe> classes, Condicao1 condicao1, LinhaDeBase linhaDeBase, Condicao2 condicao2, Teste1 teste1, Teste2 teste2) {
         this.tituloConfiguracao = tituloConfiguracao
         this.classes = classes
-        this.ordem = ordem
         this.condicao1 = condicao1
         this.linhaDeBase = linhaDeBase
         this.condicao2 = condicao2
@@ -55,11 +53,9 @@ class ConfiguracaoGeral implements Jsonable {
 
         json.append("\"classes\": ${TextUtils.listToJsonString(classes.collect { it.toJson() })},")
 
-        json.append("\"ordem\": \"${ordem.nomeOrdem}\",")
-        json.append("\"ordemFases\": \"${ordem.ordemFases}\",")
-        json.append("\"linhaDeBase\": ${linhaDeBase.toJson()},")
-        json.append("\"teste2\": ${condicao1.toJson()},")
+        json.append("\"condicao1\": ${condicao1.toJson()},")
         json.append("\"condicao2\": ${condicao2.toJson()},")
+        json.append("\"linhaDeBase\": ${linhaDeBase.toJson()},")
         json.append("\"teste1\": ${teste1.toJson()},")
         json.append("\"teste2\": ${teste2.toJson()}")
         json.append('}')

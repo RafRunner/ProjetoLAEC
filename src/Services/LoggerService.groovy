@@ -1,5 +1,6 @@
 package Services
 
+import Dominio.Exceptions.EntradaInvalidaException
 import Files.Ambiente
 import Files.Logger
 import groovy.transform.CompileStatic
@@ -45,7 +46,7 @@ class LoggerService {
         try {
             arquivo.append(logARegistrar)
         } catch (IOException ignored) {
-            throw new IOException("Se tentou registrar no arquivo de log sem o ter criado primeiro!")
+            throw new EntradaInvalidaException("Se tentou registrar no arquivo de log sem o ter criado primeiro!")
         }
 
         logger.limpaLog()
