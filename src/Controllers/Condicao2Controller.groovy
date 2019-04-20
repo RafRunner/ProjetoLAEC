@@ -80,15 +80,32 @@ class Condicao2Controller extends ControllerFase {
                         if (estimuloClicado == estimuloAssociado) {
                             message += " que era o estímulo associado a tela!"
                             condicao2View.acerto()
-                            acabou = true
+                            condicao2.acerto()
                         } else {
                             message += " que não era o estímulo associado a tela!"
                             condicao2View.erro()
+                            condicao2.erro()
                         }
                 }
 
                 logger.log(message, '\t')
                 loggerService.registraLog(logger)
+
+                List fim = condicao2.acabou()
+                acabou = fim[0]
+                String motivo = fim[1]
+
+                if (acabou) {
+                    String mensagemFim
+                    if (motivo == 'acertos') {
+                        mensagemFim = 'Condição de para por acertos atingida! Passando para o próximo estímulo!'
+                    } else {
+                        mensagemFim = 'Condição de para por erros atingida! Passando para o próximo estímulo!'
+                    }
+
+                    logger.log(mensagemFim, '\t')
+                    loggerService.registraLog(logger)
+                }
             }
         }
     }
