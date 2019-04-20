@@ -13,16 +13,17 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class LinhaDeBaseController extends ControllerFase {
 
-    ConfiguracaoGeral configuracaoGeral
-    LinhaDeBase linhaDeBase
+    private ConfiguracaoGeral configuracaoGeral
+    private  LinhaDeBase linhaDeBase
 
-    LoggerService loggerService = LoggerService.instancia
+    private LoggerService loggerService = LoggerService.instancia
 
     LinhaDeBaseController(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
         super(janalePrincipalController1, configuracaoGeral, logger)
-        this.configuracaoGeral = configuracaoGeral
-        this.linhaDeBase = configuracaoGeral.linhaDeBase
-        this.instrucoes = (ArrayList) linhaDeBase.instrucoes
+        linhaDeBase = configuracaoGeral.linhaDeBase
+        instrucoes = (ArrayList) linhaDeBase.instrucoes
+        tempoLimite = linhaDeBase.tempoLimite
+        verificarTempo()
     }
 
     @Override

@@ -8,26 +8,44 @@ import Services.LoggerService
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class ControllerFase {
+abstract class ControllerFase {
 
-    JanelaPrincipalController janelePrincipalController
-    ConfiguracaoGeral configuracaoGeral
-    Logger logger
-    List<Classe> classes
-    ArrayList<Instrucao> instrucoes
+    protected JanelaPrincipalController janelePrincipalController
+    protected ConfiguracaoGeral configuracaoGeral
+    protected Logger logger
+    protected List<Classe> classes
+    protected ArrayList<Instrucao> instrucoes
 
     protected LoggerService loggerService = LoggerService.instancia
 
-    long tempo
+    protected long tempo = 0
+    protected long tempoLimite = 0
 
     ControllerFase(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
         this.configuracaoGeral = configuracaoGeral
         this.janelePrincipalController = janalePrincipalController1
         this.classes = configuracaoGeral.classes
         this.logger = logger
-        this.tempo = 0
     }
 
-    void iniciar() {
+    abstract void iniciar();
+
+    void toqueEstimulo(String palavraTocada) {}
+
+    protected void verificarTempo() {
+        if (tempoLimite >= 0) {
+            new Thread() {
+
+                void run() {
+                    while (tempo <= tempoLimite) {
+                        sleep(1000)
+                        tempo++
+                    }
+                    logger.log("\nTempo máximo estourado ($tempoLimite s)! Passando para a próxima fase...", '\n')
+                    loggerService.registraLog(logger)
+                    janelePrincipalController.passarParaProximaFase()
+                }
+            }.start()
+        }
     }
 }

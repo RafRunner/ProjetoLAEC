@@ -1,6 +1,7 @@
 package View
 
 import Controllers.Condicao1Controller
+import Controllers.ControllerFase
 import groovy.transform.CompileStatic
 
 import javax.swing.BoxLayout
@@ -21,9 +22,9 @@ class Condicao1View extends JPanel implements MouseListener {
     private static final Color FUNDO_PALAVRA = Color.WHITE
     private static final int TAMANHO_FONTE = 90
 
-    Condicao1Controller condicao1Controller
+    ControllerFase condicao1Controller
 
-    Condicao1View(List<String> palavras, Color cor, Condicao1Controller condicao1Controller1) {
+    Condicao1View(List<String> palavras, Color cor, ControllerFase condicao1Controller1) {
 
         this.condicao1Controller = condicao1Controller1
 

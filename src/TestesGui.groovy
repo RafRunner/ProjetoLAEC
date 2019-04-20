@@ -38,7 +38,7 @@ class TestesGui {
 
         Instrucao instrucaoCondicao1 = new Instrucao("Aparecerão três palavras na tela. Você deverá escolher uma entre as três palavras e tocá-la. Caso tenha alguma dúvida chame à experimentadora")
 
-        int tempoLimite = 50
+        int tempoLimite = 1
 
         Condicao1 condicao1 = new Condicao1([classe1, classe2, classe3], [instrucaoCondicao1], 3, tempoLimite)
         Teste2 teste2 = new Teste2([classe1, classe2, classe3], [instrucaoLinhaDeBase1, instrucaoLinhaDeBase2, instrucaoLinhaDeBase3], 3, tempoLimite)

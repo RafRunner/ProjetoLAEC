@@ -10,20 +10,20 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Condicao2 implements Jsonable {
 
-    int acertos = 0
-    int erros = 0
-    int tempoLimite
-    int condicaoParadaAcerto
-    int condicaoParadaErro
-    List<Classe> classes
-
-    Instrucao instrucaoImagem
-    Instrucao instrucaoPalavra
-    int numeroRepeticoes
-    ModoCondicao2 modoExibicao
-
+    private int acertos = 0
+    private int erros = 0
+    private int condicaoParadaAcerto
+    private int condicaoParadaErro
     private int acertosConsecutivos = 0
     private int errosConsecutivos = 0
+
+    List<Classe> classes
+    Instrucao instrucaoImagem
+    Instrucao instrucaoPalavra
+    ModoCondicao2 modoExibicao
+
+    int numeroRepeticoes
+    int tempoLimite
 
     Condicao2(List<Classe> classes, Instrucao instrucaoImagem, Instrucao instrucaoPalavra, String nomeModo, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite) {
         if (!classes || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite <= 0) {

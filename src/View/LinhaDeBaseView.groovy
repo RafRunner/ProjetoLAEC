@@ -1,5 +1,6 @@
 package View
 
+import Controllers.ControllerFase
 import Controllers.LinhaDeBaseController
 import groovy.transform.CompileStatic
 
@@ -18,13 +19,13 @@ class LinhaDeBaseView extends JPanel implements MouseListener {
     JLabel palavra
     Color cor
 
-    private final LinhaDeBaseController controller
+    private final ControllerFase controller
     boolean tocouNaPalavra
 
     private static final Color FUNDO_PALAVRA = Color.WHITE
     private static final int TAMANHO_FONTE = 200
 
-    LinhaDeBaseView(String palavra, Color cor, LinhaDeBaseController controller) {
+    LinhaDeBaseView(String palavra, Color cor, ControllerFase controller) {
         this.controller = controller
 
         this.palavra = new JLabel(palavra)

@@ -3,6 +3,8 @@ package Controllers
 import Dominio.ConfiguracaoGeral
 import Dominio.Enums.Ordens
 import Files.Logger
+import Services.LoggerService
+import View.InstrucaoView
 import groovy.transform.CompileStatic
 
 import javax.swing.JFrame
@@ -14,15 +16,17 @@ import java.awt.Toolkit
 @CompileStatic
 class JanelaPrincipalController {
 
-    JFrame janela
-    JPanel painelAtual
+    private JFrame janela
+    private JPanel painelAtual
+    private Ordens ordem
+    private int indiceFaseAtual
 
-    ConfiguracaoGeral configuracaoGeral
-    Logger logger
-    Ordens ordem
-    int indiceFaseAtual
+    private ConfiguracaoGeral configuracaoGeral
+    private Logger logger
+    private LoggerService loggerService = LoggerService.instancia
 
     private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
+    private static InstrucaoView instrucaoFinal = new InstrucaoView("Fim do esperimento! Por favor, chame a experimentadora", this, false)
 
     JanelaPrincipalController(ConfiguracaoGeral configuracaoGeral, Logger logger, JPanel painelInical) {
         this.configuracaoGeral = configuracaoGeral
@@ -59,8 +63,15 @@ class JanelaPrincipalController {
             void run() {
                 indiceFaseAtual++
                 Class<? extends ControllerFase> classeProximoControler = ordem.ordemControllers[indiceFaseAtual]
-                ControllerFase proximoControler = classeProximoControler.newInstance(self, configuracaoGeral, logger)
-                proximoControler.iniciar()
+
+                if (classeProximoControler) {
+                    ControllerFase proximoControler = classeProximoControler.newInstance(self, configuracaoGeral, logger)
+                    proximoControler.iniciar()
+                } else {
+                    mudarPainel(instrucaoFinal)
+                    logger.log("Fim do experimento!")
+                    loggerService.registraLog(logger)
+                }
             }
         }.start()
     }

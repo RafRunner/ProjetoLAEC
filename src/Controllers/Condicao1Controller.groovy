@@ -13,20 +13,21 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Condicao1Controller extends ControllerFase {
 
-    Condicao1 condicao1
-    ArrayList<Instrucao> instrucoes
+    private Condicao1 condicao1
 
-    Condicao1View condicao1ViewAtual
-    int indiceClasseAtual = 0
-    int repeticaoAtual = 0
+    private Condicao1View condicao1ViewAtual
+    private int indiceClasseAtual = 0
+    private int repeticaoAtual = 0
 
     LoggerService loggerService = LoggerService.instancia
 
     Condicao1Controller(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
         super(janalePrincipalController1, configuracaoGeral, logger)
-        this.condicao1 = configuracaoGeral.condicao1
-        this.instrucoes = (ArrayList) condicao1.instrucoes
+        condicao1 = configuracaoGeral.condicao1
+        instrucoes = (ArrayList) condicao1.instrucoes
         indiceClasseAtual = -1
+        tempoLimite = condicao1.tempoLimite
+        verificarTempo()
     }
 
     @Override
@@ -53,6 +54,7 @@ class Condicao1Controller extends ControllerFase {
         passarParaProximaTela()
     }
 
+    @Override
     void toqueEstimulo(String palavraTocada) {
         if (palavraTocada == null) {
             logger.log("Toque fora de qualquer estímulo", '\t')

@@ -19,7 +19,7 @@ class InstrucaoView extends JPanel implements MouseListener {
 
     private final Object lock
 
-    InstrucaoView(String instrucao, Object lock) {
+    InstrucaoView(String instrucao, Object lock, boolean mostrarIntrucaoToque = true) {
         this.lock = lock
 
         JLabel labelInstrucao = new JLabel("<html><div style='text-align: center;'>" + instrucao + "</div></html>", SwingConstants.CENTER)
@@ -28,19 +28,21 @@ class InstrucaoView extends JPanel implements MouseListener {
         JLabel labelInformacao = new JLabel('Toque na tela para continuar')
         ViewUtils.modificaLabel(labelInformacao, null, null, 40)
 
-        this.setLayout(new GridBagLayout())
+        setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()
 
         gb.fill = GridBagConstraints.HORIZONTAL
-        this.add(labelInstrucao, gb); gb.gridy = ++gb.gridy; gb.weighty = 0.2
+        add(labelInstrucao, gb); gb.gridy = ++gb.gridy; gb.weighty = 0.2
         gb.fill = GridBagConstraints.NONE
-        this.add(labelInformacao, gb)
+        if (mostrarIntrucaoToque) {
+            add(labelInformacao, gb)
+        }
 
-        this.setBackground(FUNDO)
-        this.validate()
-        this.repaint()
-        this.addMouseListener(this)
+        setBackground(FUNDO)
+        validate()
+        repaint()
+        addMouseListener(this)
     }
 
     @Override
