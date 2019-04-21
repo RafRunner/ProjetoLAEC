@@ -29,7 +29,7 @@ import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 
 @CompileStatic
-class MenuIniciar extends JFrame implements ActionListener {
+class MenuIniciar extends JFrame implements ActionListener, CriadorConfiguracao {
 
     private List<ConfiguracaoGeral> configuracoes
     private ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
@@ -132,8 +132,7 @@ class MenuIniciar extends JFrame implements ActionListener {
         if (origem == iniciar) {
             iniciar()
         } else {
-            ConfiguracoesComuns configuracoesComuns = new ConfiguracoesComuns()
-            ControllerCriarConfiguracao controllerCriarConfiguracao = new ControllerCriarConfiguracao(configuracoesComuns)
+            new ConfiguracoesComuns()
         }
     }
 
@@ -156,5 +155,15 @@ class MenuIniciar extends JFrame implements ActionListener {
 
         JanelaPrincipalController janelaPrincipalController = new JanelaPrincipalController(configuracaoGeral, logger, new JPanel())
         janelaPrincipalController.passarParaProximaFase()
+    }
+
+    @Override
+    void modificaConfiguracao(ConfiguracaoGeral configuracaoGeral) {
+
+    }
+
+    @Override
+    void atualizar() {
+
     }
 }

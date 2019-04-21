@@ -50,6 +50,11 @@ class ConfiguracaoGeralService {
         return obtemConfiguracaoDoArquivo(arquivo)
     }
 
+    boolean existeCOnfiguracao(String titulo) {
+        List<File> arquivosConf = ambiente.getFiles(pastaConfiguracoes)
+        return titulo in arquivosConf.name
+    }
+
     void salvaConfiguracao(ConfiguracaoGeral configuracaoGeral) {
         String nomeArquivo = configuracaoGeral.montaNomeArquivo()
         String json = configuracaoGeral.toJson()
