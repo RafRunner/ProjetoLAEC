@@ -7,9 +7,11 @@ import Dominio.Exceptions.EntradaInvalidaException
 import Files.Logger
 import Services.ConfiguracaoGeralService
 import Services.LoggerService
+import View.ConfiguracoesComuns
 import View.ViewUtils
 import groovy.transform.CompileStatic
 
+import javax.swing.BorderFactory
 import javax.swing.BoxLayout
 import javax.swing.JButton
 import javax.swing.JComboBox
@@ -17,6 +19,7 @@ import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JTextField
+import java.awt.Color
 import java.awt.Dimension
 import java.awt.Font
 import java.awt.GridBagConstraints
@@ -46,9 +49,9 @@ class MenuIniciar extends JFrame implements ActionListener {
         JPanel painel = new JPanel()
 
         configuracoes = configuracaoGeralService.obtemTodasAsConfiguracoes()
-        String[] titulosConfiguracao = configuracoes.tituloConfiguracao
-        String[] sexos = Sexo.values().collect { it.extenso }
-        String[] grupo = Ordens.values().collect { it.nomeGrupo }
+        String[] titulosConfiguracao = configuracoes.tituloConfiguracao as String[]
+        String[] sexos = Sexo.values().collect { it.extenso } as String[]
+        String[] grupo = Ordens.values().collect { it.nomeGrupo } as String[]
 
         JLabel labelExperimentador = new JLabel('Experimentador: ')
         JLabel labelGrupoParticipante = new JLabel('Grupo participante: ')
@@ -93,22 +96,17 @@ class MenuIniciar extends JFrame implements ActionListener {
         gb.fill = GridBagConstraints.NONE
         painel.add(iniciar, gb); ++gb.gridy
 
-        setTitle('Words and Context')
-        setDefaultCloseOperation(EXIT_ON_CLOSE)
-        setSize(new Dimension((int) (tamanhoTela.width / 2),(int) (tamanhoTela.height / 1.5)))
-        setLocation((int) (tamanhoTela.width/2 - getSize().width/2), (int) (tamanhoTela.height/2 - getSize().height/2))
-
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS))
         add(criarPainelCreditos())
         add(painel)
 
-        setResizable(false)
-        setVisible(true)
+        ViewUtils.configuraJFrame(this, tamanhoTela, 'Words and Context')
     }
 
     private JPanel criarPainelCreditos() {
         JPanel painel = new JPanel()
         painel.setLayout(new GridBagLayout())
+        painel.setBorder(BorderFactory.createLineBorder(Color.BLACK))
 
         List<JLabel> texto = ['Software Words and Context',
                               'Programado por: Rafael Nunes Santana e Arthur Cintra',
@@ -133,6 +131,9 @@ class MenuIniciar extends JFrame implements ActionListener {
 
         if (origem == iniciar) {
             iniciar()
+        } else {
+            ConfiguracoesComuns configuracoesComuns = new ConfiguracoesComuns()
+            ControllerCriarConfiguracao controllerCriarConfiguracao = new ControllerCriarConfiguracao(configuracoesComuns)
         }
     }
 

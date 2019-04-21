@@ -4,7 +4,6 @@ import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Enums.ModoCondicao2
 import Dominio.Fases.Condicao2
-import Dominio.Instrucao
 import Files.Logger
 import View.Condicao2View
 import View.InstrucaoView
@@ -26,7 +25,7 @@ class Condicao2Controller extends ControllerFase {
 
     @Override
     void iniciar() {
-        logger.log('Inicio da Condição2!')
+        logger.log('Inicio da Condição 2!')
         loggerService.registraLog(logger)
 
         for (int i = 0; i < condicao2.numeroRepeticoes; i++) {
@@ -40,11 +39,11 @@ class Condicao2Controller extends ControllerFase {
                 apresentarImagem()
             }
         }
+
+        logger.log('Fim da Condição 2!')
+        loggerService.registraLog(logger)
+        acabou = true
         janelePrincipalController.passarParaProximaFase()
-    }
-
-    private void apresentar(Object imagemOuPal) {
-
     }
 
     private void apresentarImagem() {

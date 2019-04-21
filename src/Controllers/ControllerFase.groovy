@@ -20,6 +20,7 @@ abstract class ControllerFase {
 
     protected long tempo = 0
     protected long tempoLimite = 0
+    protected boolean acabou
 
     ControllerFase(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
         this.configuracaoGeral = configuracaoGeral
@@ -37,13 +38,15 @@ abstract class ControllerFase {
             new Thread() {
 
                 void run() {
-                    while (tempo <= tempoLimite) {
+                    while (tempo <= tempoLimite && !acabou) {
                         sleep(1000)
                         tempo++
                     }
-                    logger.log("Tempo máximo estourado ($tempoLimite s)! Passando para a próxima fase...\n", '\n')
-                    loggerService.registraLog(logger)
-                    janelePrincipalController.passarParaProximaFase()
+                    if (!acabou) {
+                        logger.log("Tempo máximo estourado ($tempoLimite s)! Passando para a próxima fase...\n", '\n')
+                        loggerService.registraLog(logger)
+                        janelePrincipalController.passarParaProximaFase()
+                    }
                 }
             }.start()
         }

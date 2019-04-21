@@ -85,6 +85,7 @@ class Teste2Controller extends ControllerFase {
             if (repeticaoAtual >= teste2.numeroRepeticoes) {
                 logger.log("Fim do Teste 2!\n", '\n')
                 loggerService.registraLog(logger)
+                acabou = true
                 janelePrincipalController.passarParaProximaFase()
                 return
             }

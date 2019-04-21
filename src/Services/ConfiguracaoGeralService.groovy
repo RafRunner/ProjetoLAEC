@@ -23,19 +23,21 @@ class ConfiguracaoGeralService {
     List<ConfiguracaoGeral> obtemTodasAsConfiguracoes() {
         List<File> arquivosConfiguracao = ambiente.getFiles(pastaConfiguracoes)
 
-        return arquivosConfiguracao.collect {
-            if (ehArquivoConfiguracao(it)) {
-                return obtemConfiguracaoDoArquivo(it)
-            }
-        }
+        return arquivosConfiguracao?.collect { obtemConfiguracaoDoArquivo(it) }?.findAll { it }
     }
 
     ConfiguracaoGeral obtemConfiguracaoDoArquivo(File arquivo) {
         String json = arquivo.getText()
-        JsonSlurper jsonSlurper = new JsonSlurper()
-        Map configuracao = jsonSlurper.parseText(json) as Map
 
-        return ConfiguracaoGeralFactory.fromStringMap(configuracao)
+        try {
+            JsonSlurper jsonSlurper = new JsonSlurper()
+            Map configuracao = jsonSlurper.parseText(json) as Map
+
+            return ConfiguracaoGeralFactory.fromStringMap(configuracao)
+
+        } catch (Exception ignored) {
+            return null
+        }
     }
 
     ConfiguracaoGeral obtemConfiguracaoDoArquivo(String nomeArquivo) {
@@ -46,19 +48,6 @@ class ConfiguracaoGeralService {
         }
 
         return obtemConfiguracaoDoArquivo(arquivo)
-    }
-
-    private boolean ehArquivoConfiguracao(File arquivo) {
-        try {
-            String json = arquivo.getText()
-            JsonSlurper jsonSlurper = new JsonSlurper()
-            Map configuracao = jsonSlurper.parseText(json) as Map
-
-            return ConfiguracaoGeralFactory.fromStringMap(configuracao)
-        } catch(Exception e) {
-            e.printStackTrace()
-            return false
-        }
     }
 
     void salvaConfiguracao(ConfiguracaoGeral configuracaoGeral) {

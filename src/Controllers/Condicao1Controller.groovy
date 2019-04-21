@@ -86,6 +86,7 @@ class Condicao1Controller extends ControllerFase {
             if (repeticaoAtual >= condicao1.numeroRepeticoes) {
                 logger.log("Fim da Condição 1!\n\n", '\n')
                 loggerService.registraLog(logger)
+                acabou = true
                 janelePrincipalController.passarParaProximaFase()
                 return
             }

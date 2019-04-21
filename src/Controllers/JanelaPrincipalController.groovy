@@ -36,8 +36,8 @@ class JanelaPrincipalController {
 
         janela = new JFrame()
         janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE)
-        janela.setLocationRelativeTo(null)
         janela.setSize(tamanhoTela)
+        janela.setLocation((int) (tamanhoTela.width/2 - janela.getSize().width/2), (int) (tamanhoTela.height/2 - janela.getSize().height/2))
         janela.setUndecorated(true)
         janela.getRootPane().setWindowDecorationStyle(JRootPane.NONE)
         janela.setResizable(false)

@@ -14,15 +14,17 @@ import groovy.transform.CompileStatic
 class ConfiguracaoGeral implements Jsonable {
 
     String tituloConfiguracao
-
     List<Classe> classes
-    Ordens ordem
 
     Condicao1 condicao1
     LinhaDeBase linhaDeBase
     Condicao2 condicao2
     Teste2 teste2
     Teste1 teste1
+
+    Ordens ordem
+
+    ConfiguracaoGeral() {}
 
     ConfiguracaoGeral(String tituloConfiguracao, List<Classe> classes, Condicao1 condicao1, LinhaDeBase linhaDeBase, Condicao2 condicao2, Teste1 teste1, Teste2 teste2) {
         this.tituloConfiguracao = tituloConfiguracao

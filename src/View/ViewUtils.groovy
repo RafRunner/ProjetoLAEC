@@ -2,8 +2,10 @@ package View
 
 import groovy.transform.CompileStatic
 
+import javax.swing.JFrame
 import javax.swing.JLabel
 import java.awt.Color
+import java.awt.Dimension
 import java.awt.Font
 import java.awt.GridBagConstraints
 
@@ -41,5 +43,15 @@ class ViewUtils {
             espacos[i] = new JLabel('')
         }
         return espacos
+    }
+
+    static void configuraJFrame(JFrame jFrame, Dimension tamanhoTela, String titulo) {
+        jFrame.setTitle(titulo)
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+        jFrame.setSize(new Dimension((int) (tamanhoTela.width / 2),(int) (tamanhoTela.height / 1.5)))
+        jFrame.setLocation((int) (tamanhoTela.width/2 - jFrame.getSize().width/2), (int) (tamanhoTela.height/2 - jFrame.getSize().height/2))
+
+        jFrame.setResizable(false)
+        jFrame.setVisible(true)
     }
 }
