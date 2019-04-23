@@ -50,7 +50,7 @@ class ConfiguracaoGeralService {
         return obtemConfiguracaoDoArquivo(arquivo)
     }
 
-    boolean existeCOnfiguracao(String titulo) {
+    boolean existeConfiguracao(String titulo) {
         List<File> arquivosConf = ambiente.getFiles(pastaConfiguracoes)
         return titulo in arquivosConf.name
     }

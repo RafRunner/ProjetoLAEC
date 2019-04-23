@@ -1,7 +1,7 @@
 package View
 
 
-import Controllers.CriadorConfiguracao
+import Controllers.PossuidorListaAtualizavel
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Exceptions.EntradaInvalidaException
@@ -26,23 +26,27 @@ import java.awt.Toolkit
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 
-class ConfiguracoesComuns extends JFrame implements CriadorConfiguracao, ActionListener {
+class ConfiguracoesComuns extends JFrame implements PossuidorListaAtualizavel, ActionListener {
 
-    List<Classe> classesExistentes
+    private List<Classe> classesExistentes
 
-    DefaultListModel<String> listaClasses
-    JList<String> jListClasses
-    JTextField fieldNome
-    JButton botaoCriarNovasClasses
-    JButton botaoConfigurarFases
+    private DefaultListModel<String> listaClasses
+    private JList<String> jListClasses
+    private JTextField fieldNome
+    private JButton botaoCriarNovasClasses
+    private JButton botaoConfigurarFases
+    private JButton botaoCancelar
+
+    private PossuidorListaAtualizavel possuidorListaAtualizavel
 
     private ClasseService classeService = ClasseService.instancia
     private ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
 
     private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
 
-    ConfiguracoesComuns() {
-        this.classesExistentes = classeService.obtemTodasAsClasses()
+    ConfiguracoesComuns(PossuidorListaAtualizavel possuidorListaAtualizavel) {
+        classesExistentes = classeService.obtemTodasAsClasses()
+        this.possuidorListaAtualizavel = possuidorListaAtualizavel
 
         JPanel panel = new JPanel()
 
@@ -59,7 +63,7 @@ class ConfiguracoesComuns extends JFrame implements CriadorConfiguracao, ActionL
 
         fieldNome = new JTextField()
         this.listaClasses = new DefaultListModel<>()
-        this.listaClasses.addAll(classesExistentes)
+        classesExistentes.each { this.listaClasses.addElement(it) }
         jListClasses = new JList(this.listaClasses)
         jListClasses.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
         JScrollPane scrollClasses = new JScrollPane()
@@ -69,10 +73,13 @@ class ConfiguracoesComuns extends JFrame implements CriadorConfiguracao, ActionL
         botaoCriarNovasClasses.addActionListener(this)
         botaoConfigurarFases = new JButton('Configurar Fases')
         botaoConfigurarFases.addActionListener(this)
+        botaoCancelar = new JButton('Cancelar')
+        botaoCancelar.addActionListener(this)
 
         JPanel painelBotoes = new JPanel()
         painelBotoes.setLayout(new BoxLayout(painelBotoes, BoxLayout.X_AXIS))
 
+        painelBotoes.add(botaoCancelar)
         painelBotoes.add(botaoCriarNovasClasses)
         painelBotoes.add(botaoConfigurarFases)
 
@@ -88,20 +95,16 @@ class ConfiguracoesComuns extends JFrame implements CriadorConfiguracao, ActionL
         ViewUtils.configuraJFrame(this, tamanhoTela, 'Criando Configuração')
     }
 
-    @Override
     void modificaConfiguracao(ConfiguracaoGeral configuracaoGeral) {
-        String nome = fieldNome.getText()
+        String titulo = fieldNome.getText()
         List<String> classes = jListClasses.getSelectedValuesList()
 
-        if (!nome || !classes) {
-            throw new EntradaInvalidaException('A configuração deve um título e pelo menos Uma classe!')
-        }
-        else if (configuracaoGeralService.existeCOnfiguracao(nome)) {
+        if (configuracaoGeralService.existeConfiguracao(titulo)) {
             throw new EntradaInvalidaException('Já existe configuração com esse título')
         }
 
-        configuracaoGeral.tituloConfiguracao = fieldNome.getText()
-        configuracaoGeral.classes = classesExistentes.findAll { it.montaNomeArquivo() in jListClasses.getSelectedValuesList() }
+        configuracaoGeral.tituloConfiguracao = titulo
+        configuracaoGeral.classes = classesExistentes.findAll { it.montaNomeArquivo() in classes }
     }
 
     @Override
@@ -122,7 +125,13 @@ class ConfiguracoesComuns extends JFrame implements CriadorConfiguracao, ActionL
         if (origem == botaoConfigurarFases) {
             ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral()
             modificaConfiguracao(configuracaoGeral)
-        } else {
+            
+            new ConfiguracaoFases(configuracaoGeral, possuidorListaAtualizavel)
+        }
+        else if (origem == botaoCancelar) {
+            dispose()
+        }
+        else {
             new CriarClasse(this)
         }
     }

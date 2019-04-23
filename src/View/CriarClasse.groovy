@@ -1,6 +1,6 @@
 package View
 
-import Controllers.CriadorConfiguracao
+import Controllers.PossuidorListaAtualizavel
 import Dominio.Classe
 import Dominio.Enums.CoresDisponiveis
 import Services.ClasseService
@@ -35,11 +35,11 @@ class CriarClasse extends JFrame implements ActionListener {
     ClasseService classeService = ClasseService.instancia
     ImagemService imagemService = ImagemService.instancia
 
-    private CriadorConfiguracao criadorConfiguracao
+    private PossuidorListaAtualizavel criadorConfiguracao
 
     private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
 
-    CriarClasse(CriadorConfiguracao criadorConfiguracao) {
+    CriarClasse(PossuidorListaAtualizavel criadorConfiguracao) {
         this.criadorConfiguracao = criadorConfiguracao
 
         JPanel painel = new JPanel()

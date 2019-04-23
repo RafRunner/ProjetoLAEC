@@ -1,6 +1,7 @@
 package Dominio
 
 import Dominio.Enums.Ordens
+import Dominio.Exceptions.EntradaInvalidaException
 import Dominio.Fases.Condicao1
 import Dominio.Fases.LinhaDeBase
 import Dominio.Fases.Teste2
@@ -34,6 +35,20 @@ class ConfiguracaoGeral implements Jsonable {
         this.condicao2 = condicao2
         this.teste1 = teste1
         this.teste2 = teste2
+    }
+
+    void setTituloConfiguracao(String titulo) {
+        if (!titulo) {
+            throw new EntradaInvalidaException('Configuração deve ter um título!')
+        }
+        this.tituloConfiguracao = titulo
+    }
+
+    void setClasses(List<Classe> classes) {
+        if (!classes) {
+            throw new EntradaInvalidaException('Configuração deve ter pelo menos uma classe!')
+        }
+        this.classes = classes
     }
 
     List<Instrucao> getTodasAsInstrucoes() {

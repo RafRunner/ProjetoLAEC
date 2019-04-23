@@ -28,7 +28,7 @@ class LinhaDeBaseController extends ControllerFase {
 
     @Override
     void iniciar() {
-        logger.log("Inicio da Linha de base!", '\n')
+        logger.log("Inicio da Linha de base!\n", '\n')
 
         final Object lock = new Object()
 

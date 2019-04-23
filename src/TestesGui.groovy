@@ -56,7 +56,7 @@ class TestesGui {
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             void uncaughtException(Thread t, Throwable e) {
-                String mensagemErro = e.toString().find(/(?<=.EntradaInvalidaException: ).+!/)
+                String mensagemErro = e.toString().find(/(?<=.EntradaInvalidaException: ).+!/) ?: e.toString()
                 JOptionPane.showMessageDialog(null, mensagemErro, 'Erro!', JOptionPane.ERROR_MESSAGE)
             }
         })
