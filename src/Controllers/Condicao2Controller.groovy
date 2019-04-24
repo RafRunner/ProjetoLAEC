@@ -4,6 +4,7 @@ import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Enums.ModoCondicao2
 import Dominio.Fases.Condicao2
+import Files.EfeitosSonoros
 import Files.Logger
 import View.Condicao2View
 import View.InstrucaoView
@@ -40,7 +41,7 @@ class Condicao2Controller extends ControllerFase {
             }
         }
 
-        logger.log('Fim da Condição 2!')
+        logger.log('Fim da Condição 2!', '\n')
         loggerService.registraLog(logger)
         acabou = true
         janelePrincipalController.passarParaProximaFase()
@@ -103,10 +104,12 @@ class Condicao2Controller extends ControllerFase {
                         message = "Participante tocou na palavra $estimuloClicado!"
                         if (estimuloClicado == estimuloAssociado) {
                             message += " que era o estímulo associado a tela!"
+                            EfeitosSonoros.ACERTO.play()
                             condicao2View.acerto()
                             condicao2.acerto()
                         } else {
                             message += " que não era o estímulo associado a tela!"
+                            EfeitosSonoros.ERRO.play()
                             condicao2View.erro()
                             condicao2.erro()
                         }

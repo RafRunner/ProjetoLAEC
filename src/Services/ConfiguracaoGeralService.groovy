@@ -52,7 +52,7 @@ class ConfiguracaoGeralService {
 
     boolean existeConfiguracao(String titulo) {
         List<File> arquivosConf = ambiente.getFiles(pastaConfiguracoes)
-        return titulo in arquivosConf.name
+        return titulo + '.json' in arquivosConf.name
     }
 
     void salvaConfiguracao(ConfiguracaoGeral configuracaoGeral) {

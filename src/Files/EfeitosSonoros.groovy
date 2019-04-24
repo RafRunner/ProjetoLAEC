@@ -9,11 +9,14 @@ enum EfeitosSonoros {
 
     private Clip clip
 
+    private Ambiente ambiente = Ambiente.instancia
+    private String pastaAudio = 'Audio'
+
     EfeitosSonoros(String soundFileName) {
-        URL url = this.getClass().getClassLoader().getResource(soundFileName)
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(url)
+        InputStream audio = new FileInputStream(new File(ambiente.getFullPath(pastaAudio, soundFileName)))
         clip = AudioSystem.getClip()
-        clip.open(audioInputStream)
+        BufferedInputStream bufferStream = new BufferedInputStream(audio)
+        clip.open(AudioSystem.getAudioInputStream(bufferStream))
     }
 
     void play() {
@@ -23,9 +26,4 @@ enum EfeitosSonoros {
         clip.setFramePosition(0)
         clip.start()
     }
-
-    static void init() {
-        values()
-    }
 }
-
