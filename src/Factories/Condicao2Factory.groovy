@@ -15,8 +15,7 @@ class Condicao2Factory {
         Instrucao instrucaoPalavra = InstrucaoFactory.fromStringMap((map.instrucaoPalavra as Map<String, String>))
         int repeticoes = Integer.parseInt(map.numeroRepeticoes)
         int tempoLimite = Integer.parseInt(map.tempoLimite)
-        String modoExibicao = map.modoExibicao
 
-        return new Condicao2(classes, instrucaoImagem, instrucaoPalavra, modoExibicao, condicaoParadaAcerto, condicaoParadaErro, repeticoes, tempoLimite)
+        return new Condicao2(classes, instrucaoImagem, instrucaoPalavra, condicaoParadaAcerto, condicaoParadaErro, repeticoes, tempoLimite)
     }
 }

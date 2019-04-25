@@ -3,7 +3,6 @@ package View
 import Controllers.PossuidorListaAtualizavel
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
-import Dominio.Enums.ModoCondicao2
 import Dominio.Exceptions.EntradaInvalidaException
 import Dominio.Fases.Condicao1
 import Dominio.Fases.Condicao2
@@ -42,7 +41,6 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
     private JComboBox<String> instrucaoImagem
     private JComboBox<String> instrucaoPalavra
-    private JComboBox<String> modoExibicao
     private JTextField fieldCondicaoParadaAcerto
     private JTextField fieldCondicaoParadaErro
     private JTextField fieldRepeticoesCondicao2
@@ -203,7 +201,6 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
         JLabel labelInstrucaoImagen = new JLabel('Instrução Imagem:')
         JLabel labelInstrucaoPalavra = new JLabel('Instrução Palavra:')
-        JLabel labelModoExibicao = new JLabel('Modo Exibição:')
         JLabel labelParadaAcerto = new JLabel('Condição Parada Acerto:')
         JLabel labelParadaErro = new JLabel('Condição Parada Erro:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
@@ -213,8 +210,6 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         instrucaoImagem.setPrototypeDisplayValue(StringTamanhoMax)
         instrucaoPalavra = new JComboBox<>(instrucoesExistentes.texto as String[])
         instrucaoPalavra.setPrototypeDisplayValue(StringTamanhoMax)
-        modoExibicao = new JComboBox<>(ModoCondicao2.values().collect { it.nomeModo } as String[])
-        modoExibicao.setPrototypeDisplayValue(StringTamanhoMax)
         fieldCondicaoParadaAcerto = new JTextField()
         fieldCondicaoParadaErro = new JTextField()
         fieldRepeticoesCondicao2 = new JTextField()
@@ -225,7 +220,6 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
         painel.add(labelInstrucaoImagen, gb); ++gb.gridy
         painel.add(labelInstrucaoPalavra, gb); ++gb.gridy
-        painel.add(labelModoExibicao, gb); ++gb.gridy
         painel.add(labelParadaAcerto, gb); ++gb.gridy
         painel.add(labelParadaErro, gb); ++gb.gridy
         painel.add(labelRepeticoes, gb); ++gb.gridy
@@ -233,7 +227,6 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         gb.gridy = 0; ++gb.gridx; gb.fill = GridBagConstraints.HORIZONTAL
         painel.add(instrucaoImagem, gb); ++gb.gridy
         painel.add(instrucaoPalavra, gb); ++gb.gridy
-        painel.add(modoExibicao, gb); ++gb.gridy
         painel.add(fieldCondicaoParadaAcerto, gb); ++gb.gridy
         painel.add(fieldCondicaoParadaErro, gb); ++gb.gridy
         painel.add(fieldRepeticoesCondicao2, gb); ++gb.gridy
@@ -436,14 +429,13 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
             Instrucao instrucaoImagem = new Instrucao(instrucaoImagem.getSelectedItem().toString())
             Instrucao instrucaoPalavra = new Instrucao(instrucaoPalavra.getSelectedItem().toString())
-            String modoExibicao = modoExibicao.getSelectedItem().toString()
             try {
                 int condicaoParadaAcerto = Integer.parseInt(fieldCondicaoParadaAcerto.getText().trim())
                 int condicaoParadaErro = Integer.parseInt(fieldCondicaoParadaErro.getText().trim())
                 int repeticoesCondicao2 = Integer.parseInt(fieldRepeticoesCondicao2.getText().trim())
                 int tempoCondicao2 = Integer.parseInt(fieldTempoCondicao2.getText().trim())
 
-                Condicao2 condicao2 = new Condicao2(classes, instrucaoImagem, instrucaoPalavra, modoExibicao, condicaoParadaAcerto, condicaoParadaErro, repeticoesCondicao2, tempoCondicao2)
+                Condicao2 condicao2 = new Condicao2(classes, instrucaoImagem, instrucaoPalavra, condicaoParadaAcerto, condicaoParadaErro, repeticoesCondicao2, tempoCondicao2)
                 configuracaoGeral.condicao2 = condicao2
             } catch (NumberFormatException ignored) {
                 throw new EntradaInvalidaException('Tempo, Repetiçeõs e condições de parada devem ser números!')

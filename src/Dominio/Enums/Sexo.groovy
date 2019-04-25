@@ -6,7 +6,8 @@ import groovy.transform.CompileStatic
 enum Sexo {
 
     FEMININO('F', 'feminino'),
-    MASCULINO('M', 'masculino')
+    MASCULINO('M', 'masculino'),
+    OUTRO('O', 'outro')
 
     String abreviacao
     String extenso

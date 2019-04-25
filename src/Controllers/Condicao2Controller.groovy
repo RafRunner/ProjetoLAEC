@@ -2,7 +2,7 @@ package Controllers
 
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
-import Dominio.Enums.ModoCondicao2
+import Dominio.Enums.Ordens
 import Dominio.Fases.Condicao2
 import Files.EfeitosSonoros
 import Files.Logger
@@ -14,12 +14,12 @@ import groovy.transform.CompileStatic
 class Condicao2Controller extends ControllerFase {
 
     private Condicao2 condicao2
-    private ModoCondicao2 modoCondicao2
+    private Ordens grupo
 
     Condicao2Controller(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
         super(janalePrincipalController1, configuracaoGeral, logger)
         condicao2 = configuracaoGeral.condicao2
-        modoCondicao2 = condicao2.modoExibicao
+        grupo = configuracaoGeral.ordem
         tempoLimite = condicao2.tempoLimite
         verificarTempo()
     }
@@ -31,7 +31,7 @@ class Condicao2Controller extends ControllerFase {
 
         for (int i = 0; i < condicao2.numeroRepeticoes; i++) {
 
-            if (modoCondicao2 == ModoCondicao2.PRIMEIRO_IMAGEM) {
+            if (grupo == Ordens.ORDEM1) {
                 apresentarImagem()
                 apresentarPalavra()
             }

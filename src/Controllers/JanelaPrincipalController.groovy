@@ -26,7 +26,7 @@ class JanelaPrincipalController {
     private LoggerService loggerService = LoggerService.instancia
 
     private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
-    private static InstrucaoView instrucaoFinal = new InstrucaoView("Fim do esperimento! Por favor, chame a experimentadora", this, false)
+    private static InstrucaoView instrucaoFinal = new InstrucaoView("Fim do esperimento! Por favor, chame o(a) experimentador(a)", this, false)
 
     JanelaPrincipalController(ConfiguracaoGeral configuracaoGeral, Logger logger, JPanel painelInical) {
         this.configuracaoGeral = configuracaoGeral
