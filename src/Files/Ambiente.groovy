@@ -11,7 +11,9 @@ class Ambiente {
     private String separadorEndereco
 
     private Ambiente() {
-        rootDirectory = System.getProperty('user.dir')
+        URL url = getClass().getProtectionDomain().getCodeSource().getLocation()
+        File file = new File(url.toURI())
+        rootDirectory = file.getParent()
         sistemaOperacional = System.getProperty('os.name').toLowerCase()
 
         if (isLinux() || isOsx()) {

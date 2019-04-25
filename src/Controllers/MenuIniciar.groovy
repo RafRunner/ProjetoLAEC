@@ -137,10 +137,19 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
     }
 
     private void iniciar() {
+        if (!configuracoes) {
+            throw new EntradaInvalidaException('Por favor, crie uma configuração antes de realizar o experimento!')
+        }
+
         ConfiguracaoGeral configuracaoGeral = configuracoes.find { it.tituloConfiguracao == configuracaoSelecionada.getSelectedItem().toString() }
         String nomeExperimentador = experimentador.getText()
         Ordens ordem = Ordens.values().find { it.nomeGrupo == grupoParticipante.getSelectedItem().toString() }
         String nomeParticipante = participante.getText()
+
+        if (!nomeExperimentador || ! nomeParticipante || ! idadeParticipante.getText()) {
+            throw new EntradaInvalidaException('Por favor, insira todas as informações necessárias!')
+        }
+
         String sexoParticipante = sexoParticipante.getSelectedItem()
         int idadeParticipante
         try {
