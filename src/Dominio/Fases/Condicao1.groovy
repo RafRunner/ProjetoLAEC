@@ -16,7 +16,7 @@ class Condicao1 implements Jsonable {
     int tempoLimite
 
     Condicao1(List<Classe> classes, List<Instrucao> instrucoes, int numeroRepeticoes, int tempoLimite) {
-        if (instrucoes && classes && numeroRepeticoes > 0 && tempoLimite > 0) {
+        if (instrucoes && classes && numeroRepeticoes > 0 && tempoLimite >= 0) {
             this.instrucoes = instrucoes
             this.classes = classes
             this.numeroRepeticoes = numeroRepeticoes

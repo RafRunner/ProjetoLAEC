@@ -24,7 +24,7 @@ class Condicao2 implements Jsonable {
     int tempoLimite
 
     Condicao2(List<Classe> classes, Instrucao instrucaoImagem, Instrucao instrucaoPalavra, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite) {
-        if (!classes || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite <= 0) {
+        if (!classes || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite < 0) {
             throw new EntradaInvalidaException('Parâmetros inválidos para criação de Condicao2!')
         }
 

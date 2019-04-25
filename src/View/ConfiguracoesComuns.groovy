@@ -42,6 +42,8 @@ class ConfiguracoesComuns extends JFrame implements PossuidorListaAtualizavel, A
     private ClasseService classeService = ClasseService.instancia
     private ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
 
+    private ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral()
+
     private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
 
     ConfiguracoesComuns(PossuidorListaAtualizavel possuidorListaAtualizavel) {
@@ -123,7 +125,6 @@ class ConfiguracoesComuns extends JFrame implements PossuidorListaAtualizavel, A
         Object origem = e.getSource()
 
         if (origem == botaoConfigurarFases) {
-            ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral()
             modificaConfiguracao(configuracaoGeral)
             
             new ConfiguracaoFases(configuracaoGeral, possuidorListaAtualizavel)

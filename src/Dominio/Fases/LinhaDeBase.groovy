@@ -20,7 +20,7 @@ class LinhaDeBase implements Jsonable {
     private static String regexNumeros = '#'
 
     LinhaDeBase(List<Classe> classes, Instrucao instrucaoInicial, List<Instrucao> instrucoes, int repeticoes, int tempoLimite) {
-        if (!classes || repeticoes <= 0 || !instrucoes || !instrucaoInicial || tempoLimite <= 0) {
+        if (!classes || repeticoes <= 0 || !instrucoes || !instrucaoInicial || tempoLimite < 0) {
             throw new EntradaInvalidaException("Informações incompletas ou inválidas para Linha de Base!")
         }
 

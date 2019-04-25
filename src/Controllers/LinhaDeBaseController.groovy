@@ -13,7 +13,6 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class LinhaDeBaseController extends ControllerFase {
 
-    private ConfiguracaoGeral configuracaoGeral
     private  LinhaDeBase linhaDeBase
 
     private LoggerService loggerService = LoggerService.instancia
@@ -28,7 +27,7 @@ class LinhaDeBaseController extends ControllerFase {
 
     @Override
     void iniciar() {
-        logger.log("Inicio da Linha de base!\n", '\n')
+        logger.log("Inicio da Linha de Base!\n", '\n')
 
         final Object lock = new Object()
 

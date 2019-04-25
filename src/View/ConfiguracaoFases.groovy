@@ -34,6 +34,14 @@ import java.awt.event.ActionListener
 
 class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorListaAtualizavel {
 
+
+    //Adicionar botão remover instrução
+    //Corrigir adicionar novas instruções -> texto e cópias
+    //Fechar tela anterior ao abrir outra
+    //Arruamr fim experimento resultado
+    //Linha de base deve ser trocada somente com base no tempo, registrando quantidade de toques
+    //Ao criar nova configuração ela aparece bugada no menu, arrumar
+
     private DefaultListModel<String> listInstrucoesCondicao1
     private JList<String> jListInstrucoesCondicao1
     private JTextField fieldRepeticoesCondicao1
@@ -110,8 +118,8 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JPanel painelTeste2 = criarPainelTeste2()
 
         painelFases.add(painelCondicao1)
-        painelFases.add(painelCondicao2)
         painelFases.add(painelLinhaDeBase)
+        painelFases.add(painelCondicao2)
         painelFases.add(painelTeste1)
         painelFases.add(painelTeste2)
 
@@ -149,7 +157,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
     private JPanel criaPainelCondicao1() {
         JPanel painel = new JPanel()
-        painel.setBorder(BorderFactory.createTitledBorder('Condição 1:'))
+        painel.setBorder(BorderFactory.createTitledBorder('Linha de Base:'))
         painel.setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()
@@ -237,7 +245,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
     private JPanel criarPainelLinhaDeBase() {
         JPanel painel = new JPanel()
-        painel.setBorder(BorderFactory.createTitledBorder('Linha de Base:'))
+        painel.setBorder(BorderFactory.createTitledBorder('Condição 1:'))
         painel.setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()

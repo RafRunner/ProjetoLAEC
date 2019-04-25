@@ -11,9 +11,14 @@ class Ambiente {
     private String separadorEndereco
 
     private Ambiente() {
-        URL url = getClass().getProtectionDomain().getCodeSource().getLocation()
-        File file = new File(url.toURI())
-        rootDirectory = file.getParent()
+        boolean producao = new File(Ambiente.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath().contains('.jar')
+        if (producao) {
+            URL url = getClass().getProtectionDomain().getCodeSource().getLocation()
+            File file = new File(url.toURI())
+            rootDirectory = file.getParent()
+        } else {
+            rootDirectory = System.getProperty('user.dir')
+        }
         sistemaOperacional = System.getProperty('os.name').toLowerCase()
 
         if (isLinux() || isOsx()) {
