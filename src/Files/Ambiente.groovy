@@ -11,7 +11,7 @@ class Ambiente {
     private String separadorEndereco
 
     private Ambiente() {
-        boolean producao = new File(Ambiente.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath().contains('.jar')
+        boolean producao = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath().contains('.jar')
         if (producao) {
             URL url = getClass().getProtectionDomain().getCodeSource().getLocation()
             File file = new File(url.toURI())
@@ -19,17 +19,8 @@ class Ambiente {
         } else {
             rootDirectory = System.getProperty('user.dir')
         }
-        sistemaOperacional = System.getProperty('os.name').toLowerCase()
-
-        if (isLinux() || isOsx()) {
-            separadorEndereco = '/'
-        }
-        else if (isWindows()) {
-            separadorEndereco = '\\'
-        }
-        else {
-            throw new Exception('Sistema operacional não suportado!')
-        }
+        sistemaOperacional = System.getProperty('os.name')
+        separadorEndereco = System.getProperty('file.separator')
     }
 
     String getFullPath(String nomePasta, String nomeArquivo = null) {
@@ -53,15 +44,4 @@ class Ambiente {
         return pasta.listFiles().findAll { File arquivo -> arquivo.isFile() }
     }
 
-    boolean isLinux() {
-        return (sistemaOperacional.contains("nix") || sistemaOperacional.contains("aix") || sistemaOperacional.contains("nux"))
-    }
-
-    boolean isWindows() {
-        return sistemaOperacional.contains('win')
-    }
-
-    boolean isOsx() {
-        return sistemaOperacional.contains('osx')
-    }
 }

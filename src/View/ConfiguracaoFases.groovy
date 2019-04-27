@@ -84,8 +84,9 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
     private List<Instrucao> instrucoesExistentes
     private List<Classe> classes
 
-    private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
-    private static String StringTamanhoMax = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+    private static Dimension screenSize = Toolkit.defaultToolkit.screenSize
+    private static Dimension tamanhoTela = new Dimension((int) (screenSize.width * 2), (int) (screenSize.height))
+    private static String StringTamanhoMax = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 
     private InstrucaoService instrucaoService = InstrucaoService.instancia
     private ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
@@ -149,7 +150,6 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JScrollPane scroller = new JScrollPane(painel)
         add(scroller)
 
-        tamanhoTela = new Dimension((int) (tamanhoTela.width * 2), (int) (tamanhoTela.height))
         ViewUtils.configuraJFrame(this, tamanhoTela, 'Configurar Fases')
         painelLinhaDeBase.setSize(painelCondicao1.width, painelLinhaDeBase.height)
         painelCondicao2.setSize(painelCondicao1.width, painelCondicao2.height)
@@ -389,7 +389,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
     }
 
     void criarInstrucao() {
-        String texto = JOptionPane.showInputDialog(null, 'Texto da instrução:', 'Criar Instrução')
+        String texto = JOptionPane.showInputDialog(null, 'Texto da instrução:')
         Instrucao instrucao = new Instrucao(texto)
         instrucaoService.salvarInstrucoes([instrucao])
         atualizar()

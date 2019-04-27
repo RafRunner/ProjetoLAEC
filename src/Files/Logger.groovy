@@ -24,6 +24,7 @@ class Logger {
     private static SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd")
     private static SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss")
     private static SimpleDateFormat formatoCompleto = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    private static String lineSeparator = System.getProperty('line.separator')
     private Date inicioExperimento
     private Date fimExperimento
 
@@ -54,16 +55,17 @@ class Logger {
         StringBuilder resultado = new StringBuilder()
         fimExperimento = new Date()
 
-        resultado.append("Nome Experimentador: ${nomeExperimentador}\n\n")
-        resultado.append("Grupo do participante: ${configuracaoUsada.ordem.nomeGrupo}\n")
-        resultado.append("Ordem das fases: ${configuracaoUsada.ordem.ordemFases}\n")
-        resultado.append("Nome Participante: ${nomeParticipante}\n")
-        resultado.append("Sexo Participante: ${sexoParticipante.extenso}\n")
-        resultado.append("Idade Participante: ${idadeParticipante}\n\n")
-        resultado.append("Inicio Experimento: ${formatoCompleto.format(inicioExperimento)}\n")
-        resultado.append("Fim Experimento: ${formatoCompleto.format(fimExperimento)}\n\n")
-        resultado.append("Configuracao Usada:\n${configuracaoUsada.toJson()}\n\n")
-        resultado.append("Resultados:\n")
+        resultado.append("Nome Experimentador: ${nomeExperimentador}$lineSeparator$lineSeparator")
+        resultado.append("Grupo do participante: ${configuracaoUsada.ordem.nomeGrupo}$lineSeparator")
+        resultado.append("Ordem das fases: ${configuracaoUsada.ordem.ordemFases}$lineSeparator")
+        resultado.append("Nome Participante: ${nomeParticipante}$lineSeparator")
+        resultado.append("Sexo Participante: ${sexoParticipante.extenso}$lineSeparator")
+        resultado.append("Idade Participante: ${idadeParticipante}$lineSeparator")
+        resultado.append("Inicio Experimento: ${formatoCompleto.format(inicioExperimento)}$lineSeparator")
+        resultado.append("Fim Experimento: ${formatoCompleto.format(fimExperimento)}$lineSeparator")
+        String configuracaoFormatada = configuracaoUsada.toJson().replaceAll('\n', lineSeparator)
+        resultado.append("Configuracao Usada:$lineSeparator${configuracaoFormatada}$lineSeparator")
+        resultado.append("Resultados:$lineSeparator")
 
         return resultado.toString()
     }
@@ -72,11 +74,9 @@ class Logger {
         return configuracaoUsada.tituloConfiguracao + '_' + nomeExperimentador + '_' + nomeParticipante + '_' + formatoData.format(inicioExperimento) + '.txt'
     }
 
-    void log(String mensagem, String prefixos = null) {
-        String linhaCompleta = "\t${formatoHora.format(new Date())}: ${mensagem}\n"
-        if (prefixos) {
-            linhaCompleta = prefixos + linhaCompleta
-        }
+    void log(String mensagem, String prefixos = "") {
+        mensagem = mensagem.replaceAll('\n', lineSeparator)
+        String linhaCompleta = prefixos + "\t${formatoHora.format(new Date())}: ${mensagem}$lineSeparator"
         log.append(linhaCompleta)
     }
 
