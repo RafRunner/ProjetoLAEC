@@ -34,7 +34,7 @@ abstract class ControllerFase {
     void toqueEstimulo(String palavraTocada) {}
 
     protected void verificarTempo() {
-        if (tempoLimite >= 0) {
+        if (tempoLimite > 0) {
             new Thread() {
 
                 void run() {
