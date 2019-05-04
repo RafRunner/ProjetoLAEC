@@ -1,7 +1,5 @@
 package View
 
-import Controllers.ControllerFase
-import Controllers.LinhaDeBaseController
 import groovy.transform.CompileStatic
 
 import javax.swing.JLabel
@@ -19,14 +17,14 @@ class LinhaDeBaseView extends JPanel implements MouseListener {
     JLabel palavra
     Color cor
 
-    private final ControllerFase controller
+    private final Object lock
     boolean tocouNaPalavra
 
     private static final Color FUNDO_PALAVRA = Color.WHITE
     private static final int TAMANHO_FONTE = 200
 
-    LinhaDeBaseView(String palavra, Color cor, ControllerFase controller) {
-        this.controller = controller
+    LinhaDeBaseView(String palavra, Color cor, final Object lock) {
+        this.lock = lock
 
         this.palavra = new JLabel(palavra)
         ViewUtils.modificaLabel(this.palavra, FUNDO_PALAVRA, Color.BLACK, TAMANHO_FONTE)
@@ -69,10 +67,10 @@ class LinhaDeBaseView extends JPanel implements MouseListener {
 
     @Override
     void mousePressed(MouseEvent mouseEvent) {
-        synchronized (controller) {
+        synchronized (lock) {
             Component componeteTocado = (Component) mouseEvent.getSource()
             tocouNaPalavra = componeteTocado instanceof JLabel
-            controller.notify()
+            lock.notifyAll()
         }
     }
 
