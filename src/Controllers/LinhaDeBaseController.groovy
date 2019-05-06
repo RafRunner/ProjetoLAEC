@@ -43,6 +43,9 @@ class LinhaDeBaseController extends ControllerFase {
             lock.wait()
         }
 
+        logger.log("fim do tempo limite de $linhaDeBase.tempoLimite! Mostrando as instruções\n", '\n')
+        loggerService.registraLog(logger)
+
         for (Classe classe : classes) {
 
             synchronized (lock) {

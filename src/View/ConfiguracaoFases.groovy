@@ -5,7 +5,6 @@ import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Enums.ModoCondicao2
 import Dominio.Exceptions.EntradaInvalidaException
-import Dominio.Fases.Condicao1
 import Dominio.Fases.Condicao2
 import Dominio.Fases.LinhaDeBase
 import Dominio.Fases.Teste1
@@ -110,8 +109,8 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JPanel painelBotoes = new JPanel()
         painelBotoes.setLayout(new BoxLayout(painelBotoes, BoxLayout.X_AXIS))
 
-        JPanel painelLinhaDeBase = criaPainelLinhaDeBase()
-//        JPanel painelCondicao1 = criarPainelCondicao1()
+//        JPanel painelCondicao1 = criaPainelCondicao1()
+        JPanel painelLinhaDeBase = criarPainelLinhaDeBase()
         JPanel painelCondicao2 = criaPainelCondicao2()
         JPanel painelTeste1 = criarPainelTeste1()
         JPanel painelTeste2 = criarPainelTeste2()
@@ -151,9 +150,9 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         ViewUtils.configuraJFrame(this, tamanhoTela, 'Configurar Fases')
     }
 
-    private JPanel criaPainelLinhaDeBase() {
+    private JPanel criaPainelCondicao1() {
         JPanel painel = new JPanel()
-        painel.setBorder(BorderFactory.createTitledBorder('Linha de Base:'))
+        painel.setBorder(BorderFactory.createTitledBorder('Condicao 1'))
         painel.setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()
@@ -258,9 +257,9 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         return painel
     }
 
-    private JPanel criarPainelCondicao1() {
+    private JPanel criarPainelLinhaDeBase() {
         JPanel painel = new JPanel()
-        painel.setBorder(BorderFactory.createTitledBorder('Condição 1:'))
+        painel.setBorder(BorderFactory.createTitledBorder('Linha de Base'))
         painel.setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()
@@ -311,8 +310,8 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         painel.add(espaco2, gb); ++gb.gridy
         painel.add(labelRepeticoes, gb); ++gb.gridy
         painel.add(labelTempo, gb); ++gb.gridy
-        gb.gridy = 0; ++gb.gridx
-        painel.add(instrucaoInicialLinhaDeBase, gb); ++gb.gridy; gb.fill = GridBagConstraints.HORIZONTAL
+        gb.gridy = 0; ++gb.gridx; gb.fill = GridBagConstraints.HORIZONTAL
+        painel.add(instrucaoInicialLinhaDeBase, gb); ++gb.gridy
         painel.add(scrollInstrucoes, gb); ++gb.gridy
         painel.add(botao, gb); ++gb.gridy
         painel.add(botaoRemover, gb); ++gb.gridy
@@ -458,11 +457,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         instrucoesExistentes.sort { it.texto }
         novasIntrucoes.each {
             instrucaoImagem.addItem(it.texto)
-        }
-        novasIntrucoes.each {
             instrucaoPalavra.addItem(it.texto)
-        }
-        novasIntrucoes.each {
             instrucoesDisponiveis.addElement(it.texto)
         }
         instrucoesExistentes.addAll(novasIntrucoes)
@@ -481,16 +476,16 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         else {
             List<Classe> classes = configuracaoGeral.classes
 
-            List<Instrucao> instrucoesConficao1 = instrucoesExistentes.findAll { it.texto in listInstrucoesCondicao1.elements().this$0 }
-            try {
-                int repeticoesCondicao1 = Integer.parseInt(fieldRepeticoesCondicao1.getText())
-                int tempoCondicao1 = Integer.parseInt(fieldTempoCondicao1.getText())
-
-                Condicao1 condicao1 = new Condicao1(classes, instrucoesConficao1, repeticoesCondicao1, tempoCondicao1)
-                configuracaoGeral.condicao1 = condicao1
-            } catch (NumberFormatException ignored) {
-                throw new EntradaInvalidaException('Tempo e Repetiçeõs devem ser números!')
-            }
+//            List<Instrucao> instrucoesConficao1 = instrucoesExistentes.findAll { it.texto in listInstrucoesCondicao1.elements().this$0 }
+//            try {
+//                int repeticoesCondicao1 = Integer.parseInt(fieldRepeticoesCondicao1.getText())
+//                int tempoCondicao1 = Integer.parseInt(fieldTempoCondicao1.getText())
+//
+//                Condicao1 condicao1 = new Condicao1(classes, instrucoesConficao1, repeticoesCondicao1, tempoCondicao1)
+//                configuracaoGeral.condicao1 = condicao1
+//            } catch (NumberFormatException ignored) {
+//                throw new EntradaInvalidaException('Tempo e Repetiçeõs devem ser números!')
+//            }
 
             String nomeModoCondicao2 = modoCondicao2.getSelectedItem()
             Instrucao instrucaoImagem = new Instrucao(instrucaoImagem.getSelectedItem().toString())

@@ -23,6 +23,9 @@ class ConfiguracaoGeral implements Jsonable {
     Teste2 teste2
     Teste1 teste1
 
+    Instrucao instrucaoInicial
+    Instrucao instrucaoFinal
+
     Ordens ordem
 
     ConfiguracaoGeral() {}
@@ -53,11 +56,21 @@ class ConfiguracaoGeral implements Jsonable {
 
     List<Instrucao> getTodasAsInstrucoes() {
         List<Instrucao> todasAsInstrucoes = []
-        todasAsInstrucoes.addAll(condicao1?.instrucoes)
-        todasAsInstrucoes.addAll(linhaDeBase.instrucoes)
-        todasAsInstrucoes.addAll(condicao2.instrucoes)
-        todasAsInstrucoes.addAll(teste2.instrucoes)
-        todasAsInstrucoes.addAll(teste1.instrucoes)
+        if (condicao1) {
+            todasAsInstrucoes.addAll(condicao1.instrucoes)
+        }
+        if (linhaDeBase) {
+            todasAsInstrucoes.addAll(linhaDeBase.instrucoes)
+        }
+        if (condicao2) {
+            todasAsInstrucoes.addAll(condicao2.instrucoes)
+        }
+        if (teste2) {
+            todasAsInstrucoes.addAll(teste2.instrucoes)
+        }
+        if (teste1) {
+            todasAsInstrucoes.addAll(teste1.instrucoes)
+        }
 
         return todasAsInstrucoes
     }
@@ -68,16 +81,31 @@ class ConfiguracaoGeral implements Jsonable {
 
         json.append('{')
         json.append("\"tituloConfiguracao\": \"${tituloConfiguracao}\",")
+        json.append("\"ordem\": \"${ordem.nomeOrdem}\",")
 
         json.append("\"classes\": ${TextUtils.listToJsonString(classes.collect { it.toJson() })},")
 
+        if (instrucaoInicial) {
+            json.append("\"instrucaoInicial\": ${instrucaoInicial.toJson()},")
+        }
+        if (instrucaoFinal) {
+            json.append("\"instrucaoFinal\": ${instrucaoFinal.toJson()},")
+        }
         if (condicao1) {
             json.append("\"condicao1\": ${condicao1.toJson()},")
         }
-        json.append("\"condicao2\": ${condicao2.toJson()},")
-        json.append("\"linhaDeBase\": ${linhaDeBase.toJson()},")
-        json.append("\"teste1\": ${teste1.toJson()},")
-        json.append("\"teste2\": ${teste2.toJson()}")
+        if (condicao2) {
+            json.append("\"condicao2\": ${condicao2.toJson()},")
+        }
+        if (linhaDeBase) {
+            json.append("\"linhaDeBase\": ${linhaDeBase.toJson()},")
+        }
+        if (teste1) {
+            json.append("\"teste1\": ${teste1.toJson()},")
+        }
+        if (teste2) {
+            json.append("\"teste2\": ${teste2.toJson()}")
+        }
         json.append('}')
 
         return JsonOutput.prettyPrint(json.toString())

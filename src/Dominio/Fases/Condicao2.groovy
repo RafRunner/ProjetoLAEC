@@ -98,7 +98,7 @@ class Condicao2 implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
-        json.append("\"modoCondicao2\": ${modoCondicao2.nomeModo},")
+        json.append("\"modoCondicao2\": \"${modoCondicao2.nomeModo}\",")
         json.append("\"instrucaoImagem\": ${instrucaoImagem?.toJson()},")
         json.append("\"instrucaoPalavra\": ${instrucaoPalavra?.toJson()},")
         json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\",")
