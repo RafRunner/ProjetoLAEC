@@ -49,7 +49,7 @@ class ViewUtils {
         jFrame.setTitle(titulo)
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
         jFrame.setSize(new Dimension((int) (tamanhoTela.width / 2),(int) (tamanhoTela.height / 1.5)))
-        jFrame.setLocation((int) (tamanhoTela.width/2 - jFrame.getSize().width/2), (int) (tamanhoTela.height/2 - jFrame.getSize().height/2))
+        jFrame.setLocationRelativeTo(null)
 
         jFrame.setResizable(false)
         jFrame.setVisible(true)

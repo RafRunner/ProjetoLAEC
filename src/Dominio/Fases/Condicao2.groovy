@@ -1,6 +1,7 @@
 package Dominio.Fases
 
 import Dominio.Classe
+import Dominio.Enums.ModoCondicao2
 import Dominio.Exceptions.EntradaInvalidaException
 import Dominio.Instrucao
 import Dominio.Jsonable
@@ -20,12 +21,32 @@ class Condicao2 implements Jsonable {
     Instrucao instrucaoImagem
     Instrucao instrucaoPalavra
 
+    ModoCondicao2 modoCondicao2
+
     int numeroRepeticoes
     int tempoLimite
 
-    Condicao2(List<Classe> classes, Instrucao instrucaoImagem, Instrucao instrucaoPalavra, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite) {
-        if (!classes || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite < 0) {
+    Condicao2(List<Classe> classes, String nomeModo, Instrucao instrucaoImagem, Instrucao instrucaoPalavra, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite) {
+        if (!classes || !nomeModo || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite < 0) {
             throw new EntradaInvalidaException('Parâmetros inválidos para criação de Condicao2!')
+        }
+
+        modoCondicao2 = ModoCondicao2.values().find { it.nomeModo == nomeModo }
+
+        if (!modoCondicao2) {
+            throw new EntradaInvalidaException('Modo Condição 2 não reconhecido!')
+        }
+
+        if ((modoCondicao2 == ModoCondicao2.PRIMEIRO_IMAGEM || modoCondicao2 == ModoCondicao2.PRIMEIRO_PALAVRA) && (!instrucaoPalavra || !instrucaoImagem)) {
+            throw new EntradaInvalidaException("O modo '$nomeModo' exige ambas as instruções!")
+        }
+
+        if (modoCondicao2 == ModoCondicao2.SOMENTE_IMAGEM && !instrucaoImagem) {
+            throw new EntradaInvalidaException("O modo '$nomeModo' exige instrução imagem!")
+        }
+
+        if (modoCondicao2 == ModoCondicao2.SOMENTE_PALAVRA && !instrucaoPalavra) {
+            throw new EntradaInvalidaException("O modo '$nomeModo' exige instrução palavra!")
         }
 
         this.instrucaoImagem = instrucaoImagem
@@ -77,6 +98,7 @@ class Condicao2 implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
+        json.append("\"modoCondicao2\": ${modoCondicao2.nomeModo},")
         json.append("\"instrucaoImagem\": ${instrucaoImagem?.toJson()},")
         json.append("\"instrucaoPalavra\": ${instrucaoPalavra?.toJson()},")
         json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\",")

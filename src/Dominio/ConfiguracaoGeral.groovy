@@ -53,8 +53,9 @@ class ConfiguracaoGeral implements Jsonable {
 
     List<Instrucao> getTodasAsInstrucoes() {
         List<Instrucao> todasAsInstrucoes = []
-        todasAsInstrucoes.addAll(condicao1.instrucoes)
+        todasAsInstrucoes.addAll(condicao1?.instrucoes)
         todasAsInstrucoes.addAll(linhaDeBase.instrucoes)
+        todasAsInstrucoes.addAll(condicao2.instrucoes)
         todasAsInstrucoes.addAll(teste2.instrucoes)
         todasAsInstrucoes.addAll(teste1.instrucoes)
 
@@ -70,7 +71,9 @@ class ConfiguracaoGeral implements Jsonable {
 
         json.append("\"classes\": ${TextUtils.listToJsonString(classes.collect { it.toJson() })},")
 
-        json.append("\"condicao1\": ${condicao1.toJson()},")
+        if (condicao1) {
+            json.append("\"condicao1\": ${condicao1.toJson()},")
+        }
         json.append("\"condicao2\": ${condicao2.toJson()},")
         json.append("\"linhaDeBase\": ${linhaDeBase.toJson()},")
         json.append("\"teste1\": ${teste1.toJson()},")
