@@ -211,7 +211,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
     private JPanel criaPainelCondicao2() {
         JPanel painel = new JPanel()
-        painel.setBorder(BorderFactory.createTitledBorder('Condição 2:'))
+        painel.setBorder(BorderFactory.createTitledBorder('Treino'))
         painel.setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()
@@ -273,6 +273,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
         instrucaoInicialLinhaDeBase = new JComboBox<String>(instrucoesExistentes.texto as String[])
         instrucaoInicialLinhaDeBase.setPrototypeDisplayValue(StringTamanhoMax)
+        instrucaoInicialLinhaDeBase.setSelectedIndex(-1)
         listInstrucoesLinhaDeBase = new DefaultListModel<String>()
         jListInstrucoesLinhaDeBase = new JList<>(listInstrucoesLinhaDeBase)
         jListInstrucoesLinhaDeBase.setPrototypeCellValue(StringTamanhoMax)

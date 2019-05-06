@@ -31,6 +31,6 @@ class Instrucao implements Jsonable {
 
     @Override
     String montaNomeArquivo() {
-        return texto + '.json'
+        return texto.replaceAll(/[.,-]/, '') + '.json'
     }
 }

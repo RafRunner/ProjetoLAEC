@@ -17,7 +17,7 @@ enum Ordens {
     ORDEM1('Ordem 1',
             'Grupo 1',
             [LinhaDeBase.simpleName, Condicao2.simpleName, Teste1.simpleName, Teste2.simpleName],
-            [LinhaDeBaseController, Condicao2Controller, Teste2Controller, Teste1Controller])
+            [LinhaDeBaseController, Condicao2Controller, Teste1Controller, Teste2Controller])
 
     String nomeOrdem
     String nomeGrupo

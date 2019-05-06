@@ -110,12 +110,12 @@ class Condicao2Controller extends ControllerFase {
                     default:
                         message = "Participante tocou na palavra $estimuloClicado!"
                         if (estimuloClicado == estimuloAssociado) {
-                            message += " que era o estímulo associado a tela!"
+                            message += " Acerto!"
                             EfeitosSonoros.ACERTO.play()
                             condicao2View.acerto()
                             condicao2.acerto()
                         } else {
-                            message += " que não era o estímulo associado a tela!"
+                            message += " Erro!"
                             EfeitosSonoros.ERRO.play()
                             condicao2View.erro()
                             condicao2.erro()
@@ -138,9 +138,9 @@ class Condicao2Controller extends ControllerFase {
         if (acabou) {
             String mensagemFim
             if (motivo == 'acertos') {
-                mensagemFim = 'Condição de para por acertos atingida! Passando para o próximo estímulo!'
+                mensagemFim = 'Condição de parada por acertos atingida! Passando para o próximo bloco!'
             } else {
-                mensagemFim = 'Condição de para por erros atingida! Passando para o próximo estímulo!'
+                mensagemFim = 'Condição de parada por erros atingida! Passando para o próximo bloco!'
             }
 
             logger.log(mensagemFim, '\t')

@@ -104,8 +104,8 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
         painel.setBorder(BorderFactory.createLineBorder(Color.BLACK))
 
         List<JLabel> texto = ['Software Words and Context',
-                              'Programado por: Rafael Nunes Santana e Arthur Cintra',
-                              'Experimento desenvolvido por: Luisa Fernandes'].collect { new JLabel(it) }
+                              'Programado por: Rafael Nunes Santana e Artur Cintra',
+                              'Delineamento: Luisa Fernandes e Lorismário Ernesto Simonassi'].collect { new JLabel(it) }
 
         GridBagConstraints gb = ViewUtils.getGb()
         gb.anchor = GridBagConstraints.CENTER
