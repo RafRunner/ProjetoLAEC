@@ -50,7 +50,6 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
         configuracoes = configuracaoGeralService.obtemTodasAsConfiguracoes()
         String[] titulosConfiguracao = configuracoes.tituloConfiguracao as String[]
         String[] sexos = Sexo.values().collect { it.extenso } as String[]
-        String[] grupo = Ordens.values().collect { it.nomeGrupo } as String[]
 
         JLabel labelExperimentador = new JLabel('Experimentador: ')
         JLabel labelParticipante = new JLabel('Participante: ')

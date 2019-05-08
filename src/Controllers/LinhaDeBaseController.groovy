@@ -33,25 +33,29 @@ class LinhaDeBaseController extends ControllerFase {
         Map<Classe, List<Instrucao>> instrucoesParaClasses = linhaDeBase.getInstrucoesParaClasses()
         Instrucao instrucaoInicial = linhaDeBase.instrucaoInicial
 
-        InstrucaoView instrucaoInicialView = new InstrucaoView(instrucaoInicial.texto, lock)
-        janelePrincipalController.mudarPainel(instrucaoInicialView)
+        if (instrucaoInicial) {
+            InstrucaoView instrucaoInicialView = new InstrucaoView(instrucaoInicial.texto, lock)
+            janelePrincipalController.mudarPainel(instrucaoInicialView)
 
-        logger.log("Mostrando a instrução inicial: $instrucaoInicial.texto", '\t')
-        loggerService.registraLog(logger)
+            logger.log("Mostrando a instrução inicial: $instrucaoInicial.texto", '\t')
+            loggerService.registraLog(logger)
 
-        synchronized (lock) {
-            lock.wait()
+            synchronized (lock) {
+                lock.wait()
+            }
         }
 
-        logger.log("fim do tempo limite de $linhaDeBase.tempoLimite s! Mostrando as instruções\n", '\n')
-        loggerService.registraLog(logger)
-
         for (Classe classe : classes) {
+
+            logger.log("Apresentando a palavra $classe.palavraSemSentido associada a $classe.palavraComSentido\n", '\n\t')
 
             synchronized (lock) {
                 apresentarPalavraERegistrarToques(classe, lock)
                 lock.wait()
             }
+
+            logger.log("fim do tempo de apresentação de ${linhaDeBase.tempoLimite}s! Mostrando as instruções\n", '\n\t')
+            loggerService.registraLog(logger)
 
             List<Instrucao> instrucoesClasseAtual = instrucoesParaClasses[classe]
 
@@ -60,7 +64,7 @@ class LinhaDeBaseController extends ControllerFase {
                 InstrucaoView instrucaoView = new InstrucaoView(instrucao.texto, lock)
                 janelePrincipalController.mudarPainel(instrucaoView)
 
-                logger.log("Mostrando a instrução: $instrucao.texto", '\t')
+                logger.log("Mostrando a instrução: $instrucao.texto", '\t\n')
                 loggerService.registraLog(logger)
 
                 synchronized (lock) {
@@ -68,6 +72,8 @@ class LinhaDeBaseController extends ControllerFase {
                 }
             }
         }
+        janelePrincipalController.aguardarExperimentador()
+
         logger.log("Fim da Linha de Base!\n", '\n')
         loggerService.registraLog(logger)
         acabou = true

@@ -56,7 +56,6 @@ class Logger {
         fimExperimento = new Date()
 
         resultado.append("Nome Experimentador: ${nomeExperimentador}$lineSeparator$lineSeparator")
-        resultado.append("Grupo do participante: ${configuracaoUsada.ordem.nomeGrupo}$lineSeparator")
         resultado.append("Ordem das fases: ${configuracaoUsada.ordem.ordemFases}$lineSeparator")
         resultado.append("Nome Participante: ${nomeParticipante}$lineSeparator")
         resultado.append("Sexo Participante: ${sexoParticipante.extenso}$lineSeparator")

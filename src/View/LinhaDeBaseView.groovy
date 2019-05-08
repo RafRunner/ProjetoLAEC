@@ -14,21 +14,20 @@ import java.awt.event.MouseListener
 @CompileStatic
 class LinhaDeBaseView extends JPanel implements MouseListener {
 
-    JLabel palavra
+    JLabel labelImagemOuPalavra
     Color cor
 
     private final Object lock
     boolean tocouNaPalavra
 
-    private static final Color FUNDO_PALAVRA = Color.WHITE
-    private static final int TAMANHO_FONTE = 200
+    private static final int TAMANHO_IMAGEM = 500
+    private static final int TAMANHO_FONTE_CLASSES = 200
 
-    LinhaDeBaseView(String palavra, Color cor, final Object lock) {
+    LinhaDeBaseView(Object imagemOuPalavra, Color cor, final Object lock) {
         this.lock = lock
 
-        this.palavra = new JLabel(palavra)
-        ViewUtils.modificaLabel(this.palavra, FUNDO_PALAVRA, Color.BLACK, TAMANHO_FONTE)
-        this.palavra.addMouseListener(this)
+        this.labelImagemOuPalavra = ViewUtils.criaLabelImagemOuPalavra(imagemOuPalavra, TAMANHO_IMAGEM, TAMANHO_FONTE_CLASSES)
+        this.labelImagemOuPalavra.addMouseListener(this)
 
         this.cor = cor
         this.setBackground(cor)
@@ -54,7 +53,7 @@ class LinhaDeBaseView extends JPanel implements MouseListener {
         i++
 
         gb.fill = GridBagConstraints.NONE
-        this.add(this.palavra, gb)
+        this.add(this.labelImagemOuPalavra, gb)
         gb.gridy = ++k
         gb.fill = GridBagConstraints.HORIZONTAL
 

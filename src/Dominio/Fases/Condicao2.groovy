@@ -12,10 +12,10 @@ class Condicao2 implements Jsonable {
 
     private int acertos = 0
     private int erros = 0
+    private int tentativas = 0
     private int condicaoParadaAcerto
-    private int condicaoParadaErro
+    private int condicaoParadaTentativas
     private int acertosConsecutivos = 0
-    private int errosConsecutivos = 0
 
     List<Classe> classes
     Instrucao instrucaoImagem
@@ -54,7 +54,7 @@ class Condicao2 implements Jsonable {
         this.classes = classes
         this.numeroRepeticoes = repeticoes
         this.condicaoParadaAcerto = condicaoParadaAcerto
-        this.condicaoParadaErro = condicaoParadaErro
+        this.condicaoParadaTentativas = condicaoParadaErro
         this.tempoLimite = tempoLimite
     }
 
@@ -63,13 +63,13 @@ class Condicao2 implements Jsonable {
     }
 
     void acerto() {
+        tentativas++
         acertosConsecutivos++
-        errosConsecutivos = 0
         acertos++
     }
 
     void erro() {
-        errosConsecutivos++
+        tentativas++
         acertosConsecutivos = 0
         erros++
     }
@@ -79,9 +79,9 @@ class Condicao2 implements Jsonable {
             reset()
             return [true, 'acertos']
         }
-        else if (errosConsecutivos == condicaoParadaErro) {
+        else if (tentativas == condicaoParadaTentativas) {
             reset()
-            return [true, 'erros']
+            return [true, 'tentativas']
         }
         return [false, '']
     }
@@ -90,7 +90,7 @@ class Condicao2 implements Jsonable {
         acertos = 0
         erros = 0
         acertosConsecutivos = 0
-        errosConsecutivos = 0
+        tentativas = 0
     }
 
     @Override
@@ -102,7 +102,7 @@ class Condicao2 implements Jsonable {
         json.append("\"instrucaoImagem\": ${instrucaoImagem?.toJson()},")
         json.append("\"instrucaoPalavra\": ${instrucaoPalavra?.toJson()},")
         json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\",")
-        json.append("\"condicaoParadaErro\": \"${condicaoParadaErro}\",")
+        json.append("\"condicaoParadaTentativas\": \"${condicaoParadaTentativas}\",")
         json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\",")
         json.append("\"tempoLimite\": \"${tempoLimite}\"")
         json.append('}')

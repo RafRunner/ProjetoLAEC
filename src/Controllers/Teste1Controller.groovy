@@ -33,14 +33,16 @@ class Teste1Controller extends ControllerFase {
         Map<Classe, List<Instrucao>> instrucoesParaClasses = teste1.getInstrucoesParaClasses()
         Instrucao instrucaoInicial = teste1.instrucaoInicial
 
-        InstrucaoView instrucaoInicialView = new InstrucaoView(instrucaoInicial.texto, lock)
-        janelePrincipalController.mudarPainel(instrucaoInicialView)
+        if (instrucaoInicial) {
+            InstrucaoView instrucaoInicialView = new InstrucaoView(instrucaoInicial.texto, lock)
+            janelePrincipalController.mudarPainel(instrucaoInicialView)
 
-        logger.log("Mostrando a instrução inicial: $instrucaoInicial.texto", '\t')
-        loggerService.registraLog(logger)
+            logger.log("Mostrando a instrução inicial: $instrucaoInicial.texto", '\t')
+            loggerService.registraLog(logger)
 
-        synchronized (lock) {
-            lock.wait()
+            synchronized (lock) {
+                lock.wait()
+            }
         }
 
         for (Classe classe : classes) {

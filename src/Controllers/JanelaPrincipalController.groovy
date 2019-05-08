@@ -11,7 +11,11 @@ import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.JRootPane
 import java.awt.Dimension
+import java.awt.KeyEventDispatcher
+import java.awt.KeyboardFocusManager
 import java.awt.Toolkit
+import java.awt.event.KeyEvent
+import java.awt.event.KeyListener
 
 @CompileStatic
 class JanelaPrincipalController {
@@ -91,15 +95,51 @@ class JanelaPrincipalController {
                     ControllerFase proximoControler = classeProximoControler.newInstance(self, configuracaoGeral, logger)
                     proximoControler.iniciar()
                 } else {
-                    if (instrucaoFinal) {
-                        mudarPainel(instrucaoFinal)
-                    } else {
-                        mudarPainel(new InstrucaoView('', lock, false))
-                    }
-                    logger.registraFimExperimento()
-                    loggerService.registraLog(logger)
+                    mostrarInstrucaoFinalEEncerrar()
                 }
             }
         }.start()
+    }
+
+    void finalizarExperimento() {
+        mostrarInstrucaoFinalEEncerrar()
+    }
+
+    void aguardarExperimentador() {
+        String chameOExperimentador = "Chame o(a) experimentador(a)!"
+        InstrucaoView instrucaoInicialView = new InstrucaoView(chameOExperimentador, this, false)
+        mudarPainel(instrucaoInicialView)
+
+        logger.log("Mostrando a instrução: $chameOExperimentador", '\n\t')
+        loggerService.registraLog(logger)
+
+        final Object lock = new Object()
+
+        KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
+            @Override
+            boolean dispatchKeyEvent(final KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    synchronized (lock) {
+                        lock.notifyAll()
+                    }
+                }
+                return false
+            }
+        }
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher)
+
+        synchronized (lock) {
+            lock.wait()
+        }
+    }
+
+    private void mostrarInstrucaoFinalEEncerrar() {
+        if (instrucaoFinal) {
+            mudarPainel(instrucaoFinal)
+        } else {
+            mudarPainel(new InstrucaoView('', lock, false))
+        }
+        logger.registraFimExperimento()
+        loggerService.registraLog(logger)
     }
 }

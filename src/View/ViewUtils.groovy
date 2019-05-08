@@ -1,9 +1,12 @@
 package View
 
+import Files.MyImage
 import groovy.transform.CompileStatic
 
+import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.JLabel
+import javax.swing.SwingConstants
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Font
@@ -11,6 +14,8 @@ import java.awt.GridBagConstraints
 
 @CompileStatic
 class ViewUtils {
+
+    private static final Color FUNDO_PALAVRA = Color.WHITE
 
     static GridBagConstraints getGb() {
         GridBagConstraints gb = new GridBagConstraints()
@@ -53,5 +58,21 @@ class ViewUtils {
 
         jFrame.setResizable(false)
         jFrame.setVisible(true)
+    }
+
+    static JLabel criaLabelImagemOuPalavra(Object imagemOuPalavra, int tamanhoImagem, int tamanhoPalavra) {
+        JLabel labelImagemOuPalavra
+
+        if (imagemOuPalavra instanceof MyImage) {
+            imagemOuPalavra.resize(tamanhoImagem, tamanhoImagem)
+            ImageIcon icon = new ImageIcon(imagemOuPalavra.bufferedImage)
+            labelImagemOuPalavra = new JLabel(icon)
+        }
+        else {
+            labelImagemOuPalavra = new JLabel(imagemOuPalavra.toString(), SwingConstants.CENTER)
+            modificaLabel(labelImagemOuPalavra, FUNDO_PALAVRA, null, tamanhoPalavra + 30)
+        }
+
+        return labelImagemOuPalavra
     }
 }

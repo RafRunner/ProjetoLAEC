@@ -3,19 +3,20 @@ package Controllers
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
 import Dominio.Enums.ModoCondicao2
-import Dominio.Enums.Ordens
 import Dominio.Fases.Condicao2
 import Files.EfeitosSonoros
 import Files.Logger
 import View.Condicao2View
 import View.InstrucaoView
-import groovy.transform.CompileStatic
+import View.LinhaDeBaseView
 
-@CompileStatic
 class Condicao2Controller extends ControllerFase {
 
     private Condicao2 condicao2
     private ModoCondicao2 modoCondicao2
+    private String motivoFim
+
+    private static final String condicaoFimExperimento = 'tentativas'
 
     Condicao2Controller(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
         super(janalePrincipalController1, configuracaoGeral, logger)
@@ -27,7 +28,7 @@ class Condicao2Controller extends ControllerFase {
 
     @Override
     void iniciar() {
-        logger.log('Inicio da Condição 2!\n')
+        logger.log('Inicio do Treino!\n')
         loggerService.registraLog(logger)
 
         for (int i = 0; i < condicao2.numeroRepeticoes; i++) {
@@ -48,42 +49,56 @@ class Condicao2Controller extends ControllerFase {
             }
         }
 
-        logger.log('Fim da Condição 2!', '\n')
+        logger.log('Fim do Treino!', '\n')
         loggerService.registraLog(logger)
         acabou = true
-        janelePrincipalController.passarParaProximaFase()
+
+        if (motivoFim == condicaoFimExperimento) {
+            janelePrincipalController.finalizarExperimento()
+        }
+        else {
+            janelePrincipalController.passarParaProximaFase()
+        }
     }
 
     private void apresentarImagem() {
+        apresentar(condicao2.instrucaoImagem.texto, 'Apresentando a imagem associada a classe: ', 'imagem')
+    }
+
+    private void apresentarPalavra() {
+        apresentar(condicao2.instrucaoPalavra.texto, 'Apresentando a palavras associada a classe: ', 'palavraComSentido')
+    }
+
+    private void apresentar(String textoInstrucao, String mensagemLog, String imagemOuPalavra) {
+        if (motivoFim == condicaoFimExperimento) {
+            return
+        }
+
         final Object lock = new Object()
-        InstrucaoView instrucaoImagem = new InstrucaoView(condicao2.instrucaoImagem.texto, lock)
+        InstrucaoView instrucaoImagem = new InstrucaoView(textoInstrucao, lock)
 
         synchronized (lock) {
-            logger.log("Mostrando a instrução: $condicao2.instrucaoImagem.texto", '\t')
+            logger.log("Mostrando a instrução: $textoInstrucao", '\t')
             janelePrincipalController.mudarPainel(instrucaoImagem)
             lock.wait()
         }
 
         for (Classe classeAtual : classes) {
-            logger.log("Apresentando a imagem associada a classe $classeAtual.palavraComSentido\n", '\n\t')
-            loggerService.registraLog(logger)
-            jogar(classeAtual, classeAtual.imagem)
-        }
-    }
+            LinhaDeBaseView estimulo = new LinhaDeBaseView(classeAtual.palavraComSentido, classeAtual.cor.color, lock)
 
-    private void apresentarPalavra() {
-        final Object lock = new Object()
-        InstrucaoView instrucaoPalavra = new InstrucaoView(condicao2.instrucaoPalavra.texto, lock)
+            logger.log('Mostrando o estímulo isoladamente!', '\n\t')
+            janelePrincipalController.mudarPainel(estimulo)
+            synchronized (lock) {
+                lock.wait()
+            }
 
-        synchronized (lock) {
-            logger.log("Mostrando a instrução: $condicao2.instrucaoImagem.texto", '\t')
-            janelePrincipalController.mudarPainel(instrucaoPalavra)
-            lock.wait()
-        }
-        for (Classe classeAtual : classes) {
-            logger.log("Apresentando a palavra $classeAtual.palavraComSentido\n", '\n\t')
+            logger.log(mensagemLog + "$classeAtual.palavraComSentido\n", '\n\t')
             loggerService.registraLog(logger)
-            jogar(classeAtual, classeAtual.palavraComSentido)
+            jogar(classeAtual, classeAtual."$imagemOuPalavra")
+
+            if (motivoFim == condicaoFimExperimento) {
+                break
+            }
         }
     }
 
@@ -125,12 +140,14 @@ class Condicao2Controller extends ControllerFase {
                 logger.log(message, '\t')
                 loggerService.registraLog(logger)
 
-                acabou = verificarFim()
+                List resultados = verificarFim()
+                acabou = resultados[0]
+                motivoFim = resultados[1]
             }
         }
     }
 
-    private boolean verificarFim() {
+    private List verificarFim() {
         List fim = condicao2.acabou()
         boolean acabou = fim[0]
         String motivo = fim[1]
@@ -140,12 +157,12 @@ class Condicao2Controller extends ControllerFase {
             if (motivo == 'acertos') {
                 mensagemFim = 'Condição de parada por acertos atingida! Passando para o próximo bloco!'
             } else {
-                mensagemFim = 'Condição de parada por erros atingida! Passando para o próximo bloco!'
+                mensagemFim = 'Condição de parada por tentativas atingida! Finalizando o experimento!'
             }
 
             logger.log(mensagemFim, '\t')
             loggerService.registraLog(logger)
         }
-        return acabou
+        return fim
     }
 }

@@ -446,22 +446,20 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
     }
 
     void criarInstrucao() {
-        String texto = JOptionPane.showInputDialog(null, 'Texto da instrução:')
+        String texto = JOptionPane.showInputDialog(null, 'Texto da instrução:', '')
         Instrucao instrucao = new Instrucao(texto)
         instrucaoService.salvarInstrucoes([instrucao])
+
+        instrucaoImagem.addItem(texto)
+        instrucaoPalavra.addItem(texto)
+        instrucoesDisponiveis.addElement(texto)
+        instrucoesExistentes.add(instrucao)
         atualizar()
     }
 
     @Override
     void atualizar() {
-        List<Instrucao> novasIntrucoes = instrucaoService.obtenhaTodasAsInstrucoes().findAll { !(it in instrucoesExistentes) }
         instrucoesExistentes.sort { it.texto }
-        novasIntrucoes.each {
-            instrucaoImagem.addItem(it.texto)
-            instrucaoPalavra.addItem(it.texto)
-            instrucoesDisponiveis.addElement(it.texto)
-        }
-        instrucoesExistentes.addAll(novasIntrucoes)
     }
 
     @Override
@@ -477,7 +475,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         else {
             List<Classe> classes = configuracaoGeral.classes
 
-//            List<Instrucao> instrucoesConficao1 = instrucoesExistentes.findAll { it.texto in listInstrucoesCondicao1.elements().this$0 }
+//            List<Instrucao> instrucoesConficao1 = listInstrucoesCondicao1.delegate.collect { new Instrucao(it) }
 //            try {
 //                int repeticoesCondicao1 = Integer.parseInt(fieldRepeticoesCondicao1.getText())
 //                int tempoCondicao1 = Integer.parseInt(fieldTempoCondicao1.getText())
@@ -503,12 +501,16 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
                 throw new EntradaInvalidaException('Tempo, Repetiçeõs e condições de parada devem ser números!')
             }
 
-            Instrucao instrucaoInicialLinhaDeBase = new Instrucao(instrucaoInicialLinhaDeBase.getSelectedItem().toString())
-            List<Instrucao> listInstrucoesLinhaDeBase = instrucoesExistentes.findAll { it.texto in listInstrucoesLinhaDeBase.elements().this$0 }
+            String textoInstrucaoInicialLinhaDeBase = instrucaoInicialTeste1.getSelectedItem() ?: ''
+            Instrucao instrucaoInicialLinhaDeBase
+            if (textoInstrucaoInicialLinhaDeBase) {
+                instrucaoInicialLinhaDeBase = new Instrucao(textoInstrucaoInicialLinhaDeBase)
+            }
+            List<Instrucao> listInstrucoesLinhaDeBase = listInstrucoesLinhaDeBase.delegate.collect { new Instrucao(it) }
 
             try {
                 int repeticoesLinhaDeBase = Integer.parseInt(fieldRepeticoesLinhaDeBase.getText().trim())
-                int tempoLinhaDeBase = Integer.parseInt(fieldRepeticoesLinhaDeBase.getText().trim())
+                int tempoLinhaDeBase = Integer.parseInt(fieldTempoLinhaDeBase.getText().trim())
 
                 LinhaDeBase linhaDeBase = new LinhaDeBase(classes, instrucaoInicialLinhaDeBase, listInstrucoesLinhaDeBase, repeticoesLinhaDeBase, tempoLinhaDeBase)
                 configuracaoGeral.linhaDeBase = linhaDeBase
@@ -517,11 +519,11 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
             }
 
             Instrucao instrucaoInicialTeste1 = new Instrucao(instrucaoInicialTeste1.getSelectedItem().toString())
-            List<Instrucao> listInstrucoesTeste1 = instrucoesExistentes.findAll { it.texto in listInstrucoesTeste1.elements().this$0 }
+            List<Instrucao> listInstrucoesTeste1 = listInstrucoesTeste1.delegate.collect { new Instrucao(it) }
 
             try {
                 int repeticoesTeste1 = Integer.parseInt(fieldRepeticoesTeste1.getText().trim())
-                int tempoTeste1 = Integer.parseInt(fieldRepeticoesTeste1.getText().trim())
+                int tempoTeste1 = Integer.parseInt(fieldTempoTeste1.getText().trim())
 
                 Teste1 teste1 = new Teste1(classes, instrucaoInicialTeste1, listInstrucoesTeste1, repeticoesTeste1, tempoTeste1)
                 configuracaoGeral.teste1 = teste1
@@ -529,7 +531,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
                 throw new EntradaInvalidaException('Tempo e Repetiçeõs devem ser números!')
             }
 
-            List<Instrucao> instrucoesTeste2 = instrucoesExistentes.findAll { it.texto in listInstrucoesTeste2.elements().this$0 }
+            List<Instrucao> instrucoesTeste2 = listInstrucoesTeste2.delegate.collect { new Instrucao(it) }
             try {
                 int repeticoesTeste2 = Integer.parseInt(fieldRepeticoesTeste2.getText().trim())
                 int tempoTeste2 = Integer.parseInt(fieldTempoTeste2.getText().trim())

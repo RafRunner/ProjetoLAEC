@@ -1,11 +1,8 @@
 package View
 
-import Controllers.Condicao2Controller
-import Files.MyImage
 import groovy.transform.CompileStatic
 
 import javax.swing.BoxLayout
-import javax.swing.ImageIcon
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.SwingConstants
@@ -90,20 +87,7 @@ class Condicao2View extends JPanel implements MouseListener {
         JPanel painelImagem = new JPanel()
         painelImagem.setLayout(new GridBagLayout())
 
-
-        JLabel labelImagemOuPalavra
-
-        if (imagemOuPalavra instanceof MyImage) {
-            imagemOuPalavra.resize(TAMANHO_IMAGEM, TAMANHO_IMAGEM)
-            ImageIcon icon = new ImageIcon(imagemOuPalavra.bufferedImage)
-            labelImagemOuPalavra = new JLabel(icon)
-        }
-        else {
-            labelImagemOuPalavra = new JLabel(imagemOuPalavra.toString())
-            ViewUtils.modificaLabel(labelImagemOuPalavra, FUNDO_PALAVRA, null, TAMANHO_FONTE_CLASSES + 30)
-        }
-
-        this.labelImagemOuPalavra = labelImagemOuPalavra
+        this.labelImagemOuPalavra = ViewUtils.criaLabelImagemOuPalavra(imagemOuPalavra, TAMANHO_IMAGEM, TAMANHO_FONTE_CLASSES)
         labelImagemOuPalavra.addMouseListener(this)
 
         gb.fill = GridBagConstraints.HORIZONTAL
