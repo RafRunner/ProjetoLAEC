@@ -85,6 +85,7 @@ class JanelaPrincipalController {
         if (painel instanceof InstrucaoView) {
             janela.repaint()
             ((InstrucaoView) painel).mudaCorInstrucao()
+
         }
 
         janela.repaint()
