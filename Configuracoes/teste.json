@@ -36,7 +36,7 @@
             "texto": "Veja essas palavras"
         },
         "condicaoParadaAcerto": "3",
-        "condicaoParadaErro": "20",
+        "condicaoParadaTentativas": "20",
         "numeroRepeticoes": "1",
         "tempoLimite": "0"
     },

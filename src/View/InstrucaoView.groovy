@@ -17,13 +17,15 @@ class InstrucaoView extends JPanel implements MouseListener {
     private static final Color FUNDO = Color.WHITE
     private static final int TAMANHO_FONTE = 70
 
+    private JLabel labelInstrucao
+
     private final Object lock
 
     InstrucaoView(String instrucao, Object lock, boolean mostrarIntrucaoToque = true) {
         this.lock = lock
 
-        JLabel labelInstrucao = new JLabel("<html><div style='text-align: center;'>" + instrucao + "</div></html>", SwingConstants.CENTER)
-        ViewUtils.modificaLabel(labelInstrucao, null, null, TAMANHO_FONTE)
+        labelInstrucao = new JLabel("<html><div style='text-align: center;'>" + instrucao + "</div></html>", SwingConstants.CENTER)
+        ViewUtils.modificaLabel(labelInstrucao, null, FUNDO, TAMANHO_FONTE)
 
         JLabel labelInformacao = new JLabel('Toque na tela para continuar')
         ViewUtils.modificaLabel(labelInformacao, null, null, 40)
@@ -43,6 +45,10 @@ class InstrucaoView extends JPanel implements MouseListener {
         validate()
         repaint()
         addMouseListener(this)
+    }
+
+    void mudaCorInstrucao() {
+        labelInstrucao.foreground = Color.black
     }
 
     @Override

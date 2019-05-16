@@ -155,8 +155,12 @@ class ConfiguracoesComuns extends JFrame implements PossuidorListaAtualizavel, A
 
         configuracaoGeral.tituloConfiguracao = titulo
         configuracaoGeral.classes = classesExistentes.findAll { it.montaNomeArquivo() in classes }
-        configuracaoGeral.instrucaoInicial = new Instrucao(instrucaoInicial.getSelectedItem().toString())
-        configuracaoGeral.instrucaoFinal = new Instrucao(instrucaoFinal.getSelectedItem().toString())
+        if (instrucaoInicial.getSelectedItem()) {
+            configuracaoGeral.instrucaoInicial = new Instrucao(instrucaoInicial.getSelectedItem().toString())
+        }
+        if  (instrucaoFinal.getSelectedItem()) {
+            configuracaoGeral.instrucaoFinal = new Instrucao(instrucaoFinal.getSelectedItem().toString())
+        }
         configuracaoGeral.ordem = Ordens.values().find { it.nomeOrdem == ordem.getSelectedItem().toString() }
     }
 

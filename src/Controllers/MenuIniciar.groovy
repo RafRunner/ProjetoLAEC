@@ -164,7 +164,7 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
     @Override
     void atualizar() {
         List<ConfiguracaoGeral> configuracoesNovas = configuracaoGeralService.obtemTodasAsConfiguracoes()
-        configuracoesNovas.findAll { !(it in configuracoes) }.each {
+        configuracoesNovas.findAll { !(it.tituloConfiguracao in configuracoes.tituloConfiguracao) }.each {
             configuracaoSelecionada.addItem(it.tituloConfiguracao)
             configuracoes.add(it)
         }

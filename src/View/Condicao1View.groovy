@@ -1,6 +1,5 @@
 package View
 
-import Controllers.Condicao1Controller
 import Controllers.ControllerFase
 import groovy.transform.CompileStatic
 
@@ -56,7 +55,9 @@ class Condicao1View extends JPanel implements MouseListener {
         GridBagConstraints gb = ViewUtils.getGb()
 
         for (JLabel palavra : palavrasEsquerda) {
+            gb.weighty = Math.random() * Math.random()
             painelEsquerdo.add(espacos[i], gb); i++; gb.gridy = ++j
+            gb.weighty = Math.random() * Math.random()
             painelEsquerdo.add(palavra, gb); gb.gridy = ++j
         }
         painelEsquerdo.add(espacos[i], gb); i++
@@ -64,13 +65,20 @@ class Condicao1View extends JPanel implements MouseListener {
         j = 0
 
         for (JLabel palavra : palavrasDireita) {
+            gb.weighty = Math.random() * Math.random()
             painelDireito.add(espacos[i], gb); i++; gb.gridy = ++j
+            gb.weighty = Math.random() * Math.random()
             painelDireito.add(palavra, gb); gb.gridy = ++j
         }
 
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS))
-        this.add(painelEsquerdo)
-        this.add(painelDireito)
+        if (Math.random() > 0.5) {
+            this.add(painelEsquerdo)
+            this.add(painelDireito)
+        } else {
+            this.add(painelDireito)
+            this.add(painelEsquerdo)
+        }
 
         this.validate()
         this.setVisible(true)

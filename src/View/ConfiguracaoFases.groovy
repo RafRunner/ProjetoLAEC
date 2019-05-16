@@ -34,10 +34,6 @@ import java.awt.event.ActionListener
 
 class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorListaAtualizavel {
 
-    // TODO tudo aí
-    //Corrigir adicionar novas instruções -> texto e cópias
-    //Ao criar nova configuração ela aparece bugada no menu, arrumar
-
     private DefaultListModel<String> listInstrucoesCondicao1
     private JList<String> jListInstrucoesCondicao1
     private JTextField fieldRepeticoesCondicao1
