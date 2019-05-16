@@ -15,7 +15,6 @@ import java.awt.KeyEventDispatcher
 import java.awt.KeyboardFocusManager
 import java.awt.Toolkit
 import java.awt.event.KeyEvent
-import java.awt.event.KeyListener
 
 @CompileStatic
 class JanelaPrincipalController {
