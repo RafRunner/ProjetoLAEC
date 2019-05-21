@@ -66,7 +66,7 @@ class Condicao2Controller extends ControllerFase {
     }
 
     private void apresentarPalavra() {
-        apresentar(condicao2.instrucaoPalavra.texto, 'Apresentando a palavras associada a classe: ', 'palavraComSentido')
+        apresentar(condicao2.instrucaoPalavra.texto, 'Apresentando a palavra associada a classe: ', 'palavraComSentido')
     }
 
     private void apresentar(String textoInstrucao, String mensagemLog, String imagemOuPalavra) {
