@@ -1,5 +1,6 @@
 package View
 
+import Utils.ListUtils
 import groovy.transform.CompileStatic
 
 import javax.swing.BoxLayout
@@ -144,7 +145,7 @@ class Condicao2View extends JPanel implements MouseListener {
     }
 
     private void embaralhaPainelPalavras() {
-        palavras.sort { Math.random() }
+        ListUtils.embaralhaMudandoPosicao(palavras)
         labelPalavras.eachWithIndex { JLabel entry, int i ->
             entry.setText(palavras[i])
         }

@@ -28,7 +28,7 @@
         "texto": "Veja essas imagens, com novo significado"
     },
     "condicao2": {
-        "modoCondicao2": "primeiro palavra",
+        "modoCondicao2": "somente palavra",
         "instrucaoImagem": {
             "texto": "Aparecer\u00e3o tr\u00eas palavras na tela. Voc\u00ea dever\u00e1 escolher uma entre as tr\u00eas palavras e toc\u00e1-la. Caso tenha alguma d\u00favida chame \u00e0 experimentadora"
         },
@@ -70,7 +70,7 @@
                 "texto": "Aparecer\u00e3o tr\u00eas palavras na tela. Voc\u00ea dever\u00e1 escolher uma entre as tr\u00eas palavras e toc\u00e1-la. Caso tenha alguma d\u00favida chame \u00e0 experimentadora"
             }
         ],
-        "numeroRepeticoes": "1",
+        "numeroRepeticoes": "2",
         "tempoLimite": "0"
     }
 }

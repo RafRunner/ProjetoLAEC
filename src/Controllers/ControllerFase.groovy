@@ -45,7 +45,7 @@ abstract class ControllerFase {
                     if (!acabou) {
                         logger.log("Tempo máximo estourado ($tempoLimite s)! Passando para a próxima fase...\n", '\n')
                         loggerService.registraLog(logger)
-                        janelePrincipalController.passarParaProximaFase()
+                        janelePrincipalController.finalizarExperimento()
                     }
                 }
             }.start()

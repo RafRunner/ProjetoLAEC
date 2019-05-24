@@ -70,6 +70,8 @@ class Teste1Controller extends ControllerFase {
                 }
             }
         }
+        janelePrincipalController.aguardarExperimentador()
+
         logger.log("Fim do Teste 1!\n", '\n')
         loggerService.registraLog(logger)
         acabou = true

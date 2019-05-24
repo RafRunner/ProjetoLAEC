@@ -212,11 +212,11 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
         GridBagConstraints gb = ViewUtils.getGb()
 
-        JLabel labelModoCodicao2 = new JLabel('Modo Condição 2: ')
+        JLabel labelModoCodicao2 = new JLabel('Modo Treino: ')
         JLabel labelInstrucaoImagen = new JLabel('Instrução Imagem:')
         JLabel labelInstrucaoPalavra = new JLabel('Instrução Palavra:')
         JLabel labelParadaAcerto = new JLabel('Condição Parada Acerto:')
-        JLabel labelParadaErro = new JLabel('Condição Parada Erro:')
+        JLabel labelParadaErro = new JLabel('Condição Parada Tentativas:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
         JLabel labelTempo = new JLabel('Tempo Limite:')
 

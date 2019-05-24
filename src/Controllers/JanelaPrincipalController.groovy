@@ -100,7 +100,7 @@ class JanelaPrincipalController {
                     ControllerFase proximoControler = classeProximoControler.newInstance(self, configuracaoGeral, logger)
                     proximoControler.iniciar()
                 } else {
-                    mostrarInstrucaoFinalEEncerrar()
+                    finalizarExperimento()
                 }
             }
         }.start()
@@ -142,7 +142,7 @@ class JanelaPrincipalController {
         if (instrucaoFinal) {
             mudarPainel(instrucaoFinal)
         } else {
-            mudarPainel(new InstrucaoView('', lock, false))
+            mudarPainel(new InstrucaoView('Fim do experimento! Chame o(a) experimentador(a)!', lock, false))
         }
         logger.registraFimExperimento()
         loggerService.registraLog(logger)

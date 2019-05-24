@@ -14,10 +14,7 @@ import groovy.transform.CompileStatic
 class Teste2Controller extends ControllerFase {
 
     private Teste2 teste2
-
-    private Condicao1View condicao1ViewAtual
-    private int indiceClasseAtual = 0
-    private int repeticaoAtual = 0
+    private int repeticoes
 
     LoggerService loggerService = LoggerService.instancia
 
@@ -25,7 +22,7 @@ class Teste2Controller extends ControllerFase {
         super(janalePrincipalController1, configuracaoGeral, logger)
         teste2 = configuracaoGeral.teste2
         instrucoes = (ArrayList) teste2.instrucoes
-        indiceClasseAtual = -1
+        repeticoes = teste2.numeroRepeticoes
         tempoLimite = teste2.tempoLimite
         verificarTempo()
     }
@@ -48,59 +45,53 @@ class Teste2Controller extends ControllerFase {
             }
         }
 
-        logger.log("Iniciando a primeira repetição", '\n\t')
-        loggerService.registraLog(logger)
+        apresentarPalavras()
 
-        passarParaProximaTela()
+        logger.log("Fim do Teste 2!\n", '\n')
+        loggerService.registraLog(logger)
+        acabou = true
+        janelePrincipalController.passarParaProximaFase()
     }
 
-    void toqueEstimulo(String palavraTocada) {
-        if (palavraTocada == null) {
-            logger.log("Toque fora de qualquer estímulo", '\t')
-            loggerService.registraLog(logger)
-            return
-        }
-
-        Classe classeAtual = classes[indiceClasseAtual]
-
-        String mensagem = "O participante clicou no estímulo $palavraTocada"
-        if (classeAtual.palavraSemSentido == palavraTocada ) {
-            mensagem += ", que era o estilo associado a tela"
-        } else {
-            mensagem += ", que não era o estilo associado a tela"
-        }
-
-        logger.log(mensagem, '\t')
+    void apresentarPalavras () {
+        logger.log("Iniciando a primeira repetição\n", '\n\t')
         loggerService.registraLog(logger)
 
-        passarParaProximaTela()
-    }
+        final Object lock = new Object()
 
-    void passarParaProximaTela() {
-        indiceClasseAtual++
-
-        if (indiceClasseAtual >= classes.size()) {
-            repeticaoAtual++
-
-            if (repeticaoAtual >= teste2.numeroRepeticoes) {
-                logger.log("Fim do Teste 2!\n", '\n')
+        for (int i = 0; i < repeticoes; i ++) {
+            for (Classe classeAtual : classes) {
+                Condicao1View condicao1ViewAtual = new Condicao1View(classes.palavraSemSentido, classeAtual.cor.color, lock)
+                logger.log("Passando para tela associada a classe $classeAtual.palavraComSentido, Cor da tela: $classeAtual.cor.nomeCor\n", '\t\t')
                 loggerService.registraLog(logger)
-                acabou = true
-                janelePrincipalController.passarParaProximaFase()
-                return
+
+                janelePrincipalController.mudarPainel(condicao1ViewAtual)
+
+                synchronized (lock) {
+                    lock.wait()
+                }
+
+                String palavraTocada = condicao1ViewAtual.palavraTocada
+
+                if (palavraTocada == null) {
+                    logger.log("Toque fora de qualquer estímulo", '\t\t')
+                    loggerService.registraLog(logger)
+                    return
+                }
+
+                String mensagem = "O participante clicou no estímulo $palavraTocada"
+                if (classeAtual.palavraSemSentido == palavraTocada ) {
+                    mensagem += ", que era o estilo associado a tela"
+                } else {
+                    mensagem += ", que não era o estilo associado a tela"
+                }
+
+                logger.log(mensagem, '\t\t')
+                loggerService.registraLog(logger)
             }
 
-            logger.log("Iniciando a repitição de número ${repeticaoAtual + 1}", '\n\t')
+            logger.log("Iniciando a repitição de número ${i + 1}\n", '\n\t')
             loggerService.registraLog(logger)
-            indiceClasseAtual = 0
         }
-
-        Classe classeAtual = classes[indiceClasseAtual]
-
-        condicao1ViewAtual = new Condicao1View(classes.palavraSemSentido, classeAtual.cor.color, this)
-        logger.log("Passando para tela associada a classe $classeAtual.palavraComSentido, Cor da tela: $classeAtual.cor.nomeCor\n", '\n\t')
-        loggerService.registraLog(logger)
-
-        janelePrincipalController.mudarPainel(condicao1ViewAtual)
     }
 }
