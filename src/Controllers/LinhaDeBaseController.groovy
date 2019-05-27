@@ -106,9 +106,9 @@ class LinhaDeBaseController extends ControllerFase {
                         tocouNaPalavra = linhaDeBaseView.tocouNaPalavra
 
                         if (tocouNaPalavra) {
-                            logger.log("Participante tocou no estímulo $classe.palavraSemSentido!", '\t')
+                            logger.log("Participante tocou no estímulo $classe.palavraSemSentido!", '\n\t')
                         } else {
-                            logger.log("Participante tocou no fundo (fora do estímulo)!", '\t')
+                            logger.log("Participante tocou no fundo (fora do estímulo)!", '\n\t')
                         }
 
                         loggerService.registraLog(logger)

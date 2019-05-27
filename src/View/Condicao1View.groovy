@@ -1,6 +1,5 @@
 package View
 
-import Controllers.ControllerFase
 import groovy.transform.CompileStatic
 
 import javax.swing.BoxLayout

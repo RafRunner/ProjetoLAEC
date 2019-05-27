@@ -66,28 +66,28 @@ class Teste2Controller extends ControllerFase {
                 loggerService.registraLog(logger)
 
                 janelePrincipalController.mudarPainel(condicao1ViewAtual)
+                String palavraTocada
 
-                synchronized (lock) {
-                    lock.wait()
-                }
+                while (!palavraTocada) {
+                    synchronized (lock) {
+                        lock.wait()
+                    }
 
-                String palavraTocada = condicao1ViewAtual.palavraTocada
+                    palavraTocada = condicao1ViewAtual.palavraTocada
 
-                if (palavraTocada == null) {
-                    logger.log("Toque fora de qualquer estímulo", '\t\t')
+                    String mensagem = "O participante clicou no estímulo $palavraTocada"
+
+                    switch (palavraTocada) {
+                        case null: mensagem = 'Toque fora de qualquer estímulo'; break
+
+                        case classeAtual.palavraSemSentido: mensagem += ', que era o estilo associado a tela'; break
+
+                        default: mensagem += ", que não era o estilo associado a tela"
+                    }
+
+                    logger.log(mensagem, '\t\t')
                     loggerService.registraLog(logger)
-                    return
                 }
-
-                String mensagem = "O participante clicou no estímulo $palavraTocada"
-                if (classeAtual.palavraSemSentido == palavraTocada ) {
-                    mensagem += ", que era o estilo associado a tela"
-                } else {
-                    mensagem += ", que não era o estilo associado a tela"
-                }
-
-                logger.log(mensagem, '\t\t')
-                loggerService.registraLog(logger)
             }
 
             logger.log("Iniciando a repitição de número ${i + 1}\n", '\n\t')

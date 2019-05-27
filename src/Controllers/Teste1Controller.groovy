@@ -52,7 +52,7 @@ class Teste1Controller extends ControllerFase {
                 lock.wait()
             }
 
-            logger.log("fim do tempo limite de $teste1.tempoLimite! Mostrando as instruções\n", '\n')
+            logger.log("fim do tempo de apresentação de $teste1.tempoLimite s! Mostrando as instruções\n", '\n')
             loggerService.registraLog(logger)
 
             List<Instrucao> instrucoesClasseAtual = instrucoesParaClasses[classe]
@@ -104,9 +104,9 @@ class Teste1Controller extends ControllerFase {
                         tocouNaPalavra = linhaDeBaseView.tocouNaPalavra
 
                         if (tocouNaPalavra) {
-                            logger.log("Participante tocou no estímulo $classe.palavraSemSentido!", '\t')
+                            logger.log("Participante tocou no estímulo $classe.palavraSemSentido!", '\n\t')
                         } else {
-                            logger.log("Participante tocou no fundo (fora do estímulo)!", '\t')
+                            logger.log("Participante tocou no fundo (fora do estímulo)!", '\n\t')
                         }
 
                         loggerService.registraLog(logger)

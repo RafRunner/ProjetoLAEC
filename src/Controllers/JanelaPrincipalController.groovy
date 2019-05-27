@@ -118,8 +118,6 @@ class JanelaPrincipalController {
         logger.log("Mostrando a instrução: $chameOExperimentador", '\n\t')
         loggerService.registraLog(logger)
 
-        final Object lock = new Object()
-
         KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
             @Override
             boolean dispatchKeyEvent(final KeyEvent e) {
