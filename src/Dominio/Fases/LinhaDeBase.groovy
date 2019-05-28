@@ -20,7 +20,7 @@ class LinhaDeBase implements Jsonable {
     private static String regexNumeros = '#'
 
     LinhaDeBase(List<Classe> classes, Instrucao instrucaoInicial, List<Instrucao> instrucoes, int repeticoes, int tempoLimite) {
-        if (!classes || repeticoes <= 0 || !instrucoes || !instrucaoInicial || tempoLimite < 0) {
+        if (!classes || repeticoes <= 0 || !instrucoes || tempoLimite < 0) {
             throw new EntradaInvalidaException("Informações incompletas ou inválidas para Linha de Base!")
         }
 
@@ -50,7 +50,9 @@ class LinhaDeBase implements Jsonable {
 
         json.append('{')
         json.append("\"instrucoes\": ${TextUtils.listToJsonString(instrucoes.collect { it?.toJson() })}, ")
-        json.append("\"instrucaoInicial\": ${instrucaoInicial.toJson()},")
+        if (instrucaoInicial) {
+            json.append("\"instrucaoInicial\": ${instrucaoInicial.toJson()},")
+        }
         json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\",")
         json.append("\"tempoLimite\": \"${tempoLimite}\"")
         json.append('}')

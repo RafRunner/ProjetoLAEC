@@ -1,7 +1,5 @@
 package View
 
-import Controllers.Condicao1Controller
-import Controllers.ControllerFase
 import groovy.transform.CompileStatic
 
 import javax.swing.BoxLayout
@@ -19,14 +17,15 @@ class Condicao1View extends JPanel implements MouseListener {
 
     List<JLabel> palavras = []
 
+    String palavraTocada
+
     private static final Color FUNDO_PALAVRA = Color.WHITE
     private static final int TAMANHO_FONTE = 90
 
-    ControllerFase condicao1Controller
+    private final Object lock
 
-    Condicao1View(List<String> palavras, Color cor, ControllerFase condicao1Controller1) {
-
-        this.condicao1Controller = condicao1Controller1
+    Condicao1View(List<String> palavras, Color cor, final Object lock) {
+        this.lock = lock
 
         palavras.sort { Math.random() }
         for (String palavra : palavras) {
@@ -56,7 +55,9 @@ class Condicao1View extends JPanel implements MouseListener {
         GridBagConstraints gb = ViewUtils.getGb()
 
         for (JLabel palavra : palavrasEsquerda) {
+            gb.weighty = Math.random() * Math.random()
             painelEsquerdo.add(espacos[i], gb); i++; gb.gridy = ++j
+            gb.weighty = Math.random() * Math.random()
             painelEsquerdo.add(palavra, gb); gb.gridy = ++j
         }
         painelEsquerdo.add(espacos[i], gb); i++
@@ -64,13 +65,20 @@ class Condicao1View extends JPanel implements MouseListener {
         j = 0
 
         for (JLabel palavra : palavrasDireita) {
+            gb.weighty = Math.random() * Math.random()
             painelDireito.add(espacos[i], gb); i++; gb.gridy = ++j
+            gb.weighty = Math.random() * Math.random()
             painelDireito.add(palavra, gb); gb.gridy = ++j
         }
 
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS))
-        this.add(painelEsquerdo)
-        this.add(painelDireito)
+        if (Math.random() > 0.5) {
+            this.add(painelEsquerdo)
+            this.add(painelDireito)
+        } else {
+            this.add(painelDireito)
+            this.add(painelEsquerdo)
+        }
 
         this.validate()
         this.setVisible(true)
@@ -80,14 +88,16 @@ class Condicao1View extends JPanel implements MouseListener {
 
     @Override
     void mousePressed(MouseEvent mouseEvent) {
-        Component componeteTocado = (Component) mouseEvent.getSource()
-        String palavraTocada
+        synchronized (lock) {
+            Component componeteTocado = (Component) mouseEvent.getSource()
 
-        if (componeteTocado instanceof JLabel) {
-            palavraTocada = componeteTocado.getText()
+            if (componeteTocado instanceof JLabel) {
+                palavraTocada = componeteTocado.getText()
+            } else {
+                palavraTocada = null
+            }
+            lock.notifyAll()
         }
-
-        condicao1Controller.toqueEstimulo(palavraTocada)
     }
 
     @Override

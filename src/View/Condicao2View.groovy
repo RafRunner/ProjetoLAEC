@@ -1,11 +1,9 @@
 package View
 
-import Controllers.Condicao2Controller
-import Files.MyImage
+import Utils.ListUtils
 import groovy.transform.CompileStatic
 
 import javax.swing.BoxLayout
-import javax.swing.ImageIcon
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.SwingConstants
@@ -19,23 +17,24 @@ import java.awt.event.MouseListener
 @CompileStatic
 class Condicao2View extends JPanel implements MouseListener {
 
-    List<JLabel> palavras
-    Color cor
+    private List<JLabel> labelPalavras
+    private List<String> palavras
+    private Color cor
 
-    JLabel labelImagemOuPalavra
-    JPanel painelPontos
+    private JLabel labelImagemOuPalavra
 
-    String estimuloClicado
+    private String estimuloClicado
 
     private int acertos = 0
     private int erros = 0
 
-    JPanel painelErros
-    JLabel labelErros
-    JPanel painelAcertos
-    JLabel labelAcertos
+    private JPanel painelErros
+    private JLabel labelErros
+    private JLabel tituloAcertos
+    private JPanel painelAcertos
+    private JLabel labelAcertos
 
-    Object imagemOuPalavra
+    private Object imagemOuPalavra
 
     private static final int TAMANHO_IMAGEM = 500
     private static final Color FUNDO_PALAVRA = Color.WHITE
@@ -47,20 +46,20 @@ class Condicao2View extends JPanel implements MouseListener {
     Condicao2View(List<String> palavras, Color cor, Object imagemOuPalavra, Object lock) {
         this.lock = lock
         this.imagemOuPalavra = imagemOuPalavra
+        this.palavras = palavras
         this.cor = cor
 
-        this.palavras = palavras.collect { new JLabel(it, SwingConstants.CENTER) }
-        this.palavras.sort { Math.random() }
+        palavras.sort { Math.random() }
+        labelPalavras = palavras.collect { new JLabel(it, SwingConstants.CENTER) }
 
         GridBagConstraints gb = ViewUtils.getGb()
 
         painelAcertos = new JPanel()
-        this.painelPontos = painelAcertos
         painelAcertos.setBackground(Color.WHITE)
         painelAcertos.setLayout(new GridBagLayout())
         painelAcertos.addMouseListener(this)
 
-        JLabel tituloAcertos = new JLabel('ACERTOS:')
+        tituloAcertos = new JLabel('ACERTOS:')
         ViewUtils.modificaLabel(tituloAcertos, FUNDO_PALAVRA, null, TAMANHO_FONTE_PONTUACAO)
         labelAcertos = new JLabel(acertos.toString())
         ViewUtils.modificaLabel(labelAcertos, FUNDO_PALAVRA, null, TAMANHO_FONTE_PONTUACAO)
@@ -69,7 +68,6 @@ class Condicao2View extends JPanel implements MouseListener {
         painelAcertos.add(labelAcertos, gb)
 
         painelErros = new JPanel()
-        this.painelPontos = painelErros
         painelErros.setBackground(Color.WHITE)
         painelErros.setLayout(new GridBagLayout())
         painelErros.addMouseListener(this)
@@ -90,20 +88,7 @@ class Condicao2View extends JPanel implements MouseListener {
         JPanel painelImagem = new JPanel()
         painelImagem.setLayout(new GridBagLayout())
 
-
-        JLabel labelImagemOuPalavra
-
-        if (imagemOuPalavra instanceof MyImage) {
-            imagemOuPalavra.resize(TAMANHO_IMAGEM, TAMANHO_IMAGEM)
-            ImageIcon icon = new ImageIcon(imagemOuPalavra.bufferedImage)
-            labelImagemOuPalavra = new JLabel(icon)
-        }
-        else {
-            labelImagemOuPalavra = new JLabel(imagemOuPalavra.toString())
-            ViewUtils.modificaLabel(labelImagemOuPalavra, FUNDO_PALAVRA, null, TAMANHO_FONTE_CLASSES + 30)
-        }
-
-        this.labelImagemOuPalavra = labelImagemOuPalavra
+        labelImagemOuPalavra = ViewUtils.criaLabelImagemOuPalavra(imagemOuPalavra, TAMANHO_IMAGEM, TAMANHO_FONTE_CLASSES)
         labelImagemOuPalavra.addMouseListener(this)
 
         gb.fill = GridBagConstraints.HORIZONTAL
@@ -124,7 +109,7 @@ class Condicao2View extends JPanel implements MouseListener {
         painelPalavras.add(espacos[i], gb); i++
         gb.gridx = ++j
 
-        for (JLabel palavra : this.palavras) {
+        for (JLabel palavra : labelPalavras) {
             ViewUtils.modificaLabel(palavra, FUNDO_PALAVRA, Color.BLACK, TAMANHO_FONTE_CLASSES)
             painelPalavras.add(palavra, gb)
             palavra.addMouseListener(this)
@@ -138,32 +123,46 @@ class Condicao2View extends JPanel implements MouseListener {
         painelPalavras.validate()
         painelPalavras.repaint()
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
-        this.add(painelImagem)
-        this.add(painelPalavras)
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
+        add(painelImagem)
+        add(painelPalavras)
 
-        this.validate()
-        this.repaint()
-        this.addMouseListener(this)
+        validate()
+        repaint()
+        addMouseListener(this)
     }
 
-    int getAcertos() {
-        return acertos
+    private void piscaPainelAcertos() {
+        painelAcertos.background = Color.BLACK
+        labelAcertos.background = Color.BLACK
+        tituloAcertos.background = Color.BLACK
+        repaint()
+        Thread.sleep(100)
+        painelAcertos.background = Color.WHITE
+        labelAcertos.background = Color.WHITE
+        tituloAcertos.background = Color.WHITE
+        repaint()
     }
 
-    int getErros() {
-        return erros
+    private void embaralhaPainelPalavras() {
+        ListUtils.embaralhaMudandoPosicao(palavras)
+        labelPalavras.eachWithIndex { JLabel entry, int i ->
+            entry.setText(palavras[i])
+        }
     }
 
     void acerto() {
         acertos++
         labelAcertos.setText(acertos.toString())
+        embaralhaPainelPalavras()
+        piscaPainelAcertos()
         repaint()
     }
 
     void erro() {
         erros++
         labelErros.setText(erros.toString())
+        embaralhaPainelPalavras()
         repaint()
     }
 

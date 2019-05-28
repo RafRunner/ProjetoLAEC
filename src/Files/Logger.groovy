@@ -56,13 +56,11 @@ class Logger {
         fimExperimento = new Date()
 
         resultado.append("Nome Experimentador: ${nomeExperimentador}$lineSeparator$lineSeparator")
-        resultado.append("Grupo do participante: ${configuracaoUsada.ordem.nomeGrupo}$lineSeparator")
         resultado.append("Ordem das fases: ${configuracaoUsada.ordem.ordemFases}$lineSeparator")
         resultado.append("Nome Participante: ${nomeParticipante}$lineSeparator")
         resultado.append("Sexo Participante: ${sexoParticipante.extenso}$lineSeparator")
-        resultado.append("Idade Participante: ${idadeParticipante}$lineSeparator")
+        resultado.append("Idade Participante: ${idadeParticipante}$lineSeparator$lineSeparator")
         resultado.append("Inicio Experimento: ${formatoCompleto.format(inicioExperimento)}$lineSeparator")
-        resultado.append("Fim Experimento: ${formatoCompleto.format(fimExperimento)}$lineSeparator")
         String configuracaoFormatada = configuracaoUsada.toJson().replaceAll('\n', lineSeparator)
         resultado.append("Configuracao Usada:$lineSeparator${configuracaoFormatada}$lineSeparator")
         resultado.append("Resultados:$lineSeparator")
@@ -82,6 +80,10 @@ class Logger {
 
     void limpaLog() {
         log = new StringBuilder()
+    }
+
+    void registraFimExperimento() {
+        log.append("$lineSeparator${lineSeparator}Fim do Experimento: ${formatoCompleto.format(new Date())}$lineSeparator")
     }
 
     String getLog() {

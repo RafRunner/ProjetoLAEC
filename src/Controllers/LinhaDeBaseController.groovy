@@ -22,7 +22,6 @@ class LinhaDeBaseController extends ControllerFase {
         linhaDeBase = configuracaoGeral.linhaDeBase
         instrucoes = (ArrayList) linhaDeBase.instrucoes
         tempoLimite = linhaDeBase.tempoLimite
-        verificarTempo()
     }
 
     @Override
@@ -34,34 +33,28 @@ class LinhaDeBaseController extends ControllerFase {
         Map<Classe, List<Instrucao>> instrucoesParaClasses = linhaDeBase.getInstrucoesParaClasses()
         Instrucao instrucaoInicial = linhaDeBase.instrucaoInicial
 
-        InstrucaoView instrucaoInicialView = new InstrucaoView(instrucaoInicial.texto, lock)
-        janelePrincipalController.mudarPainel(instrucaoInicialView)
+        if (instrucaoInicial) {
+            InstrucaoView instrucaoInicialView = new InstrucaoView(instrucaoInicial.texto, lock)
+            janelePrincipalController.mudarPainel(instrucaoInicialView)
 
-        logger.log("Mostrando a instrução inicial: $instrucaoInicial.texto", '\t')
-        loggerService.registraLog(logger)
+            logger.log("Mostrando a instrução inicial: $instrucaoInicial.texto", '\t')
+            loggerService.registraLog(logger)
 
-        synchronized (lock) {
-            lock.wait()
+            synchronized (lock) {
+                lock.wait()
+            }
         }
 
         for (Classe classe : classes) {
 
-            LinhaDeBaseView linhaDeBaseView = new LinhaDeBaseView(classe.palavraSemSentido, classe.cor.color, this)
-            janelePrincipalController.mudarPainel(linhaDeBaseView)
+            logger.log("Apresentando a palavra $classe.palavraSemSentido associada a $classe.palavraComSentido\n", '\n\t')
 
-            boolean tocouNaPalavra
-
-            synchronized (this) {
-                this.wait()
-                tocouNaPalavra = linhaDeBaseView.tocouNaPalavra
+            synchronized (lock) {
+                apresentarPalavraERegistrarToques(classe, lock)
+                lock.wait()
             }
 
-            if (tocouNaPalavra) {
-                logger.log("Participante tocou no estímulo!\n", '\n\t')
-            } else {
-                logger.log("Participante tocou fora do estímulo!\n", '\n\t')
-            }
-
+            logger.log("fim do tempo de apresentação de ${linhaDeBase.tempoLimite}s! Mostrando as instruções\n", '\n\t')
             loggerService.registraLog(logger)
 
             List<Instrucao> instrucoesClasseAtual = instrucoesParaClasses[classe]
@@ -71,7 +64,7 @@ class LinhaDeBaseController extends ControllerFase {
                 InstrucaoView instrucaoView = new InstrucaoView(instrucao.texto, lock)
                 janelePrincipalController.mudarPainel(instrucaoView)
 
-                logger.log("Mostrando a instrução: $instrucao.texto", '\t')
+                logger.log("Mostrando a instrução: $instrucao.texto", '\t\n')
                 loggerService.registraLog(logger)
 
                 synchronized (lock) {
@@ -79,9 +72,70 @@ class LinhaDeBaseController extends ControllerFase {
                 }
             }
         }
+        janelePrincipalController.aguardarExperimentador()
+
         logger.log("Fim da Linha de Base!\n", '\n')
         loggerService.registraLog(logger)
         acabou = true
         janelePrincipalController.passarParaProximaFase()
+    }
+
+    void apresentarPalavraERegistrarToques(final Classe classe, final Object lock) {
+
+        final Object lockToque = new Object()
+
+        LinhaDeBaseView linhaDeBaseView = new LinhaDeBaseView(classe.palavraSemSentido, classe.cor.color, lockToque)
+        janelePrincipalController.mudarPainel(linhaDeBaseView)
+
+        boolean acabouTempo = false
+
+        Thread threadToque = new Thread() {
+            void run() {
+                synchronized (this) {
+                    while (!acabouTempo) {
+                        boolean tocouNaPalavra
+
+                        synchronized (lockToque) {
+                            lockToque.wait()
+                        }
+
+                        if (acabouTempo) {
+                            break
+                        }
+
+                        tocouNaPalavra = linhaDeBaseView.tocouNaPalavra
+
+                        if (tocouNaPalavra) {
+                            logger.log("Participante tocou no estímulo $classe.palavraSemSentido!", '\n\t')
+                        } else {
+                            logger.log("Participante tocou no fundo (fora do estímulo)!", '\n\t')
+                        }
+
+                        loggerService.registraLog(logger)
+                    }
+                }
+            }
+        }
+
+        new Thread() {
+            void run() {
+                int tempo = 0
+
+                while (tempo <= tempoLimite) {
+                    tempo += 1
+                    sleep(1000)
+                }
+
+                acabouTempo = true
+                synchronized (lockToque) {
+                    lockToque.notifyAll()
+                }
+                synchronized (lock) {
+                    lock.notifyAll()
+                }
+            }
+
+        }.start()
+        threadToque.start()
     }
 }

@@ -3,8 +3,8 @@ package View
 import Controllers.PossuidorListaAtualizavel
 import Dominio.Classe
 import Dominio.ConfiguracaoGeral
+import Dominio.Enums.ModoCondicao2
 import Dominio.Exceptions.EntradaInvalidaException
-import Dominio.Fases.Condicao1
 import Dominio.Fases.Condicao2
 import Dominio.Fases.LinhaDeBase
 import Dominio.Fases.Teste1
@@ -34,19 +34,12 @@ import java.awt.event.ActionListener
 
 class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorListaAtualizavel {
 
-
-    //Adicionar botão remover instrução
-    //Corrigir adicionar novas instruções -> texto e cópias
-    //Fechar tela anterior ao abrir outra
-    //Arruamr fim experimento resultado
-    //Linha de base deve ser trocada somente com base no tempo, registrando quantidade de toques
-    //Ao criar nova configuração ela aparece bugada no menu, arrumar
-
     private DefaultListModel<String> listInstrucoesCondicao1
     private JList<String> jListInstrucoesCondicao1
     private JTextField fieldRepeticoesCondicao1
     private JTextField fieldTempoCondicao1
 
+    private JComboBox<String> modoCondicao2
     private JComboBox<String> instrucaoImagem
     private JComboBox<String> instrucaoPalavra
     private JTextField fieldCondicaoParadaAcerto
@@ -112,14 +105,14 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JPanel painelBotoes = new JPanel()
         painelBotoes.setLayout(new BoxLayout(painelBotoes, BoxLayout.X_AXIS))
 
-        JPanel painelCondicao1 = criaPainelCondicao1()
-        JPanel painelCondicao2 = criaPainelCondicao2()
+//        JPanel painelCondicao1 = criaPainelCondicao1()
         JPanel painelLinhaDeBase = criarPainelLinhaDeBase()
+        JPanel painelCondicao2 = criaPainelCondicao2()
         JPanel painelTeste1 = criarPainelTeste1()
         JPanel painelTeste2 = criarPainelTeste2()
 
-        painelFases.add(painelCondicao1)
         painelFases.add(painelLinhaDeBase)
+//        painelFases.add(painelCondicao1)
         painelFases.add(painelCondicao2)
         painelFases.add(painelTeste1)
         painelFases.add(painelTeste2)
@@ -151,13 +144,11 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         add(scroller)
 
         ViewUtils.configuraJFrame(this, tamanhoTela, 'Configurar Fases')
-        painelLinhaDeBase.setSize(painelCondicao1.width, painelLinhaDeBase.height)
-        painelCondicao2.setSize(painelCondicao1.width, painelCondicao2.height)
     }
 
     private JPanel criaPainelCondicao1() {
         JPanel painel = new JPanel()
-        painel.setBorder(BorderFactory.createTitledBorder('Linha de Base:'))
+        painel.setBorder(BorderFactory.createTitledBorder('Condicao 1'))
         painel.setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()
@@ -165,7 +156,8 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JLabel labelInstrucoes = new JLabel('Intruções:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
         JLabel labelTempo = new JLabel('Tempo Limite:')
-        JLabel espaco = new JLabel('')
+        JLabel espaco1 = new JLabel('')
+        JLabel espaco2 = new JLabel('')
 
         listInstrucoesCondicao1 = new DefaultListModel<>()
         jListInstrucoesCondicao1 = new JList<>(listInstrucoesCondicao1)
@@ -184,16 +176,29 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
              }
         })
 
+        JButton botaoRemover = new JButton('Remover Instrucao')
+        botaoRemover.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent actionEvent) {
+                String instrucaoSelecionada = jListInstrucoesCondicao1.getSelectedValue()
+                listInstrucoesCondicao1.removeElement(instrucaoSelecionada)
+                repaint()
+                revalidate()
+            }
+        })
+
         fieldRepeticoesCondicao1 = new JTextField()
         fieldTempoCondicao1 = new JTextField()
 
         painel.add(labelInstrucoes, gb); ++gb.gridy
-        painel.add(espaco, gb); ++gb.gridy
+        painel.add(espaco1, gb); ++gb.gridy
+        painel.add(espaco2, gb); ++gb.gridy
         painel.add(labelRepeticoes, gb); ++gb.gridy
         painel.add(labelTempo, gb); ++gb.gridy
-        gb.gridy = 0; ++gb.gridx
-        painel.add(scrollInstrucoes, gb); ++gb.gridy; gb.fill = GridBagConstraints.HORIZONTAL
+        gb.gridy = 0; ++gb.gridx; gb.fill = GridBagConstraints.HORIZONTAL
+        painel.add(scrollInstrucoes, gb); ++gb.gridy
         painel.add(botao, gb); ++gb.gridy
+        painel.add(botaoRemover, gb); ++gb.gridy
         painel.add(fieldRepeticoesCondicao1, gb); ++gb.gridy
         painel.add(fieldTempoCondicao1, gb)
 
@@ -202,18 +207,21 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
     private JPanel criaPainelCondicao2() {
         JPanel painel = new JPanel()
-        painel.setBorder(BorderFactory.createTitledBorder('Condição 2:'))
+        painel.setBorder(BorderFactory.createTitledBorder('Treino'))
         painel.setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()
 
+        JLabel labelModoCodicao2 = new JLabel('Modo Treino: ')
         JLabel labelInstrucaoImagen = new JLabel('Instrução Imagem:')
         JLabel labelInstrucaoPalavra = new JLabel('Instrução Palavra:')
         JLabel labelParadaAcerto = new JLabel('Condição Parada Acerto:')
-        JLabel labelParadaErro = new JLabel('Condição Parada Erro:')
+        JLabel labelParadaErro = new JLabel('Condição Parada Tentativas:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
         JLabel labelTempo = new JLabel('Tempo Limite:')
 
+        modoCondicao2 = new JComboBox<>(ModoCondicao2.values().collect { it.nomeModo } as String[])
+        modoCondicao2.setPrototypeDisplayValue(StringTamanhoMax)
         instrucaoImagem = new JComboBox<>(instrucoesExistentes.texto as String[])
         instrucaoImagem.setPrototypeDisplayValue(StringTamanhoMax)
         instrucaoPalavra = new JComboBox<>(instrucoesExistentes.texto as String[])
@@ -226,6 +234,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         fieldRepeticoesCondicao2 = new JTextField()
         fieldTempoCondicao2 = new JTextField()
 
+        painel.add(labelModoCodicao2, gb); ++gb.gridy
         painel.add(labelInstrucaoImagen, gb); ++gb.gridy
         painel.add(labelInstrucaoPalavra, gb); ++gb.gridy
         painel.add(labelParadaAcerto, gb); ++gb.gridy
@@ -233,6 +242,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         painel.add(labelRepeticoes, gb); ++gb.gridy
         painel.add(labelTempo, gb); ++gb.gridy
         gb.gridy = 0; ++gb.gridx; gb.fill = GridBagConstraints.HORIZONTAL
+        painel.add(modoCondicao2, gb); ++gb.gridy
         painel.add(instrucaoImagem, gb); ++gb.gridy
         painel.add(instrucaoPalavra, gb); ++gb.gridy
         painel.add(fieldCondicaoParadaAcerto, gb); ++gb.gridy
@@ -245,7 +255,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
     private JPanel criarPainelLinhaDeBase() {
         JPanel painel = new JPanel()
-        painel.setBorder(BorderFactory.createTitledBorder('Condição 1:'))
+        painel.setBorder(BorderFactory.createTitledBorder('Linha de Base'))
         painel.setLayout(new GridBagLayout())
 
         GridBagConstraints gb = ViewUtils.getGb()
@@ -254,10 +264,12 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JLabel labelInstrucoes = new JLabel('Intruções:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
         JLabel labelTempo = new JLabel('Tempo Limite:')
-        JLabel espaco = new JLabel('')
+        JLabel espaco1 = new JLabel('')
+        JLabel espaco2 = new JLabel('')
 
         instrucaoInicialLinhaDeBase = new JComboBox<String>(instrucoesExistentes.texto as String[])
         instrucaoInicialLinhaDeBase.setPrototypeDisplayValue(StringTamanhoMax)
+        instrucaoInicialLinhaDeBase.setSelectedIndex(-1)
         listInstrucoesLinhaDeBase = new DefaultListModel<String>()
         jListInstrucoesLinhaDeBase = new JList<>(listInstrucoesLinhaDeBase)
         jListInstrucoesLinhaDeBase.setPrototypeCellValue(StringTamanhoMax)
@@ -278,15 +290,28 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
             }
         })
 
+        JButton botaoRemover = new JButton('Remover Instrucao')
+        botaoRemover.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent actionEvent) {
+                String instrucaoSelecionada = jListInstrucoesLinhaDeBase.getSelectedValue()
+                listInstrucoesLinhaDeBase.removeElement(instrucaoSelecionada)
+                repaint()
+                revalidate()
+            }
+        })
+
         painel.add(labelIntrucaoInicial, gb); ++gb.gridy
         painel.add(labelInstrucoes, gb); ++gb.gridy
-        painel.add(espaco, gb); ++gb.gridy
+        painel.add(espaco1, gb); ++gb.gridy
+        painel.add(espaco2, gb); ++gb.gridy
         painel.add(labelRepeticoes, gb); ++gb.gridy
         painel.add(labelTempo, gb); ++gb.gridy
-        gb.gridy = 0; ++gb.gridx
-        painel.add(instrucaoInicialLinhaDeBase, gb); ++gb.gridy; gb.fill = GridBagConstraints.HORIZONTAL
+        gb.gridy = 0; ++gb.gridx; gb.fill = GridBagConstraints.HORIZONTAL
+        painel.add(instrucaoInicialLinhaDeBase, gb); ++gb.gridy
         painel.add(scrollInstrucoes, gb); ++gb.gridy
         painel.add(botao, gb); ++gb.gridy
+        painel.add(botaoRemover, gb); ++gb.gridy
         painel.add(fieldRepeticoesLinhaDeBase, gb); ++gb.gridy
         painel.add(fieldTempoLinhaDeBase, gb)
 
@@ -304,7 +329,8 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JLabel labelInstrucoes = new JLabel('Intruções:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
         JLabel labelTempo = new JLabel('Tempo Limite:')
-        JLabel espaco = new JLabel('')
+        JLabel espaco1 = new JLabel('')
+        JLabel espaco2 = new JLabel('')
 
         instrucaoInicialTeste1 = new JComboBox<String>(instrucoesExistentes.texto as String[])
         instrucaoInicialTeste1.setPrototypeDisplayValue(StringTamanhoMax)
@@ -328,15 +354,28 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
             }
         })
 
+        JButton botaoRemover = new JButton('Remover Instrucao')
+        botaoRemover.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent actionEvent) {
+                String instrucaoSelecionada = jListInstrucoesTeste1.getSelectedValue()
+                listInstrucoesTeste1.removeElement(instrucaoSelecionada)
+                repaint()
+                revalidate()
+            }
+        })
+
         painel.add(labelIntrucaoInicial, gb); ++gb.gridy
         painel.add(labelInstrucoes, gb); ++gb.gridy
-        painel.add(espaco, gb); ++gb.gridy
+        painel.add(espaco1, gb); ++gb.gridy
+        painel.add(espaco2, gb); ++gb.gridy
         painel.add(labelRepeticoes, gb); ++gb.gridy
         painel.add(labelTempo, gb); ++gb.gridy
-        gb.gridy = 0; ++gb.gridx
-        painel.add(instrucaoInicialTeste1, gb); ++gb.gridy; gb.fill = GridBagConstraints.HORIZONTAL
+        gb.gridy = 0; ++gb.gridx; gb.fill = GridBagConstraints.HORIZONTAL
+        painel.add(instrucaoInicialTeste1, gb); ++gb.gridy
         painel.add(scrollInstrucoes, gb); ++gb.gridy
         painel.add(botao, gb); ++gb.gridy
+        painel.add(botaoRemover, gb); ++gb.gridy
         painel.add(fieldRepeticoesTeste1, gb); ++gb.gridy
         painel.add(fieldTempoTeste1, gb)
 
@@ -353,7 +392,8 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JLabel labelInstrucoes = new JLabel('Intruções:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
         JLabel labelTempo = new JLabel('Tempo Limite:')
-        JLabel espaco = new JLabel('')
+        JLabel espaco1 = new JLabel('')
+        JLabel espaco2 = new JLabel('')
 
         JButton botao = new JButton('Adicionar Instrucao')
         botao.addActionListener(new ActionListener() {
@@ -366,9 +406,20 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
             }
         })
 
+        JButton botaoRemover = new JButton('Remover Instrucao')
+        botaoRemover.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent actionEvent) {
+                String instrucaoSelecionada = jListInstrucoesTeste2.getSelectedValue()
+                listInstrucoesTeste2.removeElement(instrucaoSelecionada)
+                repaint()
+                revalidate()
+            }
+        })
+
         listInstrucoesTeste2 = new DefaultListModel<>()
         jListInstrucoesTeste2 = new JList<>(listInstrucoesTeste2)
-        jListInstrucoesLinhaDeBase.setPrototypeCellValue(StringTamanhoMax)
+        jListInstrucoesTeste2.setPrototypeCellValue(StringTamanhoMax)
         JScrollPane scrollInstrucoes = new JScrollPane()
         scrollInstrucoes.setViewportView(jListInstrucoesTeste2)
 
@@ -376,12 +427,14 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         fieldTempoTeste2 = new JTextField()
 
         painel.add(labelInstrucoes, gb); ++gb.gridy
-        painel.add(espaco, gb); ++gb.gridy
+        painel.add(espaco1, gb); ++gb.gridy
+        painel.add(espaco2, gb); ++gb.gridy
         painel.add(labelRepeticoes, gb); ++gb.gridy
         painel.add(labelTempo, gb); ++gb.gridy
-        gb.gridy = 0; ++gb.gridx
-        painel.add(scrollInstrucoes, gb); ++gb.gridy; gb.fill = GridBagConstraints.HORIZONTAL
+        gb.gridy = 0; ++gb.gridx; gb.fill = GridBagConstraints.HORIZONTAL
+        painel.add(scrollInstrucoes, gb); ++gb.gridy
         painel.add(botao, gb); ++gb.gridy
+        painel.add(botaoRemover, gb); ++gb.gridy
         painel.add(fieldRepeticoesTeste2, gb); ++gb.gridy
         painel.add(fieldTempoTeste2, gb)
 
@@ -389,25 +442,19 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
     }
 
     void criarInstrucao() {
-        String texto = JOptionPane.showInputDialog(null, 'Texto da instrução:')
+        String texto = JOptionPane.showInputDialog(null, 'Texto da instrução:', '')
         Instrucao instrucao = new Instrucao(texto)
         instrucaoService.salvarInstrucoes([instrucao])
+
+        instrucaoImagem.addItem(texto)
+        instrucaoPalavra.addItem(texto)
+        instrucoesDisponiveis.addElement(texto)
+        instrucoesExistentes.add(instrucao)
         atualizar()
     }
 
     @Override
     void atualizar() {
-        List<Instrucao> novasIntrucoes = instrucaoService.obtenhaTodasAsInstrucoes().findAll { !(it in instrucoesExistentes) }
-        novasIntrucoes.each {
-            instrucaoImagem.addItem(it.texto)
-        }
-        novasIntrucoes.each {
-            instrucaoPalavra.addItem(it.texto)
-        }
-        novasIntrucoes.each {
-            instrucoesDisponiveis.addElement(it.texto)
-        }
-        instrucoesExistentes.addAll(novasIntrucoes)
         instrucoesExistentes.sort { it.texto }
     }
 
@@ -424,17 +471,18 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         else {
             List<Classe> classes = configuracaoGeral.classes
 
-            List<Instrucao> instrucoesConficao1 = instrucoesExistentes.findAll { it.texto in listInstrucoesCondicao1.elements().this$0 }
-            try {
-                int repeticoesCondicao1 = Integer.parseInt(fieldRepeticoesCondicao1.getText())
-                int tempoCondicao1 = Integer.parseInt(fieldTempoCondicao1.getText())
+//            List<Instrucao> instrucoesConficao1 = listInstrucoesCondicao1.delegate.collect { new Instrucao(it) }
+//            try {
+//                int repeticoesCondicao1 = Integer.parseInt(fieldRepeticoesCondicao1.getText())
+//                int tempoCondicao1 = Integer.parseInt(fieldTempoCondicao1.getText())
+//
+//                Condicao1 condicao1 = new Condicao1(classes, instrucoesConficao1, repeticoesCondicao1, tempoCondicao1)
+//                configuracaoGeral.condicao1 = condicao1
+//            } catch (NumberFormatException ignored) {
+//                throw new EntradaInvalidaException('Tempo e Repetiçeõs devem ser números!')
+//            }
 
-                Condicao1 condicao1 = new Condicao1(classes, instrucoesConficao1, repeticoesCondicao1, tempoCondicao1)
-                configuracaoGeral.condicao1 = condicao1
-            } catch (NumberFormatException ignored) {
-                throw new EntradaInvalidaException('Tempo e Repetiçeõs devem ser números!')
-            }
-
+            String nomeModoCondicao2 = modoCondicao2.getSelectedItem()
             Instrucao instrucaoImagem = new Instrucao(instrucaoImagem.getSelectedItem().toString())
             Instrucao instrucaoPalavra = new Instrucao(instrucaoPalavra.getSelectedItem().toString())
             try {
@@ -443,18 +491,22 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
                 int repeticoesCondicao2 = Integer.parseInt(fieldRepeticoesCondicao2.getText().trim())
                 int tempoCondicao2 = Integer.parseInt(fieldTempoCondicao2.getText().trim())
 
-                Condicao2 condicao2 = new Condicao2(classes, instrucaoImagem, instrucaoPalavra, condicaoParadaAcerto, condicaoParadaErro, repeticoesCondicao2, tempoCondicao2)
+                Condicao2 condicao2 = new Condicao2(classes, nomeModoCondicao2, instrucaoImagem, instrucaoPalavra, condicaoParadaAcerto, condicaoParadaErro, repeticoesCondicao2, tempoCondicao2)
                 configuracaoGeral.condicao2 = condicao2
             } catch (NumberFormatException ignored) {
                 throw new EntradaInvalidaException('Tempo, Repetiçeõs e condições de parada devem ser números!')
             }
 
-            Instrucao instrucaoInicialLinhaDeBase = new Instrucao(instrucaoInicialLinhaDeBase.getSelectedItem().toString())
-            List<Instrucao> listInstrucoesLinhaDeBase = instrucoesExistentes.findAll { it.texto in listInstrucoesLinhaDeBase.elements().this$0 }
+            String textoInstrucaoInicialLinhaDeBase = instrucaoInicialTeste1.getSelectedItem() ?: ''
+            Instrucao instrucaoInicialLinhaDeBase
+            if (textoInstrucaoInicialLinhaDeBase) {
+                instrucaoInicialLinhaDeBase = new Instrucao(textoInstrucaoInicialLinhaDeBase)
+            }
+            List<Instrucao> listInstrucoesLinhaDeBase = listInstrucoesLinhaDeBase.delegate.collect { new Instrucao(it) }
 
             try {
                 int repeticoesLinhaDeBase = Integer.parseInt(fieldRepeticoesLinhaDeBase.getText().trim())
-                int tempoLinhaDeBase = Integer.parseInt(fieldRepeticoesLinhaDeBase.getText().trim())
+                int tempoLinhaDeBase = Integer.parseInt(fieldTempoLinhaDeBase.getText().trim())
 
                 LinhaDeBase linhaDeBase = new LinhaDeBase(classes, instrucaoInicialLinhaDeBase, listInstrucoesLinhaDeBase, repeticoesLinhaDeBase, tempoLinhaDeBase)
                 configuracaoGeral.linhaDeBase = linhaDeBase
@@ -463,11 +515,11 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
             }
 
             Instrucao instrucaoInicialTeste1 = new Instrucao(instrucaoInicialTeste1.getSelectedItem().toString())
-            List<Instrucao> listInstrucoesTeste1 = instrucoesExistentes.findAll { it.texto in listInstrucoesTeste1.elements().this$0 }
+            List<Instrucao> listInstrucoesTeste1 = listInstrucoesTeste1.delegate.collect { new Instrucao(it) }
 
             try {
                 int repeticoesTeste1 = Integer.parseInt(fieldRepeticoesTeste1.getText().trim())
-                int tempoTeste1 = Integer.parseInt(fieldRepeticoesTeste1.getText().trim())
+                int tempoTeste1 = Integer.parseInt(fieldTempoTeste1.getText().trim())
 
                 Teste1 teste1 = new Teste1(classes, instrucaoInicialTeste1, listInstrucoesTeste1, repeticoesTeste1, tempoTeste1)
                 configuracaoGeral.teste1 = teste1
@@ -475,7 +527,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
                 throw new EntradaInvalidaException('Tempo e Repetiçeõs devem ser números!')
             }
 
-            List<Instrucao> instrucoesTeste2 = instrucoesExistentes.findAll { it.texto in listInstrucoesTeste2.elements().this$0 }
+            List<Instrucao> instrucoesTeste2 = listInstrucoesTeste2.delegate.collect { new Instrucao(it) }
             try {
                 int repeticoesTeste2 = Integer.parseInt(fieldRepeticoesTeste2.getText().trim())
                 int tempoTeste2 = Integer.parseInt(fieldTempoTeste2.getText().trim())

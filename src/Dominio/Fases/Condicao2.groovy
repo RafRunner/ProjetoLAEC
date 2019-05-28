@@ -1,6 +1,7 @@
 package Dominio.Fases
 
 import Dominio.Classe
+import Dominio.Enums.ModoCondicao2
 import Dominio.Exceptions.EntradaInvalidaException
 import Dominio.Instrucao
 import Dominio.Jsonable
@@ -11,21 +12,41 @@ class Condicao2 implements Jsonable {
 
     private int acertos = 0
     private int erros = 0
+    private int tentativas = 0
     private int condicaoParadaAcerto
-    private int condicaoParadaErro
+    private int condicaoParadaTentativas
     private int acertosConsecutivos = 0
-    private int errosConsecutivos = 0
 
     List<Classe> classes
     Instrucao instrucaoImagem
     Instrucao instrucaoPalavra
 
+    ModoCondicao2 modoCondicao2
+
     int numeroRepeticoes
     int tempoLimite
 
-    Condicao2(List<Classe> classes, Instrucao instrucaoImagem, Instrucao instrucaoPalavra, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite) {
-        if (!classes || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite < 0) {
+    Condicao2(List<Classe> classes, String nomeModo, Instrucao instrucaoImagem, Instrucao instrucaoPalavra, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite) {
+        if (!classes || !nomeModo || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite < 0) {
             throw new EntradaInvalidaException('Parâmetros inválidos para criação de Condicao2!')
+        }
+
+        modoCondicao2 = ModoCondicao2.values().find { it.nomeModo == nomeModo }
+
+        if (!modoCondicao2) {
+            throw new EntradaInvalidaException('Modo Condição 2 não reconhecido!')
+        }
+
+        if ((modoCondicao2 == ModoCondicao2.PRIMEIRO_IMAGEM || modoCondicao2 == ModoCondicao2.PRIMEIRO_PALAVRA) && (!instrucaoPalavra || !instrucaoImagem)) {
+            throw new EntradaInvalidaException("O modo '$nomeModo' exige ambas as instruções!")
+        }
+
+        if (modoCondicao2 == ModoCondicao2.SOMENTE_IMAGEM && !instrucaoImagem) {
+            throw new EntradaInvalidaException("O modo '$nomeModo' exige instrução imagem!")
+        }
+
+        if (modoCondicao2 == ModoCondicao2.SOMENTE_PALAVRA && !instrucaoPalavra) {
+            throw new EntradaInvalidaException("O modo '$nomeModo' exige instrução palavra!")
         }
 
         this.instrucaoImagem = instrucaoImagem
@@ -33,7 +54,7 @@ class Condicao2 implements Jsonable {
         this.classes = classes
         this.numeroRepeticoes = repeticoes
         this.condicaoParadaAcerto = condicaoParadaAcerto
-        this.condicaoParadaErro = condicaoParadaErro
+        this.condicaoParadaTentativas = condicaoParadaErro
         this.tempoLimite = tempoLimite
     }
 
@@ -42,13 +63,13 @@ class Condicao2 implements Jsonable {
     }
 
     void acerto() {
+        tentativas++
         acertosConsecutivos++
-        errosConsecutivos = 0
         acertos++
     }
 
     void erro() {
-        errosConsecutivos++
+        tentativas++
         acertosConsecutivos = 0
         erros++
     }
@@ -58,9 +79,9 @@ class Condicao2 implements Jsonable {
             reset()
             return [true, 'acertos']
         }
-        else if (errosConsecutivos == condicaoParadaErro) {
+        else if (tentativas == condicaoParadaTentativas) {
             reset()
-            return [true, 'erros']
+            return [true, 'tentativas']
         }
         return [false, '']
     }
@@ -69,7 +90,7 @@ class Condicao2 implements Jsonable {
         acertos = 0
         erros = 0
         acertosConsecutivos = 0
-        errosConsecutivos = 0
+        tentativas = 0
     }
 
     @Override
@@ -77,10 +98,11 @@ class Condicao2 implements Jsonable {
         StringBuilder json = new StringBuilder()
 
         json.append('{')
+        json.append("\"modoCondicao2\": \"${modoCondicao2.nomeModo}\",")
         json.append("\"instrucaoImagem\": ${instrucaoImagem?.toJson()},")
         json.append("\"instrucaoPalavra\": ${instrucaoPalavra?.toJson()},")
         json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\",")
-        json.append("\"condicaoParadaErro\": \"${condicaoParadaErro}\",")
+        json.append("\"condicaoParadaTentativas\": \"${condicaoParadaTentativas}\",")
         json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\",")
         json.append("\"tempoLimite\": \"${tempoLimite}\"")
         json.append('}')

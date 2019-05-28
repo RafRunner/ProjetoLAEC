@@ -11,7 +11,10 @@ import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.JRootPane
 import java.awt.Dimension
+import java.awt.KeyEventDispatcher
+import java.awt.KeyboardFocusManager
 import java.awt.Toolkit
+import java.awt.event.KeyEvent
 
 @CompileStatic
 class JanelaPrincipalController {
@@ -25,14 +28,24 @@ class JanelaPrincipalController {
     private Logger logger
     private LoggerService loggerService = LoggerService.instancia
 
-    private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
-    private static InstrucaoView instrucaoFinal = new InstrucaoView("Fim do esperimento! Por favor, chame o(a) experimentador(a)", this, false)
+    final private Object lock = new Object()
+    private InstrucaoView instrucaoInicial
+    private InstrucaoView instrucaoFinal
 
-    JanelaPrincipalController(ConfiguracaoGeral configuracaoGeral, Logger logger, JPanel painelInical) {
+    private static Dimension tamanhoTela = Toolkit.defaultToolkit.screenSize
+
+    JanelaPrincipalController(ConfiguracaoGeral configuracaoGeral, Logger logger) {
         this.configuracaoGeral = configuracaoGeral
         this.ordem = configuracaoGeral.ordem
         this.logger = logger
         this.indiceFaseAtual = -1
+
+        if (configuracaoGeral.instrucaoInicial) {
+            instrucaoInicial = new InstrucaoView(configuracaoGeral.instrucaoInicial.texto, lock)
+        }
+        if (configuracaoGeral.instrucaoFinal) {
+            instrucaoFinal = new InstrucaoView(configuracaoGeral.instrucaoFinal.texto, lock, false)
+        }
 
         janela = new JFrame()
         janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE)
@@ -42,11 +55,24 @@ class JanelaPrincipalController {
         janela.getRootPane().setWindowDecorationStyle(JRootPane.NONE)
         janela.setResizable(false)
 
-        painelAtual = painelInical
-        janela.add(painelInical)
+        painelAtual = new JPanel()
         janela.setVisible(true)
         janela.revalidate()
         janela.repaint()
+    }
+
+    void apresentarInstrucaoInicial() {
+        if (!instrucaoInicial) {
+            return
+        }
+        new Thread() {
+            void run() {
+                mudarPainel(instrucaoInicial)
+                synchronized (lock) {
+                    lock.wait()
+                }
+            }
+        }
     }
 
     void mudarPainel(JPanel painel) {
@@ -54,6 +80,12 @@ class JanelaPrincipalController {
         painelAtual = painel
         janela.add(painel)
         janela.revalidate()
+
+        if (painel instanceof InstrucaoView) {
+            janela.repaint()
+            ((InstrucaoView) painel).mudaCorInstrucao()
+        }
+
         janela.repaint()
     }
     
@@ -68,11 +100,49 @@ class JanelaPrincipalController {
                     ControllerFase proximoControler = classeProximoControler.newInstance(self, configuracaoGeral, logger)
                     proximoControler.iniciar()
                 } else {
-                    mudarPainel(instrucaoFinal)
-                    logger.log("Fim do experimento!")
-                    loggerService.registraLog(logger)
+                    finalizarExperimento()
                 }
             }
         }.start()
+    }
+
+    void finalizarExperimento() {
+        mostrarInstrucaoFinalEEncerrar()
+    }
+
+    void aguardarExperimentador() {
+        String chameOExperimentador = "Chame o(a) experimentador(a)!"
+        InstrucaoView instrucaoInicialView = new InstrucaoView(chameOExperimentador, this, false)
+        mudarPainel(instrucaoInicialView)
+
+        logger.log("Mostrando a instrução: $chameOExperimentador", '\n\t')
+        loggerService.registraLog(logger)
+
+        KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
+            @Override
+            boolean dispatchKeyEvent(final KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    synchronized (lock) {
+                        lock.notifyAll()
+                    }
+                }
+                return false
+            }
+        }
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher)
+
+        synchronized (lock) {
+            lock.wait()
+        }
+    }
+
+    private void mostrarInstrucaoFinalEEncerrar() {
+        if (instrucaoFinal) {
+            mudarPainel(instrucaoFinal)
+        } else {
+            mudarPainel(new InstrucaoView('Fim do experimento! Chame o(a) experimentador(a)!', lock, false))
+        }
+        logger.registraFimExperimento()
+        loggerService.registraLog(logger)
     }
 }

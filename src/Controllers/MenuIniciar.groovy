@@ -35,7 +35,6 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
     private ConfiguracaoGeralService configuracaoGeralService = ConfiguracaoGeralService.instancia
 
     private JTextField experimentador = new JTextField()
-    private JComboBox<String> grupoParticipante
     private JTextField participante = new JTextField()
     private JTextField idadeParticipante = new JTextField()
     private JComboBox<String> sexoParticipante
@@ -51,10 +50,8 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
         configuracoes = configuracaoGeralService.obtemTodasAsConfiguracoes()
         String[] titulosConfiguracao = configuracoes.tituloConfiguracao as String[]
         String[] sexos = Sexo.values().collect { it.extenso } as String[]
-        String[] grupo = Ordens.values().collect { it.nomeGrupo } as String[]
 
         JLabel labelExperimentador = new JLabel('Experimentador: ')
-        JLabel labelGrupoParticipante = new JLabel('Grupo participante: ')
         JLabel labelParticipante = new JLabel('Participante: ')
         JLabel labelIdadeParticipante = new JLabel('Idade participante: ')
         JLabel labeSexoParticipante = new JLabel('Sexo participante: ')
@@ -62,7 +59,6 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
 
         sexoParticipante = new JComboBox<>(sexos)
         configuracaoSelecionada = new JComboBox<>(titulosConfiguracao)
-        grupoParticipante = new JComboBox<>(grupo)
         botaoCriarConfiguracao = new JButton('Criar nova Configuração')
         botaoCriarConfiguracao.addActionListener(this)
         iniciar = new JButton('Iniciar Experimento')
@@ -74,7 +70,6 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
         gb.anchor = GridBagConstraints.LINE_END
 
         painel.add(labelExperimentador, gb); ++gb.gridy
-        painel.add(labelGrupoParticipante, gb); ++gb.gridy
         painel.add(labelParticipante, gb); ++gb.gridy
         painel.add(labelIdadeParticipante, gb); ++gb.gridy
         painel.add(labeSexoParticipante, gb); ++gb.gridy
@@ -87,7 +82,6 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
         gb.fill = GridBagConstraints.HORIZONTAL
 
         painel.add(experimentador, gb); ++gb.gridy
-        painel.add(grupoParticipante, gb); ++gb.gridy
         painel.add(participante, gb); ++gb.gridy
         painel.add(idadeParticipante, gb); ++gb.gridy
         painel.add(sexoParticipante, gb); ++gb.gridy
@@ -109,8 +103,8 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
         painel.setBorder(BorderFactory.createLineBorder(Color.BLACK))
 
         List<JLabel> texto = ['Software Words and Context',
-                              'Programado por: Rafael Nunes Santana e Arthur Cintra',
-                              'Experimento desenvolvido por: Luisa Fernandes'].collect { new JLabel(it) }
+                              'Programado por: Rafael Nunes Santana e Artur Cintra',
+                              'Delineamento: Luisa Fernandes e Lorismário Ernesto Simonassi'].collect { new JLabel(it) }
 
         GridBagConstraints gb = ViewUtils.getGb()
         gb.anchor = GridBagConstraints.CENTER
@@ -143,7 +137,7 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
 
         ConfiguracaoGeral configuracaoGeral = configuracoes.find { it.tituloConfiguracao == configuracaoSelecionada.getSelectedItem().toString() }
         String nomeExperimentador = experimentador.getText()
-        Ordens ordem = Ordens.values().find { it.nomeGrupo == grupoParticipante.getSelectedItem().toString() }
+        Ordens ordem = configuracaoGeral.ordem
         String nomeParticipante = participante.getText()
 
         if (!nomeExperimentador || ! nomeParticipante || ! idadeParticipante.getText()) {
@@ -162,15 +156,16 @@ class MenuIniciar extends JFrame implements ActionListener, PossuidorListaAtuali
         Logger logger = new Logger(nomeExperimentador, nomeParticipante, sexoParticipante, idadeParticipante, configuracaoGeral)
         LoggerService.instancia.criarArquivoResultado(logger)
 
-        JanelaPrincipalController janelaPrincipalController = new JanelaPrincipalController(configuracaoGeral, logger, new JPanel())
+        JanelaPrincipalController janelaPrincipalController = new JanelaPrincipalController(configuracaoGeral, logger)
+        janelaPrincipalController.apresentarInstrucaoInicial()
         janelaPrincipalController.passarParaProximaFase()
     }
 
     @Override
     void atualizar() {
         List<ConfiguracaoGeral> configuracoesNovas = configuracaoGeralService.obtemTodasAsConfiguracoes()
-        configuracoesNovas.findAll { !(it in configuracoes) }.each {
-            configuracaoSelecionada.addItem(it.montaNomeArquivo())
+        configuracoesNovas.findAll { !(it.tituloConfiguracao in configuracoes.tituloConfiguracao) }.each {
+            configuracaoSelecionada.addItem(it.tituloConfiguracao)
             configuracoes.add(it)
         }
     }

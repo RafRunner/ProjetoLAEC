@@ -11,11 +11,11 @@ class Ambiente {
     private String separadorEndereco
 
     private Ambiente() {
-        boolean producao = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath().contains('.jar')
+        File location = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI())
+
+        boolean producao = location.getPath().contains('.jar')
         if (producao) {
-            URL url = getClass().getProtectionDomain().getCodeSource().getLocation()
-            File file = new File(url.toURI())
-            rootDirectory = file.getParent()
+            rootDirectory = location.getParent()
         } else {
             rootDirectory = System.getProperty('user.dir')
         }
