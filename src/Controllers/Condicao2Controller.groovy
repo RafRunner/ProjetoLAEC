@@ -6,6 +6,7 @@ import Dominio.Enums.ModoCondicao2
 import Dominio.Fases.Condicao2
 import Files.EfeitosSonoros
 import Files.Logger
+import View.Condicao2ApresentacaoView
 import View.Condicao2View
 import View.InstrucaoView
 import View.LinhaDeBaseView
@@ -16,6 +17,9 @@ class Condicao2Controller extends ControllerFase {
     private ModoCondicao2 modoCondicao2
     private String motivoFim
 
+    String instrucaoApresetacao
+    String instrucaoEscolha
+
     private static final String condicaoFimExperimento = 'tentativas'
 
     Condicao2Controller(JanelaPrincipalController janalePrincipalController1, ConfiguracaoGeral configuracaoGeral, Logger logger) {
@@ -23,6 +27,8 @@ class Condicao2Controller extends ControllerFase {
         condicao2 = configuracaoGeral.condicao2
         modoCondicao2 = configuracaoGeral.condicao2.modoCondicao2
         tempoLimite = condicao2.tempoLimite
+        instrucaoApresetacao = condicao2.instrucaoApresetacao
+        instrucaoEscolha = condicao2.instrucaoEscolha
         verificarTempo()
     }
 
@@ -49,7 +55,7 @@ class Condicao2Controller extends ControllerFase {
             }
         }
 
-        logger.log('Fim do Treino!', '\n')
+        logger.log('Fim do Treino!\n', '\n\n')
         loggerService.registraLog(logger)
         acabou = true
 
@@ -69,24 +75,31 @@ class Condicao2Controller extends ControllerFase {
         apresentar(condicao2.instrucaoPalavra.texto, 'Apresentando a palavra associada a classe: ', 'palavraComSentido')
     }
 
-    private void apresentar(String textoInstrucao, String mensagemLog, String imagemOuPalavra) {
+    private void apresentar(List<String> textoInstrucoes, String mensagemLog, String imagemOuPalavra) {
         if (motivoFim == condicaoFimExperimento) {
             return
         }
 
         final Object lock = new Object()
-        InstrucaoView instrucaoImagem = new InstrucaoView(textoInstrucao, lock)
 
-        synchronized (lock) {
-            logger.log("Mostrando a instrução: $textoInstrucao", '\t')
-            janelePrincipalController.mudarPainel(instrucaoImagem)
-            lock.wait()
+        textoInstrucoes.each {
+            InstrucaoView instrucaoImagem = new InstrucaoView(it, lock)
+
+            synchronized (lock) {
+                logger.log("Mostrando a instrução: $it", '\t')
+                janelePrincipalController.mudarPainel(instrucaoImagem)
+                lock.wait()
+            }
         }
 
         for (Classe classeAtual : classes) {
-            LinhaDeBaseView estimulo = new LinhaDeBaseView(classeAtual.palavraComSentido, classeAtual.cor.color, lock)
+            Condicao2ApresentacaoView estimulo = new Condicao2ApresentacaoView(classeAtual.cor.color, classeAtual.palavraComSentido, instrucaoApresetacao, lock)
 
-            logger.log('Mostrando o estímulo isoladamente!', '\n\t')
+            String mensagem = 'Mostrando o estímulo isoladamente!'
+            if (instrucaoApresetacao) {
+                mensagem += " Com a instrução: $instrucaoApresetacao"
+            }
+            logger.log(mensagem, '\n\t')
             janelePrincipalController.mudarPainel(estimulo)
             synchronized (lock) {
                 lock.wait()
@@ -105,7 +118,7 @@ class Condicao2Controller extends ControllerFase {
     private void jogar(Classe classe, Object imagemOuPalavra) {
         final Object lock = new Object()
         synchronized (lock) {
-            Condicao2View condicao2View = new Condicao2View(classes.palavraSemSentido, classe.cor.color, imagemOuPalavra, lock)
+            Condicao2View condicao2View = new Condicao2View(classes.palavraSemSentido, classe.cor.color, imagemOuPalavra, instrucaoEscolha, lock)
             janelePrincipalController.mudarPainel(condicao2View)
 
             String estimuloAssociado = classe.palavraSemSentido

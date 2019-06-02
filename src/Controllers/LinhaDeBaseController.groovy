@@ -45,36 +45,39 @@ class LinhaDeBaseController extends ControllerFase {
             }
         }
 
-        for (Classe classe : classes) {
+        for (int i = 0; i < linhaDeBase.numeroRepeticoes; i++) {
+            for (Classe classe : classes) {
 
-            logger.log("Apresentando a palavra $classe.palavraSemSentido associada a $classe.palavraComSentido\n", '\n\t')
-
-            synchronized (lock) {
-                apresentarPalavraERegistrarToques(classe, lock)
-                lock.wait()
-            }
-
-            logger.log("fim do tempo de apresentação de ${linhaDeBase.tempoLimite}s! Mostrando as instruções\n", '\n\t')
-            loggerService.registraLog(logger)
-
-            List<Instrucao> instrucoesClasseAtual = instrucoesParaClasses[classe]
-
-            for (Instrucao instrucao : instrucoesClasseAtual) {
-
-                InstrucaoView instrucaoView = new InstrucaoView(instrucao.texto, lock)
-                janelePrincipalController.mudarPainel(instrucaoView)
-
-                logger.log("Mostrando a instrução: $instrucao.texto", '\t\n')
-                loggerService.registraLog(logger)
+                logger.log("Apresentando a palavra $classe.palavraSemSentido associada a $classe.palavraComSentido\n", '\n\t')
 
                 synchronized (lock) {
+                    apresentarPalavraERegistrarToques(classe, lock)
                     lock.wait()
+                }
+
+                logger.log("fim do tempo de apresentação de ${linhaDeBase.tempoLimite}s! Mostrando as instruções\n", '\n')
+                loggerService.registraLog(logger)
+
+                List<Instrucao> instrucoesClasseAtual = instrucoesParaClasses[classe]
+
+                for (Instrucao instrucao : instrucoesClasseAtual) {
+
+                    InstrucaoView instrucaoView = new InstrucaoView(instrucao.texto, lock)
+                    janelePrincipalController.mudarPainel(instrucaoView)
+
+                    logger.log("Mostrando a instrução: $instrucao.texto", '\t\n')
+                    loggerService.registraLog(logger)
+
+                    synchronized (lock) {
+                        lock.wait()
+                    }
                 }
             }
         }
+
         janelePrincipalController.aguardarExperimentador()
 
-        logger.log("Fim da Linha de Base!\n", '\n')
+        logger.log("Fim da Linha de Base!\n", '\n\n')
         loggerService.registraLog(logger)
         acabou = true
         janelePrincipalController.passarParaProximaFase()

@@ -54,12 +54,11 @@ class Teste2Controller extends ControllerFase {
     }
 
     void apresentarPalavras () {
-        logger.log("Iniciando a primeira repetição\n", '\n\t')
-        loggerService.registraLog(logger)
-
         final Object lock = new Object()
 
         for (int i = 0; i < repeticoes; i ++) {
+            logger.log("Iniciando a repitição de número ${i + 1}\n", '\n\t')
+
             for (Classe classeAtual : classes) {
                 Condicao1View condicao1ViewAtual = new Condicao1View(classes.palavraSemSentido, classeAtual.cor.color, lock)
                 logger.log("Passando para tela associada a classe $classeAtual.palavraComSentido, Cor da tela: $classeAtual.cor.nomeCor\n", '\t\t')
@@ -89,9 +88,6 @@ class Teste2Controller extends ControllerFase {
                     loggerService.registraLog(logger)
                 }
             }
-
-            logger.log("Iniciando a repitição de número ${i + 1}\n", '\n\t')
-            loggerService.registraLog(logger)
         }
     }
 }

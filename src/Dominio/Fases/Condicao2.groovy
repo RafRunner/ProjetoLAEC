@@ -5,6 +5,7 @@ import Dominio.Enums.ModoCondicao2
 import Dominio.Exceptions.EntradaInvalidaException
 import Dominio.Instrucao
 import Dominio.Jsonable
+import Utils.TextUtils
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -18,15 +19,18 @@ class Condicao2 implements Jsonable {
     private int acertosConsecutivos = 0
 
     List<Classe> classes
-    Instrucao instrucaoImagem
-    Instrucao instrucaoPalavra
+    List<Instrucao> instrucaoImagem
+    List<Instrucao> instrucaoPalavra
+
+    String instrucaoApresetacao
+    String instrucaoEscolha
 
     ModoCondicao2 modoCondicao2
 
     int numeroRepeticoes
     int tempoLimite
 
-    Condicao2(List<Classe> classes, String nomeModo, Instrucao instrucaoImagem, Instrucao instrucaoPalavra, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite) {
+    Condicao2(List<Classe> classes, String nomeModo, List<Instrucao> instrucaoImagem, List<Instrucao> instrucaoPalavra, int condicaoParadaAcerto, int condicaoParadaErro, int repeticoes, int tempoLimite, String instrucaoApresentacao, String instrucaoEscolha) {
         if (!classes || !nomeModo || condicaoParadaAcerto  <= 0 || condicaoParadaErro <= 0 || tempoLimite < 0) {
             throw new EntradaInvalidaException('Parâmetros inválidos para criação de Condicao2!')
         }
@@ -56,10 +60,12 @@ class Condicao2 implements Jsonable {
         this.condicaoParadaAcerto = condicaoParadaAcerto
         this.condicaoParadaTentativas = condicaoParadaErro
         this.tempoLimite = tempoLimite
+        this.instrucaoApresetacao = instrucaoApresentacao
+        this.instrucaoEscolha = instrucaoEscolha
     }
 
     List<Instrucao> getInstrucoes() {
-        return [instrucaoImagem, instrucaoPalavra]
+        return (List<Instrucao>) [instrucaoImagem, instrucaoPalavra].flatten()
     }
 
     void acerto() {
@@ -99,8 +105,18 @@ class Condicao2 implements Jsonable {
 
         json.append('{')
         json.append("\"modoCondicao2\": \"${modoCondicao2.nomeModo}\",")
-        json.append("\"instrucaoImagem\": ${instrucaoImagem?.toJson()},")
-        json.append("\"instrucaoPalavra\": ${instrucaoPalavra?.toJson()},")
+        if (instrucaoImagem) {
+            json.append("\"instrucaoImagem\": ${TextUtils.listToJsonString(instrucaoImagem.collect { it?.toJson() })},")
+        }
+        if (instrucaoPalavra) {
+            json.append("\"instrucaoPalavra\": ${TextUtils.listToJsonString(instrucaoPalavra.collect { it?.toJson() })},")
+        }
+        if (instrucaoApresetacao) {
+            json.append("\"instrucaoApresetacao\": \"${instrucaoApresetacao}\",")
+        }
+        if (instrucaoEscolha) {
+            json.append("\"instrucaoEscolha\": \"${instrucaoEscolha}\",")
+        }
         json.append("\"condicaoParadaAcerto\": \"${condicaoParadaAcerto}\",")
         json.append("\"condicaoParadaTentativas\": \"${condicaoParadaTentativas}\",")
         json.append("\"numeroRepeticoes\": \"${numeroRepeticoes}\",")
