@@ -12,11 +12,19 @@ class Condicao2Factory {
         int condicaoParadaAcerto = Integer.parseInt(map.condicaoParadaAcerto)
         int condicaoParadaTentativas = Integer.parseInt(map.condicaoParadaTentativas)
         String modoCondicao2 = map.get('modoCondicao2')
-        Instrucao instrucaoImagem = InstrucaoFactory.fromStringMap((map.instrucaoImagem as Map<String, String>))
-        Instrucao instrucaoPalavra = InstrucaoFactory.fromStringMap((map.instrucaoPalavra as Map<String, String>))
+        List<Instrucao> instrucaoImagem
+        if (map.instrucaoImagem) {
+            instrucaoImagem = (map.instrucaoImagem as List<Map<String, String>>).collect { InstrucaoFactory.fromStringMap(it) }
+        }
+        List<Instrucao> instrucaoPalavra
+        if (map.instrucaoPalavra) {
+            instrucaoPalavra = (map.instrucaoPalavra as List<Map<String, String>>).collect { InstrucaoFactory.fromStringMap(it) }
+        }
         int repeticoes = Integer.parseInt(map.numeroRepeticoes)
         int tempoLimite = Integer.parseInt(map.tempoLimite)
+        String instrucaoApresetacao = map.instrucaoApresetacao
+        String instrucaoEscolha =  map.instrucaoEscolha
 
-        return new Condicao2(classes, modoCondicao2, instrucaoImagem, instrucaoPalavra, condicaoParadaAcerto, condicaoParadaTentativas, repeticoes, tempoLimite)
+        return new Condicao2(classes, modoCondicao2, instrucaoImagem, instrucaoPalavra, condicaoParadaAcerto, condicaoParadaTentativas, repeticoes, tempoLimite, instrucaoApresetacao, instrucaoEscolha)
     }
 }

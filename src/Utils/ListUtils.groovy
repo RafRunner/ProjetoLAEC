@@ -22,7 +22,7 @@ class ListUtils {
 
             if (listaPosicoes.size() == 1) {
                 realizaTroca(lista, mapaTrocas)
-                int posicaoQualquer = (int) (Math.random() * (tamanho - 2))
+                int posicaoQualquer = sorteiaNumeroDiferente(i, 0, tamanho - 1)
                 Collections.swap(lista, i, posicaoQualquer)
                 return
             }

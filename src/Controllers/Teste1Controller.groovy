@@ -45,28 +45,30 @@ class Teste1Controller extends ControllerFase {
             }
         }
 
-        for (Classe classe : classes) {
-
-            synchronized (lock) {
-                apresentarPalavraERegistrarToques(classe, lock)
-                lock.wait()
-            }
-
-            logger.log("fim do tempo de apresentação de $teste1.tempoLimite s! Mostrando as instruções\n", '\n')
-            loggerService.registraLog(logger)
-
-            List<Instrucao> instrucoesClasseAtual = instrucoesParaClasses[classe]
-
-            for (Instrucao instrucao : instrucoesClasseAtual) {
-
-                InstrucaoView instrucaoView = new InstrucaoView(instrucao.texto, lock)
-                janelePrincipalController.mudarPainel(instrucaoView)
-
-                logger.log("Mostrando a instrução: $instrucao.texto", '\t')
-                loggerService.registraLog(logger)
+        for (int i = 0; i < teste1.numeroRepeticoes; i++) {
+            for (Classe classe : classes) {
 
                 synchronized (lock) {
+                    apresentarPalavraERegistrarToques(classe, lock)
                     lock.wait()
+                }
+
+                logger.log("fim do tempo de apresentação de ${teste1.tempoLimite}s! Mostrando as instruções\n", '\n')
+                loggerService.registraLog(logger)
+
+                List<Instrucao> instrucoesClasseAtual = instrucoesParaClasses[classe]
+
+                for (Instrucao instrucao : instrucoesClasseAtual) {
+
+                    InstrucaoView instrucaoView = new InstrucaoView(instrucao.texto, lock)
+                    janelePrincipalController.mudarPainel(instrucaoView)
+
+                    logger.log("Mostrando a instrução: $instrucao.texto", '\t')
+                    loggerService.registraLog(logger)
+
+                    synchronized (lock) {
+                        lock.wait()
+                    }
                 }
             }
         }

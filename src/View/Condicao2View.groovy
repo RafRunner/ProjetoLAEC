@@ -23,7 +23,7 @@ class Condicao2View extends JPanel implements MouseListener {
 
     private JLabel labelImagemOuPalavra
 
-    private String estimuloClicado
+    String estimuloClicado
 
     private int acertos = 0
     private int erros = 0
@@ -43,12 +43,13 @@ class Condicao2View extends JPanel implements MouseListener {
 
     private final Object lock
 
-    Condicao2View(List<String> palavras, Color cor, Object imagemOuPalavra, Object lock) {
+    Condicao2View(List<String> palavras, Color cor, Object imagemOuPalavra, String instrucao, Object lock) {
         this.lock = lock
         this.imagemOuPalavra = imagemOuPalavra
         this.palavras = palavras
         this.cor = cor
 
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
         palavras.sort { Math.random() }
         labelPalavras = palavras.collect { new JLabel(it, SwingConstants.CENTER) }
 
@@ -82,7 +83,7 @@ class Condicao2View extends JPanel implements MouseListener {
 
         gb = ViewUtils.getGb()
 
-        JLabel[] espacos = ViewUtils.criaEspacos(5 + palavras.size())
+        JLabel[] espacos = ViewUtils.criaEspacos(6 + palavras.size())
         int i = 0, j = 0
 
         JPanel painelImagem = new JPanel()
@@ -123,7 +124,23 @@ class Condicao2View extends JPanel implements MouseListener {
         painelPalavras.validate()
         painelPalavras.repaint()
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
+        if (instrucao) {
+            JPanel painelInstrucao = new JPanel()
+
+            JLabel labelInstrucao = new JLabel(instrucao)
+            ViewUtils.modificaLabel(labelInstrucao, Color.LIGHT_GRAY, Color.BLACK, 27)
+            painelInstrucao.add(labelInstrucao)
+
+            gb = ViewUtils.getGb()
+            painelInstrucao.add(espacos[i], gb)
+
+            painelInstrucao.setBackground(cor)
+            painelInstrucao.validate()
+            painelInstrucao.repaint()
+
+            add(painelInstrucao)
+        }
+
         add(painelImagem)
         add(painelPalavras)
 

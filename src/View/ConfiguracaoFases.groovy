@@ -40,8 +40,12 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
     private JTextField fieldTempoCondicao1
 
     private JComboBox<String> modoCondicao2
-    private JComboBox<String> instrucaoImagem
-    private JComboBox<String> instrucaoPalavra
+    private JComboBox<String> instrucaoApresentacao
+    private JComboBox<String> instrucaoEscolha
+    private DefaultListModel<String> listInstrucoesPalavraCondicao2
+    private JList<String> jListInstrucoesPalavraCondicao2
+    private DefaultListModel<String> listInstrucoesImagemCondicao2
+    private JList<String> jListInstrucoesImagemCondicao2
     private JTextField fieldCondicaoParadaAcerto
     private JTextField fieldCondicaoParadaErro
     private JTextField fieldRepeticoesCondicao2
@@ -78,7 +82,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
     private List<Classe> classes
 
     private static Dimension screenSize = Toolkit.defaultToolkit.screenSize
-    private static Dimension tamanhoTela = new Dimension((int) (screenSize.width * 2), (int) (screenSize.height))
+    private static Dimension tamanhoTela = new Dimension((int) (screenSize.width * 2), (int) (screenSize.height + 80))
     private static String StringTamanhoMax = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 
     private InstrucaoService instrucaoService = InstrucaoService.instancia
@@ -213,8 +217,10 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         GridBagConstraints gb = ViewUtils.getGb()
 
         JLabel labelModoCodicao2 = new JLabel('Modo Treino: ')
-        JLabel labelInstrucaoImagen = new JLabel('Instrução Imagem:')
-        JLabel labelInstrucaoPalavra = new JLabel('Instrução Palavra:')
+        JLabel labelInstrucaoImagen = new JLabel('Instruções Imagem:')
+        JLabel labelInstrucaoPalavra = new JLabel('Instruções Palavra:')
+        JLabel labelInstrucaoApresentacao = new JLabel('Instrução Apresentação:')
+        JLabel labelInstrucaoEscolha = new JLabel('Instruções Escolha:')
         JLabel labelParadaAcerto = new JLabel('Condição Parada Acerto:')
         JLabel labelParadaErro = new JLabel('Condição Parada Tentativas:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
@@ -222,10 +228,10 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 
         modoCondicao2 = new JComboBox<>(ModoCondicao2.values().collect { it.nomeModo } as String[])
         modoCondicao2.setPrototypeDisplayValue(StringTamanhoMax)
-        instrucaoImagem = new JComboBox<>(instrucoesExistentes.texto as String[])
-        instrucaoImagem.setPrototypeDisplayValue(StringTamanhoMax)
-        instrucaoPalavra = new JComboBox<>(instrucoesExistentes.texto as String[])
-        instrucaoPalavra.setPrototypeDisplayValue(StringTamanhoMax)
+        instrucaoApresentacao = new JComboBox<>(instrucoesExistentes.texto as String[])
+        instrucaoApresentacao.setPrototypeDisplayValue(StringTamanhoMax)
+        instrucaoEscolha = new JComboBox<>(instrucoesExistentes.texto as String[])
+        instrucaoEscolha.setPrototypeDisplayValue(StringTamanhoMax)
         fieldCondicaoParadaAcerto = new JTextField()
         fieldCondicaoParadaErro = new JTextField()
         fieldRepeticoesCondicao2 = new JTextField()
@@ -234,17 +240,90 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         fieldRepeticoesCondicao2 = new JTextField()
         fieldTempoCondicao2 = new JTextField()
 
+        listInstrucoesPalavraCondicao2 = new DefaultListModel<>()
+        jListInstrucoesPalavraCondicao2 = new JList<>(listInstrucoesPalavraCondicao2)
+        jListInstrucoesPalavraCondicao2.setPrototypeCellValue(StringTamanhoMax)
+        JScrollPane scrollInstrucoes = new JScrollPane()
+        scrollInstrucoes.setViewportView(jListInstrucoesPalavraCondicao2)
+
+        JButton botao = new JButton('Adicionar Instrucao')
+        botao.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent actionEvent) {
+                String instrucaoSelecionada = jListInstrucoesDisponiveis.getSelectedValue()
+                listInstrucoesPalavraCondicao2.addElement(instrucaoSelecionada)
+                repaint()
+                revalidate()
+            }
+        })
+
+        JButton botaoRemover = new JButton('Remover Instrucao')
+        botaoRemover.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent actionEvent) {
+                String instrucaoSelecionada = jListInstrucoesPalavraCondicao2.getSelectedValue()
+                listInstrucoesPalavraCondicao2.removeElement(instrucaoSelecionada)
+                repaint()
+                revalidate()
+            }
+        })
+
+        listInstrucoesImagemCondicao2 = new DefaultListModel<>()
+        jListInstrucoesImagemCondicao2 = new JList<>(listInstrucoesImagemCondicao2)
+        jListInstrucoesImagemCondicao2.setPrototypeCellValue(StringTamanhoMax)
+        JScrollPane scrollInstrucoes2 = new JScrollPane()
+        scrollInstrucoes2.setViewportView(jListInstrucoesImagemCondicao2)
+
+        JButton botao2 = new JButton('Adicionar Instrucao')
+        botao2.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent actionEvent) {
+                String instrucaoSelecionada = jListInstrucoesDisponiveis.getSelectedValue()
+                listInstrucoesImagemCondicao2.addElement(instrucaoSelecionada)
+                repaint()
+                revalidate()
+            }
+        })
+
+        JButton botaoRemover2 = new JButton('Remover Instrucao')
+        botaoRemover2.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent actionEvent) {
+                String instrucaoSelecionada = jListInstrucoesImagemCondicao2.getSelectedValue()
+                listInstrucoesImagemCondicao2.removeElement(instrucaoSelecionada)
+                repaint()
+                revalidate()
+            }
+        })
+
+        fieldRepeticoesCondicao1 = new JTextField()
+        fieldTempoCondicao1 = new JTextField()
+
+        List<JLabel> espacos = ViewUtils.criaEspacos(4)
+
         painel.add(labelModoCodicao2, gb); ++gb.gridy
-        painel.add(labelInstrucaoImagen, gb); ++gb.gridy
         painel.add(labelInstrucaoPalavra, gb); ++gb.gridy
+        painel.add(espacos[0], gb); ++gb.gridy
+        painel.add(espacos[1], gb); ++gb.gridy
+        painel.add(labelInstrucaoImagen, gb); ++gb.gridy
+        painel.add(espacos[2], gb); ++gb.gridy
+        painel.add(espacos[3], gb); ++gb.gridy
+        painel.add(labelInstrucaoApresentacao, gb); ++gb.gridy
+        painel.add(labelInstrucaoEscolha, gb); ++gb.gridy
         painel.add(labelParadaAcerto, gb); ++gb.gridy
         painel.add(labelParadaErro, gb); ++gb.gridy
         painel.add(labelRepeticoes, gb); ++gb.gridy
         painel.add(labelTempo, gb); ++gb.gridy
         gb.gridy = 0; ++gb.gridx; gb.fill = GridBagConstraints.HORIZONTAL
         painel.add(modoCondicao2, gb); ++gb.gridy
-        painel.add(instrucaoImagem, gb); ++gb.gridy
-        painel.add(instrucaoPalavra, gb); ++gb.gridy
+        painel.add(scrollInstrucoes, gb); ++gb.gridy
+        painel.add(botao, gb); ++gb.gridy
+        painel.add(botaoRemover, gb); ++gb.gridy
+        painel.add(scrollInstrucoes2, gb); ++gb.gridy
+        painel.add(botao2, gb); ++gb.gridy
+        painel.add(botaoRemover2, gb); ++gb.gridy
+        painel.add(instrucaoApresentacao, gb); ++gb.gridy
+        painel.add(instrucaoEscolha, gb); ++gb.gridy
         painel.add(fieldCondicaoParadaAcerto, gb); ++gb.gridy
         painel.add(fieldCondicaoParadaErro, gb); ++gb.gridy
         painel.add(fieldRepeticoesCondicao2, gb); ++gb.gridy
@@ -263,7 +342,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JLabel labelIntrucaoInicial = new JLabel('Intrução Inicial:')
         JLabel labelInstrucoes = new JLabel('Intruções:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
-        JLabel labelTempo = new JLabel('Tempo Limite:')
+        JLabel labelTempo = new JLabel('Tempo de Apresentação:')
         JLabel espaco1 = new JLabel('')
         JLabel espaco2 = new JLabel('')
 
@@ -328,7 +407,7 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         JLabel labelIntrucaoInicial = new JLabel('Intrução Inicial:')
         JLabel labelInstrucoes = new JLabel('Intruções:')
         JLabel labelRepeticoes = new JLabel('Repeticoes:')
-        JLabel labelTempo = new JLabel('Tempo Limite:')
+        JLabel labelTempo = new JLabel('Tempo de Apresentação:')
         JLabel espaco1 = new JLabel('')
         JLabel espaco2 = new JLabel('')
 
@@ -446,8 +525,10 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
         Instrucao instrucao = new Instrucao(texto)
         instrucaoService.salvarInstrucoes([instrucao])
 
-        instrucaoImagem.addItem(texto)
-        instrucaoPalavra.addItem(texto)
+        instrucaoApresentacao.addItem(texto)
+        instrucaoEscolha.addItem(texto)
+        instrucaoInicialLinhaDeBase.addItem(texto)
+        instrucaoInicialTeste1.addItem(texto)
         instrucoesDisponiveis.addElement(texto)
         instrucoesExistentes.add(instrucao)
         atualizar()
@@ -483,21 +564,23 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
 //            }
 
             String nomeModoCondicao2 = modoCondicao2.getSelectedItem()
-            Instrucao instrucaoImagem = new Instrucao(instrucaoImagem.getSelectedItem().toString())
-            Instrucao instrucaoPalavra = new Instrucao(instrucaoPalavra.getSelectedItem().toString())
+            String instrucaoApresentacao = instrucaoApresentacao.getSelectedItem() ?: null
+            String instrucaoEscolha = instrucaoEscolha.getSelectedItem() ?: null
+            List<Instrucao> listInstrucoesPalavra = listInstrucoesPalavraCondicao2.delegate.collect { new Instrucao(it) }
+            List<Instrucao> listInstrucoesImagem = listInstrucoesImagemCondicao2.delegate.collect { new Instrucao(it) }
             try {
                 int condicaoParadaAcerto = Integer.parseInt(fieldCondicaoParadaAcerto.getText().trim())
                 int condicaoParadaErro = Integer.parseInt(fieldCondicaoParadaErro.getText().trim())
                 int repeticoesCondicao2 = Integer.parseInt(fieldRepeticoesCondicao2.getText().trim())
                 int tempoCondicao2 = Integer.parseInt(fieldTempoCondicao2.getText().trim())
 
-                Condicao2 condicao2 = new Condicao2(classes, nomeModoCondicao2, instrucaoImagem, instrucaoPalavra, condicaoParadaAcerto, condicaoParadaErro, repeticoesCondicao2, tempoCondicao2)
+                Condicao2 condicao2 = new Condicao2(classes, nomeModoCondicao2, listInstrucoesImagem, listInstrucoesPalavra, condicaoParadaAcerto, condicaoParadaErro, repeticoesCondicao2, tempoCondicao2, instrucaoApresentacao, instrucaoEscolha)
                 configuracaoGeral.condicao2 = condicao2
             } catch (NumberFormatException ignored) {
                 throw new EntradaInvalidaException('Tempo, Repetiçeõs e condições de parada devem ser números!')
             }
 
-            String textoInstrucaoInicialLinhaDeBase = instrucaoInicialTeste1.getSelectedItem() ?: ''
+            String textoInstrucaoInicialLinhaDeBase = instrucaoInicialLinhaDeBase.getSelectedItem() ?: ''
             Instrucao instrucaoInicialLinhaDeBase
             if (textoInstrucaoInicialLinhaDeBase) {
                 instrucaoInicialLinhaDeBase = new Instrucao(textoInstrucaoInicialLinhaDeBase)
@@ -514,7 +597,11 @@ class ConfiguracaoFases extends JFrame implements ActionListener, PossuidorLista
                 throw new EntradaInvalidaException('Tempo e Repetiçeõs devem ser números!')
             }
 
-            Instrucao instrucaoInicialTeste1 = new Instrucao(instrucaoInicialTeste1.getSelectedItem().toString())
+            String textoInstrucaoInicialTeste1 = instrucaoInicialTeste1.getSelectedItem() ?: ''
+            Instrucao instrucaoInicialTeste1
+            if (textoInstrucaoInicialTeste1) {
+                instrucaoInicialTeste1 = new Instrucao(textoInstrucaoInicialTeste1)
+            }
             List<Instrucao> listInstrucoesTeste1 = listInstrucoesTeste1.delegate.collect { new Instrucao(it) }
 
             try {
